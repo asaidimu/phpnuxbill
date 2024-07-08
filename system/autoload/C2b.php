@@ -2,18 +2,18 @@
 
 class C2b extends MpesaSdk
 {
-  public function register()
+  public function register($url)
   {
     $mpesa_sdk = new MpesaSdk();
     $access_token = $mpesa_sdk->generateAccessToken();
     $env = getenv('MPESA_ENV');
-    $version = getenv('MAPESA_C2B_VERSION');
+    $version = getenv('MPESA_API_VERSION');
     $registerUrl = ($version == 'v1' ? ($env == 'sandbox' ? 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl' : 'https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl') : ($env == 'sandbox' ? 'https://sandbox.safaricom.co.ke/mpesa/c2b/v2/registerurl' : 'https://api.safaricom.co.ke/mpesa/c2b/v2/registerurl'));
-    $payload = array(
+     $payload = array(
       'ShortCode' => getenv('MPESA_SHORTCODE'),
       'ResponseType' => 'Completed',
-      'ConfirmationURL' => getenv('MPESA_CONFIRMATION_URL'),
-      'ValidationURL' => getenv('MPESA_VALIDATION_URL'),
+      'ConfirmationURL' => $url,
+      'ValidationURL' => $url,
     );
     $ch = curl_init();
     curl_setopt_array(
@@ -29,6 +29,7 @@ class C2b extends MpesaSdk
         CURLOPT_SSL_VERIFYHOST =>  false
       )
     );
+    curl_setopt($ch, CURLOPT_VERBOSE, true);
     return curl_exec($ch);
   }
 

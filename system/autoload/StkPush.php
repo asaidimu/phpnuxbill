@@ -13,11 +13,12 @@ class StkPush extends MpesaSdk
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_VERBOSE, true);
     curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json', 'Authorization:Bearer ' . $access_token)); //setting custom header
+    $time =date("YmdHis");
     $curl_post_data = array(
       //Fill in the request parameters with valid values
       'BusinessShortCode' => getenv('MPESA_SHORTCODE'),
       'Password' => base64_encode(getenv('MPESA_SHORTCODE') . getenv('MPESA_PASSKEY') . date("YmdHis")),
-      'Timestamp' => date("YmdHis"),
+      'Timestamp' => $time,
       'TransactionType' => 'CustomerPayBillOnline',
       'Amount' => $amount,
       'PartyA' => $phone_number,
@@ -32,7 +33,7 @@ class StkPush extends MpesaSdk
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
     $curl_response = curl_exec($curl);
-    return $curl_response;
+    return [$curl_response, $time];
   }
 
   public function query($checkout_request_id)

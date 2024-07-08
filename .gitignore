@@ -46,4 +46,5 @@ system/devices/**
 !system/devices/MikrotikPppoe.php
 !system/devices/MikrotikHotspot.php
 /.vs
-docker-compose.yml
+docker-compose.ymlaccess.log
+error.log

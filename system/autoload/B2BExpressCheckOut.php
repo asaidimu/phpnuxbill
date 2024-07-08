@@ -1,9 +1,5 @@
 <?php
 
-namespace MpesaSdk;
-
-use MpesaSdk\MpesaSdk;
-
 class B2BExpressCheckOut extends MpesaSdk
 {
 
@@ -14,7 +10,7 @@ class B2BExpressCheckOut extends MpesaSdk
     $ResultURL = getenv('MPESA_RESULT_URL');
     $env = getenv('MPESA_ENV');
     $B2BExpressCheckOutUrl = $env == 'sandbox' ? 'https://sandbox.safaricom.co.ke/v1/ussdpush/get-msisdn' : 'https://sandbox.safaricom.co.ke/v1/ussdpush/get-msisdn';
-    //GENERATE REQUEST ID ODk4O-Tk4NWU4O-DQ66HD-D4OThkY 
+    //GENERATE REQUEST ID ODk4O-Tk4NWU4O-DQ66HD-D4OThkY
     $FirstCode = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
     $SecondCode = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
     $ThirdCode = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);

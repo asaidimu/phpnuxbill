@@ -136,6 +136,7 @@ class HotspotRpc
     if ($found) {
       return new RpcResult(false, "Customer exists!");
     }
+
     $customer = Customer::create([
       "username" => $params["phoneNumber"],
       "password" => $params["macAddress"],
@@ -144,6 +145,12 @@ class HotspotRpc
       "phonenumber" => $params["phoneNumber"],
       "service_type" => "Hotspot",
     ]);
+
+    $trx = ORM::for_table("tbl_payment_gateway")->create([
+      "username" => $params["phoneNumber"],
+      "status" => 1,
+    ]);
+    $trx->save();
 
     if ($customer) {
       $customer["password"] = null;
@@ -199,21 +206,33 @@ class HotspotRpc
   {
     // stk push
     try {
+      $customer = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
       $push = new StkPush();
-      $response = $push->initiate($params["phoneNumber"], $params["amount"], "RequestDeposit", "Hotspot");
+      list($response, $time) = $push->initiate($params["phoneNumber"], $params["amount"], "RequestDeposit", "Hotspot");
       $result = json_decode($response);
 
-      if ($result->errorCode) {
+      if ($result->errorCode || $result->ResponseCode != 0) {
         return new RpcResult(false, "Could not request payment!", $result);
       }
+
+      $payment = ORM::for_table('tbl_payment_gateway')
+              ->where('username', $customer["username"])
+              ->where('status', 1)
+              ->find_one();
+      $payment->gateway_trx_id = $result->CheckoutRequestID;
+      $payment->pg_url_payment = $time;
+      $payment->pg_request = $customer["id"];
+      $payment->expired_date = date('Y-m-d H:i:s', strtotime("+5 minutes"));
+      $payment->save();
+
 
       return new RpcResult(true, "Requested mpesa payment!");
     } catch (\Exception $e) {
       // Handle exception (e.g., log error, return false)
       return new RpcResult(false, "Could not request payment!", $e);
     }
-
   }
+
   /**
    * Check deposit status
    * @param array $params An associative array containing parameters:
@@ -224,6 +243,31 @@ class HotspotRpc
   private function checkDeposit($params)
   {
     // check database for data
+    $customer = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
+    $payment = ORM::for_table('tbl_payment_gateway')
+      ->where('username', $customer["username"])
+      ->where('status', 1)
+      ->find_one();
+
+    $push = new StkPush();
+    $response = $push->query($payment["gateway_trx_id"]);
+    $result = json_decode($response);
+
+    if ($result->errorCode) {
+      return new RpcResult(false, "Could not complete query!", $result);
+    }
+
+    if ($result->ResponseCode === 1) {
+      return new RpcResult(false, "Payment not complete!", $result);
+    } else if($result->ResponseCode === 2 && $payment["status"] != 2) {
+      $payment->pg_paid_response = json_encode($result);
+      $payment->payment_method = 'M-Pesa';
+      $payment->payment_channel = 'M-Pesa StkPush';
+      $payment->paid_date = date('Y-m-d H:i:s');
+      $payment->status = 2;
+      $payment->save();
+      return new RpcResult(true, "Payment not complete!", $result);
+    }
   }
 
   /**
@@ -344,6 +388,15 @@ function getExpirationData($offset, $unit)
   return $expirationData;
 }
 
+$result = ORM::for_table('tbl_appconfig')->find_many();
+foreach ($result as $value) {
+  $setting = $value["setting"];
+  $value = $value["value"];
+  if (preg_match("/^MPESA/i", $setting)) {
+    putenv($setting . "=" . $value);
+  }
+}
+
 $postData = file_get_contents('php://input');
 $requestData = json_decode($postData, true);
 
@@ -357,3 +410,4 @@ if ($requestData && isset($requestData['action']) && isset($requestData['params'
 
 header('Content-Type: application/json');
 echo json_encode($response);
+exit();
