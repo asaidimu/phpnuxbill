@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+set -eu
+
+session=$1
+folder=$2
+
+# otherwise commands will run in current dir
+cd $folder
+
+save="${folder}/.session.vim"
+
+has_session(){
+  [ -e "$save" -a -s "$save" ]
+}
+
+compiler="$session:8"
+editor="$session:1"
+workspace="$session:2"
+
+vim_cmd=$(has_session && echo "-S ${save}" || echo "-c 'Obsession ${save}'")
+compiler_cmd="php -S localhost:5500 -t ${folder}"
+tmux send-keys -t $session:1 "vim ${vim_cmd}" Enter
+tmux neww -d -n workspace  -t $workspace""
+tmux neww -d -n compiler  -t $compiler
+tmux send-keys -t "$compiler" "$compiler_cmd" Enter
+
+# vim:set ft=sh:
