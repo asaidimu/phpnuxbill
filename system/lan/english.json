@@ -238,5 +238,20 @@
     "hour": "hour",
     "minute": "minute",
     "second": "second",
-    "ago": "ago"
+    "ago": "ago",
+    "Create_Capture_Portal": "Create Capture Portal",
+    "Select_Router": "Select Router",
+    "Select_Pool": "Select Pool",
+    "New_Pool": "New Pool",
+    "Name_Pool": "Name Pool",
+    "Local_IP": "Local IP",
+    "Range_IP": "Range IP",
+    "Add_Pool": "Add Pool",
+    "Data_Created_Successfully": "Data Created Successfully",
+    "Edit_Router": "Edit Router",
+    "Router_Name___Location": "Router Name \/ Location",
+    "Name_of_Area_that_router_operated": "Name of Area that router operated",
+    "Router_Secret": "Router Secret",
+    "Explain_Coverage_of_router": "Explain Coverage of router",
+    "Edit_Pool": "Edit Pool"
 }

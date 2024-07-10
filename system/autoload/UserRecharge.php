@@ -76,7 +76,25 @@ class UserRecharge
   public static function getByCustomer($id)
   {
     try {
-      $recharge = ORM::for_table('tbl_user_recharges')->where("customer_id", $id);
+      $recharge = ORM::for_table('tbl_user_recharges')->where("customer_id", $id)->find_one();
+      return $recharge ? $recharge->as_array() : null;
+    } catch (\Exception $e) {
+      // Handle exception (e.g., log error, return null)
+      return null;
+    }
+  }
+
+  /**
+   * Static method to fetch a user recharge record by attribute.
+   *
+   * @param attribute ATTRIBUTE of the user recharge record to fetch.
+   * @param value ATTRIBUTE value of attribute in db.
+   * @return array|null Associative array of user recharge record data or null if not found.
+   */
+  public static function getByAttribute($attribute, $value)
+  {
+    try {
+      $recharge = ORM::for_table('tbl_user_recharges')->where($attribute, $value);
       return $recharge ? $recharge->as_array() : null;
     } catch (\Exception $e) {
       // Handle exception (e.g., log error, return null)

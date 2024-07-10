@@ -115,7 +115,6 @@ class HotspotRpc
     if (empty($customer)) {
       return new RpcResult(false, "Invalid Username or Password", [$customer, $params]);
     }
-
     $plans = UserRecharge::getByCustomer($customer["id"]);
     $customer["plans"] = $plans;
     return new RpcResult(true, "Customer found", nullify($customer, ["password", "pppoe_password"]));
@@ -146,11 +145,6 @@ class HotspotRpc
       "service_type" => "Hotspot",
     ]);
 
-    $trx = ORM::for_table("tbl_payment_gateway")->create([
-      "username" => $params["phoneNumber"],
-      "status" => 1,
-    ]);
-    $trx->save();
 
     if ($customer) {
       $customer["password"] = null;
@@ -174,22 +168,25 @@ class HotspotRpc
     $ipAddress = $params['ipAddress'];
     $macAddress = $params['macAddress'];
 
-    $customer = Customer::getByAttribute("phonenumber", $params["username"]);
+    $customer = Customer::getByAttribute("phonenumber", formatPhoneNumber($params["username"]));
 
     if (empty($customer)) {
       return new RpcResult(false, "Invalid username or password!");
     }
 
-    $plans = UserRecharge::getByCustomer($customer["id"]);
-
-    if (empty($plans)) {
-      return new RpcResult(false, "User does not have an active plan!",);
+    $recharge = UserRecharge::getByCustomer($customer["id"]);
+    if (! $recharge || expired($recharge["expiration"], $recharge["time"])) {
+      return new RpcResult(false, "User does not have an active plan!", $recharge);
     }
-    $routerName = Router::getName($plans[0]["routers"]);
+    $plan = HotspotPlan::getById($recharge["plan_id"]);
     try {
+      $device = Package::getDevice($plan);
+      require_once($device);
+
+      $routerName = Router::getName($plans[0]["routers"]);
       $router  = new MikrotikHotspot();
       $router->connect_customer($customer, $ipAddress, $macAddress, $routerName);
-      return new RpcResult(true, "User connected!",);
+      return new RpcResult(true, "User connected!");
     } catch (\Exception $e) {
       return new RpcResult(false, "Could not connect user!", $e);
     }
@@ -216,9 +213,33 @@ class HotspotRpc
       }
 
       $payment = ORM::for_table('tbl_payment_gateway')
-              ->where('username', $customer["username"])
-              ->where('status', 1)
-              ->find_one();
+        ->where('username', $customer["username"])
+        ->where('status', 1)
+        ->find_one();
+
+      if (! $payment) {
+
+        $payment = ORM::for_table("tbl_payment_gateway")->create();
+        $payment->username = '';
+        $payment->gateway = '';
+        $payment->gateway_trx_id = '';
+        $payment->plan_id = 0;
+        $payment->plan_name = '';
+        $payment->routers_id = 0;
+        $payment->routers = '';
+        $payment->price = '';
+        $payment->pg_url_payment = '';
+        $payment->payment_method = '';
+        $payment->payment_channel = '';
+        $payment->pg_request = NULL;
+        $payment->pg_paid_response = NULL;
+        $payment->expired_date = NULL;
+        $payment->created_date = date('Y-m-d H:i:s');
+        $payment->paid_date = NULL;
+        $payment->trx_invoice = '';
+        $payment->status = 1;
+      }
+
       $payment->gateway_trx_id = $result->CheckoutRequestID;
       $payment->pg_url_payment = $time;
       $payment->pg_request = $customer["id"];
@@ -259,7 +280,7 @@ class HotspotRpc
 
     if ($result->ResponseCode === 1) {
       return new RpcResult(false, "Payment not complete!", $result);
-    } else if($result->ResponseCode === 2 && $payment["status"] != 2) {
+    } else if ($result->ResponseCode === 2 && $payment["status"] != 2) {
       $payment->pg_paid_response = json_encode($result);
       $payment->payment_method = 'M-Pesa';
       $payment->payment_channel = 'M-Pesa StkPush';
@@ -283,7 +304,7 @@ class HotspotRpc
   private function purchasePlan($params)
   {
     $planId = $params["planId"];
-    $customer = Customer::getByAttribute("phonenumber", $params["username"]);
+    $customer = Customer::getByAttribute("phonenumber", formatPhoneNumber($params["username"]));
 
     if (empty($customer)) {
       return new RpcResult(false, "Invalid username or password!");
@@ -300,56 +321,60 @@ class HotspotRpc
     }
 
     $current_plan = UserRecharge::getByCustomer($customer["id"]);
-
+    require_once(
+      Package::getDevice($next_plan)
+    );
     // add customer to router
     $router = new MikrotikHotspot();
     try {
       $router->add_customer($customer, $next_plan);
-
-      if ($current_plan) {
-        // delete the plan
-        $router->remove_plan($customer, $current_plan);
-        UserRecharge::delete($current_plan["id"]);
-      }
-      // record the current plan as a recharge
-      $expiry = getExpirationData($next_plan["validity"], $next_plan["validity_unit"]);
-      $time = date("H:i:s");
-      UserRecharge::create([
-        "customer_id" => $customer["id"],
-        "username" => $customer["username"],
-        "plan_id" => $next_plan["id"],
-        "namebp" => $next_plan["name_plan"],
-        "recharged_on" => date("Y-m-d"),
-        "recharged_time" => $time,
-        "expiration" => $expiry["date"],
-        "time" => $expiry["time"],
-        "status" => "on",
-        "method" => "Voucher",
-        "routers" => $next_plan["routers"],
-        "type" => $next_plan["type"]
-      ]);
-
-      // record the transaction
-      Transaction::create([
-        "invoice" => date("Y-m-d/H:i:s"),
-        "username" => $customer["username"],
-        "plan_name" => $next_plan["name_plan"],
-        "price" => $next_plan["price"],
-        "recharged_time" => $time,
-        "expiration" => $expiry["date"],
-        "time" => $expiry["time"],
-        "method" => "Voucher",
-        "routers" => $next_plan["routers"],
-        "type" => $next_plan["type"]
-      ]);
-
-      // subtract user balance
-      Customer::setBalance($customer["id"], $customer["balance"] - $next_plan["price"]);
-      return new RpcResult(true, "Purchased plan!");
     } catch (\Exception $e) {
       // Handle exception (e.g., log error, return false)
       return new RpcResult(false, "Could not purchase plan!");
     }
+
+    if ($current_plan) {
+      // delete the plan
+      $router->remove_plan($customer, $current_plan);
+      UserRecharge::delete($current_plan["id"]);
+    }
+    // record the current plan as a recharge
+    $expiry = getExpirationData($next_plan["validity"], $next_plan["validity_unit"]);
+    $time = date("H:i:s");
+
+    // subtract user balance
+    Customer::setBalance($customer["id"], $customer["balance"] - $next_plan["price"]);
+
+    UserRecharge::create([
+      "customer_id" => $customer["id"],
+      "username" => $customer["username"],
+      "plan_id" => $next_plan["id"],
+      "namebp" => $next_plan["name_plan"],
+      "recharged_on" => date("Y-m-d"),
+      "recharged_time" => $time,
+      "expiration" => $expiry["date"],
+      "time" => $expiry["time"],
+      "status" => "on",
+      "method" => "Voucher",
+      "routers" => $next_plan["routers"],
+      "type" => $next_plan["type"]
+    ]);
+
+    // record the transaction
+    Transaction::create([
+      "invoice" => date("Y-m-d/H:i:s"),
+      "username" => $customer["username"],
+      "plan_name" => $next_plan["name_plan"],
+      "price" => $next_plan["price"],
+      "recharged_time" => $time,
+      "expiration" => $expiry["date"],
+      "time" => $expiry["time"],
+      "method" => "Voucher",
+      "routers" => $next_plan["routers"],
+      "type" => $next_plan["type"]
+    ]);
+
+    return new RpcResult(true, "Purchased plan!");
   }
 }
 
@@ -388,11 +413,24 @@ function getExpirationData($offset, $unit)
   return $expirationData;
 }
 
+function expired($date, $time)
+{
+  $dateTimeString = $date . ' ' . $time;
+  $givenDateTime = new DateTime($dateTimeString);
+  $currentDateTime = new DateTime();
+  if ($givenDateTime < $currentDateTime) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 $result = ORM::for_table('tbl_appconfig')->find_many();
 foreach ($result as $value) {
   $setting = $value["setting"];
   $value = $value["value"];
   if (preg_match("/^MPESA/i", $setting)) {
+    $_ENV[$setting] = $value;
     putenv($setting . "=" . $value);
   }
 }
