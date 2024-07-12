@@ -13,14 +13,11 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +146 ~/projects/phpnuxbill/system/boot.php
-badd +27 ~/projects/phpnuxbill/system/controllers/home.php
-badd +14 ~/projects/phpnuxbill/system/controllers/login.php
+badd +457 ~/projects/phpnuxbill/ui/ui_custom/sections/header.tpl
 argglobal
 %argdel
-edit ~/projects/phpnuxbill/system/controllers/login.php
+edit ~/projects/phpnuxbill/ui/ui_custom/sections/header.tpl
 argglobal
-balt ~/projects/phpnuxbill/system/controllers/home.php
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -31,12 +28,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 18) / 37)
+let s:l = 192 - ((25 * winheight(0) + 18) / 37)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 05|
+keepjumps 192
+normal! 054|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

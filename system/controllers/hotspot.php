@@ -139,6 +139,7 @@ class HotspotRpc
     $customer = Customer::create([
       "username" => $params["phoneNumber"],
       "password" => $params["macAddress"],
+      "email" => $params["phoneNumber"]."@anon.com",
       "pppoe_password" => $params["macAddress"],
       "fullname" => $params["phoneNumber"],
       "phonenumber" => $params["phoneNumber"],
@@ -175,7 +176,7 @@ class HotspotRpc
     }
 
     $recharge = UserRecharge::getByCustomer($customer["id"]);
-    if (! $recharge || expired($recharge["expiration"], $recharge["time"])) {
+    if (! $recharge) {
       return new RpcResult(false, "User does not have an active plan!", $recharge);
     }
     $plan = HotspotPlan::getById($recharge["plan_id"]);
@@ -185,6 +186,7 @@ class HotspotRpc
 
       $routerName = Router::getName($plans[0]["routers"]);
       $router  = new MikrotikHotspot();
+      $router->add_customer($customer, $plan);
       $router->connect_customer($customer, $ipAddress, $macAddress, $routerName);
       return new RpcResult(true, "User connected!");
     } catch (\Exception $e) {
@@ -205,7 +207,7 @@ class HotspotRpc
     try {
       $customer = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
       $push = new StkPush();
-      list($response, $time) = $push->initiate($params["phoneNumber"], $params["amount"], "RequestDeposit", "Hotspot");
+      list($response, $time) = $push->initiate($params["phoneNumber"], $params["amount"], "ACC_".$params["phoneNumber"], "Hotspot");
       $result = json_decode($response);
 
       if ($result->errorCode || $result->ResponseCode != 0) {
@@ -411,18 +413,6 @@ function getExpirationData($offset, $unit)
   ];
 
   return $expirationData;
-}
-
-function expired($date, $time)
-{
-  $dateTimeString = $date . ' ' . $time;
-  $givenDateTime = new DateTime($dateTimeString);
-  $currentDateTime = new DateTime();
-  if ($givenDateTime < $currentDateTime) {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 $result = ORM::for_table('tbl_appconfig')->find_many();
