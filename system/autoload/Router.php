@@ -52,6 +52,22 @@ class Router {
      * @param int $id ID of the router record to fetch.
      * @return array|null Associative array of router record data or null if not found.
      */
+    public static function getByName($name) {
+        try {
+            $router = ORM::for_table('tbl_routers')->where("name", $name)->find_one();
+            return $router ? $router->as_array() : null;
+        } catch (\Exception $e) {
+            // Handle exception (e.g., log error, return null)
+            return null;
+        }
+    }
+
+    /**
+     * Static method to fetch a router record by ID.
+     *
+     * @param int $id ID of the router record to fetch.
+     * @return array|null Associative array of router record data or null if not found.
+     */
     public static function getById($id) {
         try {
             $router = ORM::for_table('tbl_routers')->find_one($id);

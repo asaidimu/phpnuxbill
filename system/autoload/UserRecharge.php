@@ -16,10 +16,7 @@ class UserRecharge
   public static function create($data)
   {
     try {
-        $recharge = ORM::for_table('tbl_user_recharges')->create();
-        foreach($data as $key => $value) {
-          $recharge->$key = $value;
-        }
+      $recharge = ORM::for_table('tbl_user_recharges')->create($data);
       $recharge->save();
       return $recharge->id();
     } catch (\Exception $e) {
@@ -79,7 +76,7 @@ class UserRecharge
   public static function getByCustomer($id)
   {
     try {
-      $recharge = ORM::for_table('tbl_user_recharges')->where("customer_id", $id)->find_one();
+      $recharge = ORM::for_table('tbl_user_recharges')->where("status", "on")->where("customer_id", $id)->find_one();
       return $recharge ? $recharge->as_array() : null;
     } catch (\Exception $e) {
       // Handle exception (e.g., log error, return null)

@@ -9,14 +9,14 @@
             <div class="box-header">
                 <h3 class="box-title">Discussions</h3>
             </div>
-            <div class="box-body">Get help from community</div>
+            <div class="box-body">Get help from WhatsApp</div>
             <div class="box-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                    <a href="https://github.com/hotspotbilling/phpnuxbill/discussions" target="_blank"
-                        class="btn btn-primary btn-sm btn-block"><i class="ion ion-chatboxes"></i> Github
-                        Discussions</a>
-                    <a href="https://t.me/phpnuxbill" target="_blank" class="btn btn-primary btn-sm btn-block"><i
-                            class="ion ion-chatboxes"></i> Telegram Group</a>
+                    <a href="https://zeiteckispradius.zeiteckcomputers.co.ke" target="_blank"
+                        class="btn btn-primary btn-sm btn-block"><i class="ion ion-chatboxes"></i> Our Website
+                       </a>
+                    <a href="https://zeiteckispradius.zeiteckcomputers.co.ke" target="_blank" class="btn btn-primary btn-sm btn-block"><i
+                            class="ion ion-chatboxes"></i> Call Us</a>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 Feedback and Bug Report
             </div>
             <div class="box-footer">
-                <a href="https://github.com/hotspotbilling/phpnuxbill/issues" target="_blank"
+                <a href="https://zeiteckispradius.zeiteckcomputers.co.ke" target="_blank"
                     class="btn btn-primary btn-sm btn-block"><i class="ion ion-chatboxes"></i> Give Feedback</a>
             </div>
         </div>
@@ -41,7 +41,7 @@
     <div class="col-sm-6">
         <div class="box box-hovered mb20 box-primary">
             <div class="box-header">
-                <h3 class="box-title">Donasi</h3>
+                <h3 class="box-title">Donations</h3>
             </div>
             <div class="box-body">Untuk pengembangan lebih baik, donasi ke iBNuX, donasi akan membantu terus
                 pengembangan aplikasi</div>

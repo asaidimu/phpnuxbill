@@ -25,40 +25,6 @@ function formatPhoneNumber($phoneNumber)
   }
 }
 
-function getExpirationData($offset, $unit)
-{
-  // Create a DateTime object with the current date and time
-  $dateTime = new DateTime();
-
-  // Determine the interval to add based on the unit
-  switch (strtolower($unit)) {
-    case 'mins':
-    case 'minutes':
-      $interval = new DateInterval("PT{$offset}M");
-      break;
-    case 'hrs':
-    case 'hours':
-      $interval = new DateInterval("PT{$offset}H");
-      break;
-    case 'days':
-      $interval = new DateInterval("P{$offset}D");
-      break;
-    case 'months':
-      $interval = new DateInterval("P{$offset}M");
-      break;
-    default:
-      throw new Exception("Invalid unit provided. Use 'mins', 'hrs', 'days', or 'months'.");
-  }
-
-  $dateTime->add($interval);
-
-  $expirationData = [
-    'date' => $dateTime->format('Y-m-d'),
-    'time' => $dateTime->format('H:i:s')
-  ];
-
-  return $expirationData;
-}
 class HotspotRpc
 {
   public function handleRequest(RpcRequest $request)
@@ -71,8 +37,8 @@ class HotspotRpc
       $request->params["phoneNumber"] = $phoneNumber;
     }
     switch ($request->action) {
-      case 'listCustomers':
-        return $this->listCustomers($request->params);
+      case 'status':
+        return $this->status($request->params);
       case 'registerCustomer':
         return $this->registerCustomer($request->params);
       case 'purchasePlan':
@@ -81,31 +47,56 @@ class HotspotRpc
         return $this->getCustomer($request->params);
       case 'connectCustomer':
         return $this->connectCustomer($request->params);
-      case 'requestDeposit':
-        return $this->requestDeposit($request->params);
-      case 'checkDeposit':
-        return $this->checkDeposit($request->params);
-      case 'recordDeposit':
-        return $this->recordDeposit($request->params);
+      case 'checkStatus':
+        return $this->checkStatus($request->params);
+      case 'activatePlan':
+        return $this->activatePlan($request->params);
       default:
         return new RpcResult(false, "Unknown action: {$request->action}");
     }
   }
 
   /**
-   * Lists all customers registered in the database
+   * get server status
    *
    * @return RpcResult
    */
-  private function listCustomers()
+  private function status($params)
   {
-    $customers = Customer::getAll();
-    $data = [];
-    foreach ($customers as $customer) {
-      $data[] = nullify($customer, ["password", "pppoe_password"]);
+    $message = "Server status";
+    $result = [
+      "time" => date("Y-m-d H:i:s"),
+      "zone" => date_default_timezone_get()
+    ];
+
+    return new RpcResult(true, $message, $result);
+  }
+
+  /**
+   * get customer status
+   * @param array $params An associative array containing parameters:
+   *   - 'username' (string): Customer's username.
+   * @return RpcResult
+   */
+  private function checkStatus($params)
+  {
+    // check database for data
+    $customer = Customer::getByAttribute("username", $params["username"]);
+    $active_plan = UserRecharge::getByCustomer($customer["id"]);
+    $status = array();
+    $plan = array();
+
+    if(! empty($active_plan)) {
+      return RpcResult(false, "User not connected");
     }
 
-    return new RpcResult(true, "Customers found", $data);
+    $original  = HotspotPlan::getById($plan["plan_id"]);
+    $status["plan"] = $original;
+    $status["recharge"] = $active_plan;
+    $plan["name"] = $original["plan_name"];
+    $plan["expiry"] = $active_plan["expiration"] . " " . $active_plan["time"];
+
+    return new RpcResult($true, "User status", [$status, $plan]);
   }
 
   /**
@@ -153,7 +144,6 @@ class HotspotRpc
       "service_type" => "Hotspot",
     ]);
 
-
     if ($customer) {
       $customer["password"] = null;
       $customer["pppoe_password"] = null;
@@ -183,18 +173,20 @@ class HotspotRpc
     }
 
     $recharge = UserRecharge::getByCustomer($customer["id"]);
-    if (! $recharge) {
+
+    if (! $recharge || $recharge["status"] == "off") {
       return new RpcResult(false, "User does not have an active plan!", $recharge);
     }
+
     $plan = HotspotPlan::getById($recharge["plan_id"]);
     try {
       $device = Package::getDevice($plan);
       require_once($device);
 
-      $routerName = Router::getName($plans[0]["routers"]);
       $router  = new MikrotikHotspot();
       $router->add_customer($customer, $plan);
-      $router->connect_customer($customer, $ipAddress, $macAddress, $routerName);
+      $router->connect_customer($customer, $ipAddress, $macAddress, $plan["routers"]);
+
       return new RpcResult(true, "User connected!");
     } catch (\Exception $e) {
       return new RpcResult(false, "Could not connect user!", $e);
@@ -202,104 +194,72 @@ class HotspotRpc
   }
 
   /**
-   * Top up account.
+   * Request deposit & activate plan
    * @param array $params An associative array containing parameters:
-   *   - 'phoneNumber' (string): The username of the customer.
-   *   - 'amount' (string): The deposit amount.
-   *   -  plan (string): The name of the hotspot plan
-   *   -  router (number): The id of the router
+   *   - phoneNumber (string): The username of the customer.
+   *   - macAddress' (string): The MAC address associated with the customer's device.
+   *   - ipAddress' (string): The MAC address associated with the customer's device.
+   *   - planId (number): The name of the hotspot plan
    * @return RpcResult
    */
-  private function requestDeposit($params)
+  private function purchasePlan($params)
   {
     // stk push
     try {
       $customer = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
+
+      if(! $customer) {
+        $this->registerCustomer($params);
+        $customer = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
+      }
+
+      Customer::update($customer["id"], [
+        "ip_address" => $params["ipAddress"],
+        "mac_address" => $params["macAddress"]
+      ]);
+
+      $plan = HotspotPlan::getById($params["planId"]);
+
+      if(empty($plan)) {
+        return new RpcResult(false, "Could not find plan!");
+      }
+
+      $router = Router::getByName($plan["routers"]);
+
       $push = new StkPush();
-      list($response, $time) = $push->initiate($params["phoneNumber"], $params["amount"], "ACC_".$params["phoneNumber"], "Hotspot");
+      list($response, $time) = $push->initiate($customer["phonenumber"], intval($plan["price"]), $plan["name_plan"], "Hotspot");
       $result = json_decode($response);
 
       if ($result->errorCode || $result->ResponseCode != 0) {
-        return new RpcResult(false, "Could not request payment!", $result);
+        return new RpcResult(false, "Could not request payment!");
       }
 
-      $payment = ORM::for_table('tbl_payment_gateway')
-        ->where('username', $customer["username"])
-        ->where('status', 1)
-        ->find_one();
-
-      if (! $payment) {
-        $payment = ORM::for_table("tbl_payment_gateway")->create();
-        $payment->username = $customer["username"];
-        $payment->gateway = 'MPESA';
-        $payment->gateway_trx_id = '';
-        $payment->plan_id = 0;
-        $payment->plan_name = '';
-        $payment->routers_id = 0;
-        $payment->routers = '';
-        $payment->price = $params["amount"];
-        $payment->payment_method = 'MPESA';
-        $payment->payment_channel = 'M-Pesa StkPush';
-        $payment->pg_url_payment = '';
-        $payment->pg_request = NULL;
-        $payment->pg_paid_response = NULL;
-        $payment->expired_date = NULL;
-        $payment->created_date = date('Y-m-d H:i:s');
-        $payment->paid_date = NULL;
-        $payment->trx_invoice = '';
-        $payment->status = 1;
-      }
-
+      $payment = ORM::for_table("tbl_payment_gateway")->create();
+      $payment->username = $customer["username"];
+      $payment->gateway = 'MPESA';
+      $payment->plan_id = $plan["id"];
+      $payment->plan_name = $plan["name_plan"];
+      $payment->routers_id = $router["id"];
+      $payment->routers = $router["name"];
+      $payment->price = $plan["price"];
+      $payment->payment_method = 'MPESA';
+      $payment->payment_channel = 'M-Pesa StkPush';
+      $payment->pg_url_payment = '';
+      $payment->pg_request = NULL;
+      $payment->pg_paid_response = NULL;
+      $payment->created_date = date('Y-m-d H:i:s');
+      $payment->paid_date = NULL;
+      $payment->trx_invoice = '';
+      $payment->status = 1;
       $payment->gateway_trx_id = $result->CheckoutRequestID;
       $payment->pg_url_payment = $time;
       $payment->pg_request = $customer["id"];
       $payment->expired_date = date('Y-m-d H:i:s', strtotime("+5 minutes"));
       $payment->save();
 
-
-      return new RpcResult(true, "Requested mpesa payment!", $result);
+      return new RpcResult(true, "Requested mpesa payment!");
     } catch (\Exception $e) {
       return new RpcResult(false, "Could not request payment!", $e);
-    }
-  }
-
-  /**
-   * Check deposit status
-   * @param array $params An associative array containing parameters:
-   *   - 'phoneNumber' (string): Customer's phone number.
-   *   - 'amount' (string): Deposit amount.
-   * @return RpcResult
-   */
-  private function checkDeposit($params)
-  {
-    // check database for data
-    $customer = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
-    $payment = ORM::for_table('tbl_payment_gateway')
-      ->where('username', $customer["username"])
-      ->where('status', 1)
-      ->where('price', $params["amount"])
-      ->find_one();
-
-    $push = new StkPush();
-    $response = $push->query($payment["gateway_trx_id"]);
-    $result = json_decode($response);
-
-    if (empty($result) || $result->errorCode) {
-      return new RpcResult(false, "Could not complete query!", $result);
-    }
-      $payment->pg_paid_response = json_encode($result);
-      $payment->paid_date = date('Y-m-d H:i:s');
-
-    if ($result->ResultCode == 0) {
-      $payment->status = 2;
-      $payment->save();
-      $balance =floatval($customer["balance"]) + floatval($params["amount"]);
-      Customer::setBalance($customer["id"], $balance);
-      return new RpcResult(true, "Payment complete!", $result);
-    } else {
-      $payment->status = 3;
-      $payment->save();
-      return new RpcResult(false, "Payment not complete!", []);
     }
   }
 
@@ -309,10 +269,10 @@ class HotspotRpc
    *   - 'data' (string): data from mpesa callback
    * @return RpcResult
    */
-  private function recordDeposit($data)
+  private function activatePlan($data)
   {
     $payment = ORM::for_table('tbl_payment_gateway')
-      ->where('gateway_trx_id', $data->CheckoutRequestID)
+      ->where('gateway_trx_id', $data["CheckoutRequestID"])
       ->where('status', 1)
       ->find_one();
 
@@ -326,60 +286,39 @@ class HotspotRpc
       return;
     }
 
+    $meta = $data["CallbackMetadata"];
+    $receipt = $meta["Item"][1]["Value"];
     $customer = Customer::getByAttribute("phonenumber", $payment["username"]);
+    $payment->payment_method = "MPESA-".$receipt;
     $payment->pg_paid_response = json_encode($data);
     $payment->paid_date = date('Y-m-d H:i:s');
     $payment->status = 2;
     $payment->save();
-    $balance =floatval($customer["balance"]) + floatval($payment["price"]);
-    Customer::setBalance($customer["id"], $balance);
-  }
 
-  /**
-   * Purchase an internet plan.
-   * @param array $params An associative array containing parameters:
-   *   - 'username' (string): The username of the customer.
-   *   - 'password' (string): The MAC address associated with the customer's device.
-   *   - 'macAddress' (string): The MAC address associated with the customer's device.
-   *   - 'ipAddress' (string): The ip address associated with the customer's device.
-   *   - 'planId' (number): The id of the plan which the user is purchasing.
-   * @return RpcResult
-   */
-  private function purchasePlan($params)
-  {
-    $planId = $params["planId"];
-    $customer = Customer::getByAttribute("phonenumber", formatPhoneNumber($params["username"]));
-
-    if (empty($customer)) {
-      return new RpcResult(false, "Invalid username or password!");
-    }
-    $next_plan = HotspotPlan::getById($planId);
+    $next_plan = HotspotPlan::getById($payment["plan_id"]);
 
     if (empty($next_plan)) {
       return new RpcResult(false, "Unknown plan!");
     }
 
-    if (intval($customer["balance"]) < $next_plan["price"]) {
-      return new RpcResult(false, "Insufficient balance.");
-    }
-
     $current_plan = UserRecharge::getByCustomer($customer["id"]);
+
     require_once(
       Package::getDevice($next_plan)
     );
+
     try {
       $router = new MikrotikHotspot();
       $router->add_customer($customer, $next_plan);
+      $router->connect_customer($customer, $customer["ip_address"], $customer["mac_address"], $next_plan["routers"]);
     } catch (\Exception $e) {
-      return new RpcResult(false, "Could not purchase plan!");
+      return new RpcResult(false, "Could not purchase plan!", [$customer, $routerName]);
     }
 
-    UserRecharge::delete($current_plan["id"]);
+    UserRecharge::setStatus($current_plan["id"], "off");
     // record the current plan as a recharge
     $expiry = getExpirationData($next_plan["validity"], $next_plan["validity_unit"]);
     $time = date("H:i:s");
-    // subtract user balance
-    Customer::setBalance($customer["id"], $customer["balance"] - $next_plan["price"]);
 
     UserRecharge::create([
       "customer_id" => $customer["id"],
@@ -391,13 +330,13 @@ class HotspotRpc
       "expiration" => $expiry["date"],
       "time" => $expiry["time"],
       "status" => "on",
-      "method" => "MPESA",
+      "method" => "MPESA-".$receipt,
       "routers" => $next_plan["routers"],
       "type" => $next_plan["type"]
     ]);
 
     // record the transaction
-    $r = Transaction::create([
+    Transaction::create([
       "username" => $customer["username"],
       "plan_name" => $next_plan["name_plan"],
       "price" => $next_plan["price"],
@@ -405,12 +344,49 @@ class HotspotRpc
       "recharged_time" => $time,
       "expiration" => $expiry["date"],
       "time" => $expiry["time"],
-      "method" => "MPESA",
+      "method" => "MPESA-".$receipt,
       "routers" => $next_plan["routers"],
       "type" => $next_plan["type"]
     ]);
-    return new RpcResult(true, "Purchased plan!", [$r]);
+
+    return new RpcResult(true, "Purchased plan!");
   }
+
+}
+
+function getExpirationData($offset, $unit)
+{
+  // Create a DateTime object with the current date and time
+  $dateTime = new DateTime();
+
+  // Determine the interval to add based on the unit
+  switch (strtolower($unit)) {
+    case 'mins':
+    case 'minutes':
+      $interval = new DateInterval("PT{$offset}M");
+      break;
+    case 'hrs':
+    case 'hours':
+      $interval = new DateInterval("PT{$offset}H");
+      break;
+    case 'days':
+      $interval = new DateInterval("P{$offset}D");
+      break;
+    case 'months':
+      $interval = new DateInterval("P{$offset}M");
+      break;
+    default:
+      throw new Exception("Invalid unit provided. Use 'mins', 'hrs', 'days', or 'months'.");
+  }
+
+  $dateTime->add($interval);
+
+  $expirationData = [
+    'date' => $dateTime->format('Y-m-d'),
+    'time' => $dateTime->format('H:i:s')
+  ];
+
+  return $expirationData;
 }
 
 $result = ORM::for_table('tbl_appconfig')->find_many();

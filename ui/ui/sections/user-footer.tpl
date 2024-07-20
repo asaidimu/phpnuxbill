@@ -11,8 +11,8 @@
             </footer>
         {else}
             <footer class="main-footer">
-                PHPNuxBill by <a href="https://github.com/hotspotbilling/phpnuxbill" rel="nofollow noreferrer noopener"
-                    target="_blank">iBNuX</a>, Theme by <a href="https://adminlte.io/" rel="nofollow noreferrer noopener"
+                ZeiteckIspRadius by <a href="https://zeiteckispradius.zeiteckcomputers.co.ke" rel="nofollow noreferrer noopener"
+                    target="_blank">ZEITECK</a>, Theme by <a href="https://adminlte.io/" rel="nofollow noreferrer noopener"
                     target="_blank">AdminLTE</a>
                 <div class="pull-right">
                     <a href="javascript:showPrivacy()">Privacy</a>

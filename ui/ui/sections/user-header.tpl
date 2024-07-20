@@ -78,7 +78,7 @@
     <div class="wrapper">
         <header class="main-header" style="position:fixed; width: 100%">
             <a href="{$_url}home" class="logo">
-                <span class="logo-mini"><b>N</b>uX</span>
+                <span class="logo-mini"><b>Z</b>ZEITECK</span>
                 <span class="logo-lg">{$_c['CompanyName']}</span>
             </a>
             <nav class="navbar navbar-static-top">

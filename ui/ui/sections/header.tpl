@@ -192,7 +192,7 @@
     <div class="wrapper">
         <header class="main-header">
             <a href="{$_url}dashboard" class="logo">
-                <span class="logo-mini"><b>N</b>uX</span>
+                <span class="logo-mini"><b>ZEITECK</b>ISP</span>
                 <span class="logo-lg">{$_c['CompanyName']}</span>
             </a>
             <nav class="navbar navbar-static-top">
@@ -465,10 +465,10 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li {if $_routes[1] eq 'list' }class="active" {/if}><a
-                                        href="{$_url}logs/phpnuxbill">PhpNuxBill</a></li>
+                                        href="{$_url}logs/phpnuxbill">Working Logs</a></li>
                                 {if $_c['radius_enable']}
                                     <li {if $_routes[1] eq 'radius' }class="active" {/if}><a
-                                            href="{$_url}logs/radius">Radius</a>
+                                            href="{$_url}logs/radius">Radius Logs</a>
                                     </li>
                                 {/if}
                                 {$_MENU_LOGS}
