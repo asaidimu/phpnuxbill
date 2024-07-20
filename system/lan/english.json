@@ -272,5 +272,22 @@
     "Full_Name": "Full Name",
     "Contact": "Contact",
     "Package": "Package",
-    "Service_Type": "Service Type"
+    "Service_Type": "Service Type",
+    "Service_Plan": "Service Plan",
+    "Using": "Using",
+    "Email": "Email",
+    "City": "City",
+    "Nairobi": "Nairobi",
+    "District": "District",
+    "State": "State",
+    "Kenya": "Kenya",
+    "Zip": "Zip",
+    "_254": "+254",
+    "Hotspot": "Hotspot",
+    "Auto_Renewal": "Auto Renewal",
+    "Last_Login": "Last Login",
+    "Coordinates": "Coordinates",
+    "Deactivate": "Deactivate",
+    "Back": "Back",
+    "Sync": "Sync"
 }

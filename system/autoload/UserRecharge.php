@@ -16,7 +16,10 @@ class UserRecharge
   public static function create($data)
   {
     try {
-      $recharge = ORM::for_table('tbl_user_recharges')->create($data);
+        $recharge = ORM::for_table('tbl_user_recharges')->create();
+        foreach($data as $key => $value) {
+          $recharge->$key = $value;
+        }
       $recharge->save();
       return $recharge->id();
     } catch (\Exception $e) {
