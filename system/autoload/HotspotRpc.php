@@ -244,7 +244,6 @@ class HotspotRpc
       $payment->price = $plan["price"];
       $payment->payment_method = 'MPESA';
       $payment->payment_channel = 'M-Pesa StkPush';
-      $payment->pg_url_payment = '';
       $payment->pg_request = NULL;
       $payment->pg_paid_response = NULL;
       $payment->created_date = date('Y-m-d H:i:s');
@@ -389,8 +388,8 @@ function getExpirationData($offset, $unit)
   return $expirationData;
 }
 
-$result = ORM::for_table('tbl_appconfig')->find_many();
-foreach ($result as $value) {
+$config = ORM::for_table('tbl_appconfig')->find_many();
+foreach ($config as $value) {
   $setting = $value["setting"];
   $value = $value["value"];
   if (preg_match("/^MPESA/i", $setting)) {

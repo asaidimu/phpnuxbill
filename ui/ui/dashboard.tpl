@@ -374,6 +374,7 @@
 </script>
 <script>
     window.addEventListener('DOMContentLoaded', function() {
+            /*
         $.getJSON("./version.json?" + Math.random(), function(data) {
             var localVersion = data.version;
             $('#version').html('Version: ' + localVersion);
@@ -403,7 +404,7 @@
                     }
                 });
         });
-
+        */
     });
 </script>
 

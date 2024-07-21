@@ -22,6 +22,7 @@
     "Daily_Reports": "Daily Reports",
     "Period_Reports": "Period Reports",
     "Activation_History": "Activation History",
+    "Connection_Logs": "Connection Logs",
     "Send_Message": "Send Message",
     "Single_Customer": "Single Customer",
     "Bulk_Customers": "Bulk Customers",
@@ -373,5 +374,13 @@
     "Balance_Notification_Payment": "Balance Notification Payment",
     "Transaction_datetime": "Transaction datetime",
     "Balance_Before": "Balance Before",
-    "Balance_After": "Balance After"
+    "Balance_After": "Balance After",
+    "Connection_Start": "Connection Start",
+    "Connection_End": "Connection End",
+    "Start": "Start",
+    "End": "End",
+    "IP": "IP",
+    "MAC": "MAC",
+    "Router": "Router",
+    "Plan": "Plan"
 }

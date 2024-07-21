@@ -149,13 +149,11 @@ class Lang
 
     public static function arrayCount($arr)
     {
-        if (is_array($arr)) {
+        if (is_array($arr) || is_object($arr)) {
             return count($arr);
-        } else if (is_object($arr)) {
-            return count($arr);
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 
     public static function getNotifText($key)

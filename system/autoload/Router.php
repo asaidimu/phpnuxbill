@@ -114,6 +114,20 @@ class Router {
     }
 
     /**
+     * Static method to fetch all enabled router records.
+     *
+     * @return array Array of associative arrays representing router records.
+     */
+    public static function getAllEnabled() {
+        try {
+            $routers = ORM::for_table('tbl_routers')->where("enabled", 1)->find_array();
+            return $routers ?: [];
+        } catch (\Exception $e) {
+            // Handle exception (e.g., log error, return empty array)
+            return [];
+        }
+    }
+    /**
      * Static method to serialize a router record to JSON format.
      *
      * @param int $id ID of the router record to serialize.

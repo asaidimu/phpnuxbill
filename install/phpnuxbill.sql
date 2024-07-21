@@ -97,7 +97,7 @@ CREATE TABLE `tbl_plans` (
   `id_bw` int NOT NULL,
   `price` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `price_old` varchar(40) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `type` enum('Hotspot','PPPOE','Balance') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `type` enum('Hotspot','PPPOE','Static','Balance') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `typebp` enum('Unlimited','Limited') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `limit_type` enum('Time_Limit','Data_Limit','Both_Limit') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `time_limit` int UNSIGNED DEFAULT NULL,
@@ -153,7 +153,7 @@ CREATE TABLE `tbl_transactions` (
   `time` time NOT NULL,
   `method` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `routers` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `type` enum('Hotspot','PPPOE','Balance') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `type` enum('Hotspot','PPPOE', 'Static', 'Balance') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `note` varchar(256) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'for note',
   `admin_id` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -197,7 +197,7 @@ CREATE TABLE `tbl_user_recharges` (
 DROP TABLE IF EXISTS `tbl_voucher`;
 CREATE TABLE `tbl_voucher` (
   `id` int NOT NULL,
-  `type` enum('Hotspot','PPPOE') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `type` enum('Hotspot','PPPOE', 'Static') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `routers` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_plan` int NOT NULL,
   `code` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -206,6 +206,23 @@ CREATE TABLE `tbl_voucher` (
   `generated_by` int NOT NULL DEFAULT '0' COMMENT 'id admin'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+DROP TABLE IF EXISTS `tbl_connection_logs`;
+CREATE TABLE tbl_session_logs (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `service` enum('Hotspot','PPPOE', 'Static') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `plan` VARCHAR(255) NOT NULL,
+    `active` BOOLEAN NOT NULL,
+    `start` DATE NOT NULL,
+    `router` VARCHAR(255) NOT NULL,
+    `end` DATE,
+    `ip` VARCHAR(45) NOT NULL,  -- Supports both IPv4 and IPv6
+    `mac` VARCHAR(17) NOT NULL,
+    `bandwidth` VARCHAR(255) NOT NULL,
+    `upload` VARCHAR(255) NOT NULL,
+    `download` VARCHAR(255) NOT NULL,
+    `usage` VARCHAR(255) NOT NULL,
+    `customer` INT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE `tbl_appconfig`
   ADD PRIMARY KEY (`id`);

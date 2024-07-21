@@ -171,9 +171,32 @@
                     href="{$_url}customers/view/{$d['id']}/order">30 {Lang::T('Order History')}</a></li>
             <li role="presentation" {if $v=='activation' }class="active" {/if}><a
                     href="{$_url}customers/view/{$d['id']}/activation">30 {Lang::T('Activation History')}</a></li>
+            <li role="presentation" {if $v=='logs' }class="active" {/if}><a
+                    href="{$_url}customers/view/{$d['id']}/logs">{Lang::T('Connection Logs')}</a></li>
         </ul>
         <div class="table-responsive" style="background-color: white;">
             <table id="datatable" class="table table-bordered table-striped">
+                {if Lang::arrayCount($logs)}
+                    <thead>
+                        <tr>
+                            <th>{Lang::T('Service')}</th>
+                            <th>{Lang::T('Plan')}</th>
+                            <th>{Lang::T('Router')}</th>
+                            <th>{Lang::T('Status')}</th>
+                            <th>{Lang::T('Start')}</th>
+                            <th>{Lang::T('End')}</th>
+                            <th>{Lang::T('Uptime')}</th>
+                            <th>{Lang::T('IP')}</th>
+                            <th>{Lang::T('MAC')}</th>
+                            <th>{Lang::T('Bandwidth')}</th>
+                            <th>{Lang::T('Upload')}</th>
+                            <th>{Lang::T('Download')}</th>
+                            <th>{Lang::T('Total')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                {/if}
                 {if Lang::arrayCount($activation)}
                     <thead>
                         <tr>

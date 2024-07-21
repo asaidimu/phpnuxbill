@@ -268,8 +268,6 @@ switch ($action) {
             $customer = ORM::for_table('tbl_customers')->find_one($id);
         }
         if ($customer) {
-
-
             // Fetch the Customers Attributes values from the tbl_customer_custom_fields table
             $customFields = ORM::for_table('tbl_customers_fields')
                 ->where('customer_id', $customer['id'])
@@ -279,7 +277,6 @@ switch ($action) {
                 $v = 'activation';
             }
             if ($v == 'order') {
-                $v = 'order';
                 $query = ORM::for_table('tbl_transactions')->where('username', $customer['username'])->order_by_desc('id');
                 $order = Paginator::findMany($query);
                 $ui->assign('order', $order);
@@ -287,6 +284,11 @@ switch ($action) {
                 $query = ORM::for_table('tbl_transactions')->where('username', $customer['username'])->order_by_desc('id');
                 $activation = Paginator::findMany($query);
                 $ui->assign('activation', $activation);
+            } else if ($v == "logs") {
+                /* $query = ORM::for_table('tbl_connection_logs')->where('username', $customer['username'])->order_by_desc('id');
+                $logs = Paginator::findMany($query); */
+                $logs = [1, 2, 3];
+                $ui->assign('logs', $logs);
             }
             $ui->assign('packages', User::_billing($customer['id']));
             $ui->assign('v', $v);

@@ -83,6 +83,26 @@ class UserRecharge
       return null;
     }
   }
+    /**
+     * Static method to fetch recharge by attributes
+     *
+     * @param array $attributes
+     *      - [key => value] Key value pairs of attributes
+     * @return array|null Associative array of connection log record data or null if not found.
+     */
+    public static function getByAttributes($attributes)
+    {
+        try {
+            $query = ORM::for_table('tbl_user_recharges');
+            foreach ($attributes as $key => $value) {
+                $query->where($key, $value);
+            }
+            $log = $query->find_one();
+            return $log ? $log->as_array() : null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 
   /**
    * Static method to fetch a user recharge record by attribute.
