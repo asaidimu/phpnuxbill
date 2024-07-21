@@ -382,5 +382,7 @@
     "IP": "IP",
     "MAC": "MAC",
     "Router": "Router",
-    "Plan": "Plan"
+    "Plan": "Plan",
+    "Phone": "Phone",
+    "Customer_Geo_Location_Information": "Customer Geo Location Information"
 }

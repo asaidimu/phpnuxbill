@@ -4,9 +4,9 @@ define('APP_URL', 'http://localhost:5500/');
 $_app_stage = 'Live';
 // Database PHPNuxBill
 $db_host      = 'localhost';
-$db_user        = 'nuxbill';
+$db_user        = 'pma';
 $db_password  = 'pmapass';
-$db_name      = 'pma';
+$db_name      = 'nuxbill';
 
 // Database Radius
 $radius_host      = 'localhost';

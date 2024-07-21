@@ -476,12 +476,6 @@
                         </li>
                     {/if}
                     {$_MENU_AFTER_LOGS}
-                    <li {if $_system_menu eq 'community' }class="active" {/if}>
-                        <a href="{$_url}community">
-                            <i class="ion ion-chatboxes"></i>
-                            <span class="text">{Lang::T('Community')}</span>
-                        </a>
-                    </li>
                     {$_MENU_AFTER_COMMUNITY}
                 </ul>
             </section>
