@@ -82,7 +82,7 @@ class NetworkAccessLog
     public static function rotate()
     {
         $date_one_year_ago = date('Y-m-d H:i:s', strtotime('-365 days'));
-        ORM::for_table(self:table_name)
+        ORM::for_table(self::$table)
             ->where_lt('end', $date_one_year_ago)
             ->delete_many();
     }

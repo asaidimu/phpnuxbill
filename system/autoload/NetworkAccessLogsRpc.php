@@ -63,7 +63,6 @@ class NetworkAccessLogsRpc
             "router" => $plan["routers"],
             "plan" => $original["name_plan"],
             "active" => true,
-            "start" => date("Y-m-d H:i:s"),
             "end" => null,
             "ip" => $params["ip"],
             "mac" => $params["mac"],
@@ -111,13 +110,18 @@ class NetworkAccessLogsRpc
      */
     private function updateLog($id, $data): void
     {
-        NetworkAccessLog::update($id, [
+
+        $log = NetworkAccessLog::find($id);
+        $update = [
             "upload" => $data["upload"],
             "download" => $data["download"],
             "total" => $data["total"],
             "uptime" => $data["uptime"],
-            "start" => $this->calculateSessionStart($data["uptime"])
-        ]);
+        ];
+        if(! $log["start"]) {
+            $update["start"] = $this->calculateSessionStart($data["uptime"]);
+        }
+        NetworkAccessLog::update($id, $update);
     }
 
     /**
