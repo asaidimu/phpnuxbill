@@ -158,7 +158,7 @@ class NetworkAccessLogsRpc
                 $this->updateLog($result->result, $found);
             }
         }
-
+        NetworkAccessLog::rotate();
         return new RpcResult(true, "Logs synced!");
     }
 

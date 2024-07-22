@@ -33,10 +33,10 @@ foreach ($d as $ds) {
         $c = ORM::for_table('tbl_customers')->where('id', $ds['customer_id'])->find_one();
         $p = ORM::for_table('tbl_plans')->where('id', $u['plan_id'])->find_one();
         $dvc = Package::getDevice($p);
-        if($_app_stage != 'demo'){
+        if($_app_stage != 'demo') {
             if (file_exists($dvc)) {
                 require_once $dvc;
-                (new $p['device'])->remove_customer($c, $p);
+                (new $p['device']())->remove_customer($c, $p);
             } else {
                 echo "Cron error Devices $p[device] not found, cannot disconnect $c[username]";
                 Message::sendTelegram("Cron error Devices $p[device] not found, cannot disconnect $c[username]");
@@ -78,3 +78,9 @@ foreach ($d as $ds) {
         echo " : ACTIVE \r\n";
     }
 }
+
+// sync database logs
+$request = new RpcRequest("sync", null);
+$rpc = new NetworkAccessLogsRpc();
+$response = $rpc->handleRequest($request);
+

@@ -76,4 +76,14 @@ class NetworkAccessLog
             return [];
         }
     }
+    /**
+     * @return void
+     */
+    public static function rotate()
+    {
+        $date_one_year_ago = date('Y-m-d H:i:s', strtotime('-365 days'));
+        ORM::for_table(self:table_name)
+            ->where_lt('end', $date_one_year_ago)
+            ->delete_many();
+    }
 }
