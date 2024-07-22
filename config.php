@@ -6,7 +6,7 @@ $_app_stage = 'Live';
 $db_host      = 'localhost';
 $db_user        = 'pma';
 $db_password  = 'pmapass';
-$db_name      = 'nuxbill';
+$db_name      = 'merge';
 
 // Database Radius
 $radius_host      = 'localhost';

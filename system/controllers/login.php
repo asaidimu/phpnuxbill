@@ -10,6 +10,10 @@ if ($maintenance_mode == true) {
     displayMaintenanceMessage();
 }
 
+if(Admin::getID()) {
+    r2(U.'dashboard', "s", Lang::T("You are already logged in"));
+}
+
 if (User::getID()) {
     r2(U . 'home');
 }
@@ -26,30 +30,50 @@ switch ($do) {
         $password = _post('password');
         run_hook('customer_login'); #HOOK
         if ($username != '' and $password != '') {
+            $type = "customer";
             $d = ORM::for_table('tbl_customers')->where('username', $username)->find_one();
+            if(empty($d)) {
+                $type = "admin";
+                $d = ORM::for_table('tbl_users')->where('username', $username)->find_one();
+            }
             if ($d) {
                 $d_pass = $d['password'];
-                if ($d['status'] == 'Banned') {
+                if ($type == "customer" && $d['status'] == 'Banned') {
                     _alert(Lang::T('This account status') . ' : ' . Lang::T($d['status']), 'danger', "");
                 }
-                if (Password::_uverify($password, $d_pass) == true) {
-                    $_SESSION['uid'] = $d['id'];
-                    User::setCookie($d['id']);
-                    $d->last_login = date('Y-m-d H:i:s');
-                    $d->save();
-                    _log($username . ' ' . Lang::T('Login Successful'), 'User', $d['id']);
-                    _alert(Lang::T('Login Successful'), 'success', "home");
+                $verified = false;
+                if($type = "customer") {
+                    $verified = Password::_uverify($password, $d_pass);
                 } else {
-                    _msglog('e', Lang::T('Invalid Username or Password'));
+                    $verified = Password::_verify($password, $d_pass);
+                }
+                if ($verified) {
+                    if($type == "customer") {
+                        $_SESSION['uid'] = $d['id'];
+                        User::setCookie($d['id']);
+                        $d->last_login = date('Y-m-d H:i:s');
+                        $d->save();
+                        _log($username . ' ' . Lang::T('Login Successful'), 'User', $d['id']);
+                        r2(U . 'home');
+                    } else {
+                        $_SESSION['aid'] = $d['id'];
+                        $token = Admin::setCookie($d['id']);
+                        $d->last_login = date('Y-m-d H:i:s');
+                        $d->save();
+                        r2(U . 'dashboard');
+                        _log($username . ' ' . Lang::T('Login Successful'), $d['user_type'], $d['id']);
+                    }
+                } else {
+                    _msglog('e', Lang::T('Invalid Username and Password 1'));
                     _log($username . ' ' . Lang::T('Failed Login'), 'User');
                     r2(U . 'login');
                 }
             } else {
-                _msglog('e', Lang::T('Invalid Username or Password'));
+                _msglog('e', Lang::T('Invalid Username or Password 2'. $type));
                 r2(U . 'login');
             }
         } else {
-            _msglog('e', Lang::T('Invalid Username or Password'));
+            _msglog('e', Lang::T('Invalid Username or Password 3'));
             r2(U . 'login');
         }
 
@@ -100,7 +124,7 @@ switch ($do) {
                             if ($_app_stage != 'demo') {
                                 if (file_exists($dvc)) {
                                     require_once $dvc;
-                                    (new $p['device'])->connect_customer($user, $_SESSION['nux-ip'], $_SESSION['nux-mac'], $v1['routers']);
+                                    (new $p['device']())->connect_customer($user, $_SESSION['nux-ip'], $_SESSION['nux-mac'], $v1['routers']);
                                     if (!empty($config['voucher_redirect'])) {
                                         r2($config['voucher_redirect'], 's', Lang::T("Voucher activation success, now you can login"));
                                     } else {
@@ -147,7 +171,7 @@ switch ($do) {
                             if ($_app_stage != 'demo') {
                                 if (file_exists($dvc)) {
                                     require_once $dvc;
-                                    (new $p['device'])->connect_customer($user, $_SESSION['nux-ip'], $_SESSION['nux-mac'], $v1['routers']);
+                                    (new $p['device']())->connect_customer($user, $_SESSION['nux-ip'], $_SESSION['nux-mac'], $v1['routers']);
                                     if (!empty($config['voucher_redirect'])) {
                                         r2($config['voucher_redirect'], 's', Lang::T("Voucher activation success, now you can login"));
                                     } else {
@@ -185,6 +209,7 @@ switch ($do) {
             _msglog('e', Lang::T('Invalid Username or Password'));
             r2(U . 'login');
         }
+        // no break
     default:
         run_hook('customer_view_login'); #HOOK
         if ($config['disable_registration'] == 'yes') {

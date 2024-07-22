@@ -384,5 +384,8 @@
     "Router": "Router",
     "Plan": "Plan",
     "Phone": "Phone",
-    "Customer_Geo_Location_Information": "Customer Geo Location Information"
+    "Customer_Geo_Location_Information": "Customer Geo Location Information",
+    "Admin": "Admin",
+    "PPPoE": "PPPoE",
+    "Downtime": "Downtime"
 }

@@ -19,6 +19,37 @@ class Conversions {
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
 
+    public static function calculateUptimeString($startTime, $endTime)
+    {
+        // Calculate the difference in seconds
+        $diffSeconds = strtotime($endTime) - strtotime($startTime);
+
+        // Calculate the components of the time difference
+        $days = floor($diffSeconds / 86400);
+        $diffSeconds %= 86400;
+        $hours = floor($diffSeconds / 3600);
+        $diffSeconds %= 3600;
+        $minutes = floor($diffSeconds / 60);
+        $seconds = $diffSeconds % 60;
+
+        // Build the uptime string
+        $uptime = "";
+        if ($days > 0) {
+            $uptime .= $days . "d";
+        }
+        if ($hours > 0) {
+            $uptime .= $hours . "h";
+        }
+        if ($minutes > 0) {
+            $uptime .= $minutes . "m";
+        }
+        if ($seconds > 0) {
+            $uptime .= $seconds . "s";
+        }
+
+        return $uptime;
+    }
+
     /**
      * Convert bits to bytes.
      *

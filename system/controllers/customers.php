@@ -218,7 +218,7 @@ switch ($action) {
                 if ($_app_stage != 'demo') {
                     if (file_exists($dvc)) {
                         require_once $dvc;
-                        (new $p['device'])->remove_customer($c, $p);
+                        (new $p['device']())->remove_customer($c, $p);
                     } else {
                         new Exception(Lang::T("Devices Not Found"));
                     }
@@ -248,7 +248,7 @@ switch ($action) {
                     if ($_app_stage != 'demo') {
                         if (file_exists($dvc)) {
                             require_once $dvc;
-                            (new $p['device'])->add_customer($c, $p);
+                            (new $p['device']())->add_customer($c, $p);
                         } else {
                             new Exception(Lang::T("Devices Not Found"));
                         }
@@ -261,6 +261,7 @@ switch ($action) {
         break;
     case 'viewu':
         $customer = ORM::for_table('tbl_customers')->where('username', $routes['2'])->find_one();
+        // no break
     case 'view':
         $id = $routes['2'];
         run_hook('view_customer'); #HOOK
@@ -280,14 +281,13 @@ switch ($action) {
                 $query = ORM::for_table('tbl_transactions')->where('username', $customer['username'])->order_by_desc('id');
                 $order = Paginator::findMany($query);
                 $ui->assign('order', $order);
-            } else if ($v == 'activation') {
+            } elseif ($v == 'activation') {
                 $query = ORM::for_table('tbl_transactions')->where('username', $customer['username'])->order_by_desc('id');
                 $activation = Paginator::findMany($query);
                 $ui->assign('activation', $activation);
-            } else if ($v == "logs") {
-                /* $query = ORM::for_table('tbl_connection_logs')->where('username', $customer['username'])->order_by_desc('id');
-                $logs = Paginator::findMany($query); */
-                $logs = [1, 2, 3];
+            } elseif ($v == "logs") {
+                $query = ORM::for_table('tbl_session_logs')->where('customer', $customer['id'])->order_by_desc('id');
+                $logs = Paginator::findMany($query);
                 $ui->assign('logs', $logs);
             }
             $ui->assign('packages', User::_billing($customer['id']));
@@ -342,7 +342,7 @@ switch ($action) {
                         if (file_exists($dvc)) {
                             require_once $dvc;
                             $p['plan_expired'] = 0;
-                            (new $p['device'])->remove_customer($c, $p);
+                            (new $p['device']())->remove_customer($c, $p);
                         } else {
                             new Exception(Lang::T("Devices Not Found"));
                         }
@@ -582,11 +582,11 @@ switch ($action) {
                                     $c['username'] = $oldusername;
                                     $exp = $p['plan_expired'];
                                     $p['plan_expired'] = 0;
-                                    (new $p['device'])->remove_customer($c, $p);
+                                    (new $p['device']())->remove_customer($c, $p);
                                     $c['username'] = $username;
                                     $p['plan_expired'] = $exp;
                                 }
-                                (new $p['device'])->add_customer($c, $p);
+                                (new $p['device']())->add_customer($c, $p);
                             } else {
                                 new Exception(Lang::T("Devices Not Found"));
                             }

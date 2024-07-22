@@ -13,8 +13,27 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
+badd +70 ~/projects/NuX/phpnuxbill/system/autoload/NetworkAccessLogsRpc.php
 argglobal
 %argdel
+edit ~/projects/NuX/phpnuxbill/system/autoload/NetworkAccessLogsRpc.php
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 71 - ((30 * winheight(0) + 18) / 37)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 71
+normal! 056|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

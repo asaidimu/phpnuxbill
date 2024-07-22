@@ -175,26 +175,48 @@
                     href="{$_url}customers/view/{$d['id']}/logs">{Lang::T('Connection Logs')}</a></li>
         </ul>
         <div class="table-responsive" style="background-color: white;">
-            <table id="datatable" class="table table-bordered table-striped">
+            <table id="datatable" class="table table-bordered table-striped"
+            style="white-space: nowrap;">
                 {if Lang::arrayCount($logs)}
                     <thead>
                         <tr>
                             <th>{Lang::T('Service')}</th>
-                            <th>{Lang::T('Plan')}</th>
-                            <th>{Lang::T('Router')}</th>
                             <th>{Lang::T('Status')}</th>
                             <th>{Lang::T('Start')}</th>
                             <th>{Lang::T('End')}</th>
                             <th>{Lang::T('Uptime')}</th>
-                            <th>{Lang::T('IP')}</th>
-                            <th>{Lang::T('MAC')}</th>
-                            <th>{Lang::T('Bandwidth')}</th>
                             <th>{Lang::T('Upload')}</th>
                             <th>{Lang::T('Download')}</th>
                             <th>{Lang::T('Total')}</th>
+                            <th>{Lang::T('IP')}</th>
+                            <th>{Lang::T('MAC')}</th>
+                            <th>{Lang::T('Plan')}</th>
+                            <th>{Lang::T('Router')}</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {foreach $logs as $log}
+                        <tr>
+                            <td>{$log["service"]}</td>
+                            <td>
+                                {if $log["active"]}
+                                    <small class="label bg-green">online</small>
+                                {else}
+                                    <small class="label bg-red">offline</small>
+                                {/if}
+                            </td>
+                            <td>{$log["start"]}</td>
+                            <td>{$log["end"]}</td>
+                            <td>{$log["uptime"]}</td>
+                            <td>{$log["upload"]}</td>
+                            <td>{$log["download"]}</td>
+                            <td>{$log["total"]}</td>
+                            <td>{$log["ip"]}</td>
+                            <td>{$log["mac"]}</td>
+                            <td>{$log["plan"]}</td>
+                            <td>{$log["router"]}</td>
+                        </tr>
+                        {/foreach}
                     </tbody>
                 {/if}
                 {if Lang::arrayCount($activation)}

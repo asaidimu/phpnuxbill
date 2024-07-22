@@ -46,7 +46,10 @@ class Customer
   {
     $orm = ORM::for_table('tbl_customers');
     $customer = $orm->find_one($id);
-    return $customer->as_array();
+    if ($customer) {
+      return $customer->as_array();
+    }
+    return false;
   }
 
   public static function getByAttribute($attribute, $value)
