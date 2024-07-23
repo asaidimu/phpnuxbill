@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-21 14:57:43
+/* Smarty version 4.5.3, created on 2024-07-23 13:46:27
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/sections/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669cf7b709dd85_66580020',
+  'unifunc' => 'content_669f8a0319c490_39629816',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '80d1303a260acf148ce36eb23a355afac2b989af' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/sections/header.tpl',
-      1 => 1721563059,
+      1 => 1721731550,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_669cf7b709dd85_66580020 (Smarty_Internal_Template $_smarty_tpl) {
+function content_669f8a0319c490_39629816 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 
@@ -417,6 +417,14 @@ reports/by-period"><?php echo Lang::T('Period Reports');?>
                                     href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
 reports/activation"><?php echo Lang::T('Activation History');?>
 </a></li>
+                            <li <?php if ($_smarty_tpl->tpl_vars['_routes']->value[1] == 'transactions') {?>class="active" <?php }?>><a
+                                    href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
+reports/transactions"><?php echo Lang::T('Transaction History');?>
+</a></li>
+                            <li <?php if ($_smarty_tpl->tpl_vars['_routes']->value[1] == 'pending') {?>class="active" <?php }?>><a
+                                    href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
+reports/pending"><?php echo Lang::T('Pending Transactions');?>
+</a></li>
                             <?php echo $_smarty_tpl->tpl_vars['_MENU_REPORTS']->value;?>
 
                         </ul>
@@ -584,12 +592,14 @@ paymentgateway">
                                 </li>
                                 <?php echo $_smarty_tpl->tpl_vars['_MENU_SETTINGS']->value;?>
 
+                            <?php if (in_array($_smarty_tpl->tpl_vars['_admin']->value['user_type'],array('SuperAdmin'))) {?>
                                 <li <?php if ($_smarty_tpl->tpl_vars['_routes']->value[0] == 'pluginmanager') {?>class="active" <?php }?>>
                                     <a href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
 pluginmanager"><i class="glyphicon glyphicon-tasks"></i>
                                         <?php echo Lang::T('Plugin Manager');?>
  <small class="label pull-right">Free</small></a>
                                 </li>
+                            <?php }?>
                             <?php }?>
                         </ul>
                     </li>

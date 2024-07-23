@@ -289,6 +289,14 @@ switch ($action) {
                 $query = ORM::for_table('tbl_session_logs')->where('customer', $customer['id'])->order_by_desc('id');
                 $logs = Paginator::findMany($query);
                 $ui->assign('logs', $logs);
+            } elseif ($v == "logs") {
+                $query = ORM::for_table('tbl_session_logs')->where('customer', $customer['id'])->order_by_desc('id');
+                $logs = Paginator::findMany($query);
+                $ui->assign('logs', $logs);
+            } elseif ($v == "transactions") {
+                $query = ORM::for_table('tbl_payment_gateway')->where('username', $customer['username'])->order_by_desc('id');
+                $logs = Paginator::findMany($query);
+                $ui->assign('transactions', $logs);
             }
             $ui->assign('packages', User::_billing($customer['id']));
             $ui->assign('v', $v);

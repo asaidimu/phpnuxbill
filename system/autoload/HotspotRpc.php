@@ -47,8 +47,6 @@ class HotspotRpc
                 return $this->getCustomer($request->params);
             case 'connectCustomer':
                 return $this->connectCustomer($request->params);
-            case 'checkStatus':
-                return $this->checkStatus($request->params);
             case 'activatePlan':
                 return $this->activatePlan($request->params);
             default:
@@ -71,33 +69,6 @@ class HotspotRpc
         ];
 
         return new RpcResult(true, $message, $result);
-    }
-
-    /**
-     * get customer status
-     * @param array $params An associative array containing parameters:
-     *   - 'username' (string): Customer's username.
-     * @return RpcResult
-     */
-    private function checkStatus($params)
-    {
-        // check database for data
-        $customer = Customer::getByAttribute("username", $params["username"]);
-        $active_plan = UserRecharge::getByCustomer($customer["id"]);
-        $status = array();
-        $plan = array();
-
-        if (! empty($active_plan)) {
-            return RpcResult(false, "User not connected");
-        }
-
-        $original  = HotspotPlan::getById($plan["plan_id"]);
-        $status["plan"] = $original;
-        $status["recharge"] = $active_plan;
-        $plan["name"] = $original["plan_name"];
-        $plan["expiry"] = $active_plan["expiration"] . " " . $active_plan["time"];
-
-        return new RpcResult($true, "User status", [$status, $plan]);
     }
 
     /**
@@ -233,9 +204,8 @@ class HotspotRpc
             $result = json_decode($response);
 
             if ($result->errorCode || $result->ResponseCode != 0) {
-                return new RpcResult(false, "Could not request payment!");
+                return new RpcResult(false, "Could not request payment!", $result);
             }
-
             $payment = ORM::for_table("tbl_payment_gateway")->create();
             $payment->username = $customer["username"];
             $payment->gateway = 'MPESA';
@@ -250,7 +220,6 @@ class HotspotRpc
             $payment->pg_paid_response = NULL;
             $payment->created_date = date('Y-m-d H:i:s');
             $payment->paid_date = NULL;
-            $payment->trx_invoice = '';
             $payment->status = 1;
             $payment->gateway_trx_id = $result->CheckoutRequestID;
             $payment->pg_url_payment = $time;
@@ -279,13 +248,13 @@ class HotspotRpc
             ->find_one();
 
         if (!$payment) {
-            return;
+            return new RpcResult(false, "Usuccsessful payment!");
         }
 
-        if ($data->ResultCode != 0) {
+        if ($data["ResultCode"] != 0) {
             $payment->status = 3;
             $payment->save();
-            return;
+            return new RpcResult(false, "Usuccsessful payment!");
         }
 
         $meta = $data["CallbackMetadata"];
@@ -293,6 +262,7 @@ class HotspotRpc
         $customer = Customer::getByAttribute("phonenumber", $payment["username"]);
         $payment->payment_method = "MPESA-" . $receipt;
         $payment->pg_paid_response = json_encode($data);
+        $payment->pg_request = $meta["Item"][4]["Value"];
         $payment->paid_date = date('Y-m-d H:i:s');
         $payment->status = 2;
         $payment->save();
@@ -314,7 +284,7 @@ class HotspotRpc
             $router->add_customer($customer, $next_plan);
             $router->connect_customer($customer, $customer["ip_address"], $customer["mac_address"], $next_plan["routers"]);
         } catch (\Exception $e) {
-            return new RpcResult(false, "Could not purchase plan!", [$customer, $routerName]);
+            return new RpcResult(false, "Could not purchase plan!", [$customer, $next_plan["routers"]]);
         }
 
         UserRecharge::setStatus($current_plan["id"], "off");

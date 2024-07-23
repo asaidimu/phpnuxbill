@@ -74,13 +74,23 @@
                     </div>
 
                     <div class="form-group col-6">
-                        <label class="col-md-2 control-label">Url Notification</label>
+                        <label class="col-md-2 control-label">Confirmation Url Notification</label>
                         <div class="col-md-6">
-                            <input type="hidden" name="MPESA_CALLBACK_URL" value="{APP_URL}/system/api.php?r=mcallback">
+                            <input type="hidden" name="MPESA_CALLBACK_URL" value="{APP_URL}/system/api.php?r=ocallback">
                             <input type="text"
                             class="form-control" onclick="this.select()"
-                            disabled value="{APP_URL}/system/api.php?r=mcallback">
-                            <p class="help-block">CallBack URL</p>
+                            disabled value="{APP_URL}/system/api.php?r=ocallback">
+                            <p class="help-block">Confirmation callback url</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-md-2 control-label">Validation Url Notification</label>
+                        <div class="col-md-6">
+                            <input type="hidden" name="MPESA_VALIDATION_URL" value="{APP_URL}/system/api.php?r=ccallback">
+                            <input type="text"
+                            class="form-control" onclick="this.select()"
+                            disabled value="{APP_URL}/system/api.php?r=ccallback">
+                            <p class="help-block">Validation callBack url</p>
                         </div>
                     </div>
                     <div class="form-group col-6">

@@ -334,6 +334,10 @@
                                     href="{$_url}reports/by-period">{Lang::T('Period Reports')}</a></li>
                             <li {if $_routes[1] eq 'activation' }class="active" {/if}><a
                                     href="{$_url}reports/activation">{Lang::T('Activation History')}</a></li>
+                            <li {if $_routes[1] eq 'transactions' }class="active" {/if}><a
+                                    href="{$_url}reports/transactions">{Lang::T('Transaction History')}</a></li>
+                            <li {if $_routes[1] eq 'pending' }class="active" {/if}><a
+                                    href="{$_url}reports/pending">{Lang::T('Pending Transactions')}</a></li>
                             {$_MENU_REPORTS}
                         </ul>
                     </li>
@@ -447,10 +451,12 @@
                                     </a>
                                 </li>
                                 {$_MENU_SETTINGS}
+                            {if in_array($_admin['user_type'],['SuperAdmin'])}
                                 <li {if $_routes[0] eq 'pluginmanager' }class="active" {/if}>
                                     <a href="{$_url}pluginmanager"><i class="glyphicon glyphicon-tasks"></i>
                                         {Lang::T('Plugin Manager')} <small class="label pull-right">Free</small></a>
                                 </li>
+                            {/if}
                             {/if}
                         </ul>
                     </li>

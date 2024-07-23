@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-22 14:36:41
+/* Smarty version 4.5.3, created on 2024-07-23 13:54:27
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers-view.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669e444911a3a3_78956188',
+  'unifunc' => 'content_669f8be30ef510_48680795',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0bfe7bcf20c84c3de71ea4bf4a597cf4fef7490f' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers-view.tpl',
-      1 => 1721648172,
+      1 => 1721731751,
       2 => 'file',
     ),
   ),
@@ -23,7 +23,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:sections/footer.tpl' => 1,
   ),
 ),false)) {
-function content_669e444911a3a3_78956188 (Smarty_Internal_Template $_smarty_tpl) {
+function content_669f8be30ef510_48680795 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
@@ -136,7 +136,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 </span>
                     </li>
                     <li class="list-group-item">
-                        <b><?php echo Lang::T('Balance');?>
+                        <b><?php echo Lang::T('Wallet');?>
 </b> <span class="pull-right"><?php echo Lang::moneyFormat($_smarty_tpl->tpl_vars['d']->value['balance']);?>
 </span>
                     </li>
@@ -294,10 +294,58 @@ customers/view/<?php echo $_smarty_tpl->tpl_vars['d']->value['id'];?>
 customers/view/<?php echo $_smarty_tpl->tpl_vars['d']->value['id'];?>
 /logs"><?php echo Lang::T('Connection Logs');?>
 </a></li>
+            <li role="presentation" <?php if ($_smarty_tpl->tpl_vars['v']->value == 'transactions') {?>class="active" <?php }?>><a
+                    href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
+customers/view/<?php echo $_smarty_tpl->tpl_vars['d']->value['id'];?>
+/transactions"><?php echo Lang::T('Transaction Logs');?>
+</a></li>
         </ul>
         <div class="table-responsive" style="background-color: white;">
             <table id="datatable" class="table table-bordered table-striped"
             style="white-space: nowrap;">
+                <?php if (Lang::arrayCount($_smarty_tpl->tpl_vars['transactions']->value)) {?>
+                    <thead>
+                        <tr>
+                            <th><?php echo Lang::T('Payment Gateway');?>
+</th>
+                            <th><?php echo Lang::T('Payment Method');?>
+</th>
+                            <th><?php echo Lang::T('Transaction Code');?>
+</th>
+                            <th><?php echo Lang::T('Amount');?>
+</th>
+                            <th><?php echo Lang::T('Phone Number');?>
+</th>
+                            <th><?php echo Lang::T('Date');?>
+</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['transactions']->value, 'transaction');
+$_smarty_tpl->tpl_vars['transaction']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['transaction']->value) {
+$_smarty_tpl->tpl_vars['transaction']->do_else = false;
+?>
+                        <tr>
+                            <td><?php echo $_smarty_tpl->tpl_vars['transaction']->value["gateway"];?>
+</td>
+                            <td><?php echo $_smarty_tpl->tpl_vars['transaction']->value["payment_method"];?>
+</td>
+                            <td><?php echo $_smarty_tpl->tpl_vars['transaction']->value["gateway_trx_id"];?>
+</td>
+                            <td><?php echo Lang::moneyFormat($_smarty_tpl->tpl_vars['transaction']->value["price"]);?>
+</td>
+                            <td><?php echo $_smarty_tpl->tpl_vars['transaction']->value["pg_request"];?>
+</td>
+                            <td><?php echo $_smarty_tpl->tpl_vars['transaction']->value["paid_date"];?>
+</td>
+                        </tr>
+                        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                    </tbody>
+                <?php }?>
                 <?php if (Lang::arrayCount($_smarty_tpl->tpl_vars['logs']->value)) {?>
                     <thead>
                         <tr>

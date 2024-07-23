@@ -22,6 +22,36 @@ $month_n = date('n');
 
 switch ($action) {
     case 'by-date':
+    case 'pending':
+        $q = (_post('q') ? _post('q') : _get('q'));
+        if ($q != '') {
+            $query = ORM::for_table('tbl_payment_gateway')
+                ->where_like("username", "PENDING-%")
+                ->where_like('gateway_trx_id', '%' . $q . '%')->order_by_desc('id');
+            $d = Paginator::findMany($query);
+        } else {
+            $query = ORM::for_table('tbl_payment_gateway')
+                ->where_like("username", "PENDING-%")
+                ->order_by_desc('id');
+            $d = Paginator::findMany($query);
+        }
+        $ui->assign('transactions', $d);
+        $ui->assign('q', $q);
+        $ui->display('report-transactions.tpl');
+        break;
+    case 'transactions':
+        $q = (_post('q') ? _post('q') : _get('q'));
+        if ($q != '') {
+            $query = ORM::for_table('tbl_payment_gateway')->where_like('gateway_trx_id', '%' . $q . '%')->order_by_desc('id');
+            $d = Paginator::findMany($query);
+        } else {
+            $query = ORM::for_table('tbl_payment_gateway')->order_by_desc('id');
+            $d = Paginator::findMany($query);
+        }
+        $ui->assign('transactions', $d);
+        $ui->assign('q', $q);
+        $ui->display('report-transactions.tpl');
+        break;
     case 'activation':
         $q = (_post('q') ? _post('q') : _get('q'));
         $keep = _post('keep');

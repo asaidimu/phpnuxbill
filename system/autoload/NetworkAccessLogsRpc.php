@@ -29,14 +29,8 @@ class NetworkAccessLogsRpc
             "time" => date("Y-m-d H:i:s"),
             "zone" => date_default_timezone_get()
         ];
-        $routers = Router::getAllEnabled();
-        $connected = [];
 
-        foreach ($routers as $router) {
-            $connected = array_merge($connected, $this->fetchActivePPPUsers($router));
-        }
-
-        return new RpcResult(true, $message, $connected);
+        return new RpcResult(true, $message, $this->calculateSessionStart($params["uptime"]));
     }
 
     /**
@@ -57,10 +51,9 @@ class NetworkAccessLogsRpc
 
         $plan = UserRecharge::getByCustomer($customer["id"]);
         $original = HotspotPlan::getById($plan["plan_id"]);
-
         $log = NetworkAccessLog::create([
             "service" => $params["service"],
-            "router" => $plan["routers"],
+            "router" => $original["routers"],
             "plan" => $original["name_plan"],
             "active" => true,
             "end" => null,
@@ -117,10 +110,8 @@ class NetworkAccessLogsRpc
             "download" => $data["download"],
             "total" => $data["total"],
             "uptime" => $data["uptime"],
+            "start" => $this->calculateSessionStart($data["uptime"])
         ];
-        if(! $log["start"]) {
-            $update["start"] = $this->calculateSessionStart($data["uptime"]);
-        }
         NetworkAccessLog::update($id, $update);
     }
 
@@ -256,6 +247,4 @@ class NetworkAccessLogsRpc
         // Return the start time in a readable format
         return date('Y-m-d H:i:s', $startTimestamp);
     }
-
-
 }

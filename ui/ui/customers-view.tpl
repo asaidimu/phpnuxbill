@@ -71,7 +71,7 @@
                         <b>{Lang::T('Account Type')}</b> <span class="pull-right">{Lang::T($d['account_type'])}</span>
                     </li>
                     <li class="list-group-item">
-                        <b>{Lang::T('Balance')}</b> <span class="pull-right">{Lang::moneyFormat($d['balance'])}</span>
+                        <b>{Lang::T('Wallet')}</b> <span class="pull-right">{Lang::moneyFormat($d['balance'])}</span>
                     </li>
                     <li class="list-group-item">
                         <b>{Lang::T('Auto Renewal')}</b> <span class="pull-right">{if
@@ -173,10 +173,36 @@
                     href="{$_url}customers/view/{$d['id']}/activation">30 {Lang::T('Activation History')}</a></li>
             <li role="presentation" {if $v=='logs' }class="active" {/if}><a
                     href="{$_url}customers/view/{$d['id']}/logs">{Lang::T('Connection Logs')}</a></li>
+            <li role="presentation" {if $v=='transactions' }class="active" {/if}><a
+                    href="{$_url}customers/view/{$d['id']}/transactions">{Lang::T('Transaction Logs')}</a></li>
         </ul>
         <div class="table-responsive" style="background-color: white;">
             <table id="datatable" class="table table-bordered table-striped"
             style="white-space: nowrap;">
+                {if Lang::arrayCount($transactions)}
+                    <thead>
+                        <tr>
+                            <th>{Lang::T('Payment Gateway')}</th>
+                            <th>{Lang::T('Payment Method')}</th>
+                            <th>{Lang::T('Transaction Code')}</th>
+                            <th>{Lang::T('Amount')}</th>
+                            <th>{Lang::T('Phone Number')}</th>
+                            <th>{Lang::T('Date')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $transactions as $transaction}
+                        <tr>
+                            <td>{$transaction["gateway"]}</td>
+                            <td>{$transaction["payment_method"]}</td>
+                            <td>{$transaction["gateway_trx_id"]}</td>
+                            <td>{Lang::moneyFormat($transaction["price"])}</td>
+                            <td>{$transaction["pg_request"]}</td>
+                            <td>{$transaction["paid_date"]}</td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                {/if}
                 {if Lang::arrayCount($logs)}
                     <thead>
                         <tr>
