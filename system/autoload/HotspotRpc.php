@@ -1,4 +1,5 @@
 <?php
+
 function nullify($data, $props)
 {
     foreach ($props as $prop) {
@@ -179,11 +180,11 @@ class HotspotRpc
     {
         // stk push
         try {
-            $customer = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
+            $customer = Customer::getByAttribute("username", $params["phoneNumber"]);
 
             if (! $customer) {
                 $this->registerCustomer($params);
-                $customer = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
+                $customer = Customer::getByAttribute("username", $params["phoneNumber"]);
             }
 
             Customer::update($customer["id"], [
@@ -200,7 +201,8 @@ class HotspotRpc
             $router = Router::getByName($plan["routers"]);
 
             $push = new StkPush();
-            list($response, $time) = $push->initiate($customer["phonenumber"], intval($plan["price"]), $plan["name_plan"], "Hotspot");
+            $trx_id = $this->generateHash($customer["phonenumber"]);
+            list($response, $time) = $push->initiate($customer["phonenumber"], intval($plan["price"]), $trx_id, "Hotspot");
             $result = json_decode($response);
 
             if ($result->errorCode || $result->ResponseCode != 0) {
@@ -216,12 +218,12 @@ class HotspotRpc
             $payment->price = $plan["price"];
             $payment->payment_method = 'MPESA';
             $payment->payment_channel = 'M-Pesa StkPush';
-            $payment->pg_request = NULL;
-            $payment->pg_paid_response = NULL;
+            $payment->pg_request = null;
+            $payment->pg_paid_response = null;
             $payment->created_date = date('Y-m-d H:i:s');
-            $payment->paid_date = NULL;
+            $payment->paid_date = null;
             $payment->status = 1;
-            $payment->gateway_trx_id = $result->CheckoutRequestID;
+            $payment->gateway_trx_id = $trx_id;
             $payment->pg_url_payment = $time;
             $payment->pg_request = $customer["id"];
             $payment->expired_date = date('Y-m-d H:i:s', strtotime("+5 minutes"));
@@ -231,6 +233,24 @@ class HotspotRpc
         } catch (\Exception $e) {
             return new RpcResult(false, "Could not request payment!", $e);
         }
+    }
+    /**
+     * Generate a hash from a phone number and the current time.
+     *
+     * @param string $phoneNumber The Kenyan phone number in the format 254XXXXXXXXX.
+     * @return string The first 6 digits of the hash or an error message if the format is invalid.
+     */
+    private function generateHash(string $phoneNumber): string
+    {
+        if (!preg_match('/^254\d{9}$/', $phoneNumber)) {
+            return "Invalid phone number format.";
+        }
+
+        $currentTime = date('YmdHis');
+        $combinedString = $phoneNumber . $currentTime;
+        $hashedString = hash('sha256', $combinedString);
+
+        return strtoupper(substr($hashedString, 0, 6));
     }
 
     /**

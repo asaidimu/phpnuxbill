@@ -30,7 +30,10 @@ class AutoRecharge
 
         return new RpcResult(true, $message, $result);
     }
-
+    /**
+     * @param mixed $customer
+     * @param mixed $data
+     */
     private function recordPayment($customer, $data)
     {
         $payment = ORM::for_table("tbl_payment_gateway")->create();
@@ -55,6 +58,23 @@ class AutoRecharge
 
         return $payment;
     }
+    /**
+     * @return void
+     * @param mixed $payment
+     * @param mixed $customer
+     * @param mixed $data
+     */
+    private function connectCustomer($payment, $customer, $data): void
+    {
+        $payment->price = $data["TransAmount"];
+        $payment->pg_paid_response = json_encode($data);
+        $payment->paid_date = date('Y-m-d H:i:s');
+        $payment->status = 2;
+        $payment->gateway_trx_id = $data["TransID"];
+        $payment->pg_request = $data["MSISDN"];
+        $payment->save();
+
+    }
 
     /**
      * Record a deposit.
@@ -63,17 +83,30 @@ class AutoRecharge
      * @return RpcResult
      * @param mixed $data
      */
-    private function activatePlan($data)
+    private function activatePlan($data): RpcResult
     {
-        $username = $data["BillRefNumber"];
-        $customer = Customer::getByAttribute("username", $username);
+        $refnumber = $data["BillRefNumber"];
+
+        $trx = ORM::for_table("tbl_payment_gateway")
+            ->where("gateway_trx_id", $refnumber)
+            ->where("status",1)
+            ->find_one();
+
+        if($trx) {
+            $customer = Customer::getByAttribute("username", $trx["username"]);
+            $this->connectCustomer($trx, $customer, $data);
+            return new RpcResult(true, "User recharged!");
+        }
+
+        $customer = Customer::getByAttribute("username", $refnumber);
+
         if(! $customer) {
-            $this->recordPayment("PENDING-".$username, $data);
+            $this->recordPayment("PENDING-".$refnumber, $data);
             return new RpcResult(false, "Customer not found!");
         }
 
         $plan = UserRecharge::getLastRecharge($customer["id"]);
-        $payment = $this->recordPayment($username, $data);
+        $payment = $this->recordPayment($refnumber, $data);
 
         if(! $plan || $plan["status"] == "on") {
             // we record into balance
