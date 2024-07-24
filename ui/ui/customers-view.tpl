@@ -22,6 +22,10 @@
                     <li class="list-group-item">
                         <b>{Lang::T('Email')}</b> <span class="pull-right">{$d['email']}</span>
                     </li>
+                    <li class="list-group-item">
+                        <b>{Lang::T('IP Address')}</b> <span
+                        class="pull-right">{$d['ip_address']}</span>
+                    </li>
                     <li class="list-group-item">{Lang::nl2br($d['address'])}</li>
                     <li class="list-group-item">
                         <b>{Lang::T('City')}</b> <span class="pull-right">{Lang::T($d['city'])}</span>

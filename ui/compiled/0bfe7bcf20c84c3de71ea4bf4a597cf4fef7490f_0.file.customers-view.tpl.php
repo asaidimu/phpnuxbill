@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-23 13:54:27
+/* Smarty version 4.5.3, created on 2024-07-24 10:01:39
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers-view.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669f8be30ef510_48680795',
+  'unifunc' => 'content_66a0a6d3c15728_96036561',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0bfe7bcf20c84c3de71ea4bf4a597cf4fef7490f' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers-view.tpl',
-      1 => 1721731751,
+      1 => 1721804227,
       2 => 'file',
     ),
   ),
@@ -23,7 +23,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:sections/footer.tpl' => 1,
   ),
 ),false)) {
-function content_669f8be30ef510_48680795 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a0a6d3c15728_96036561 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
@@ -58,6 +58,12 @@ $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache
                     <li class="list-group-item">
                         <b><?php echo Lang::T('Email');?>
 </b> <span class="pull-right"><?php echo $_smarty_tpl->tpl_vars['d']->value['email'];?>
+</span>
+                    </li>
+                    <li class="list-group-item">
+                        <b><?php echo Lang::T('IP Address');?>
+</b> <span
+                        class="pull-right"><?php echo $_smarty_tpl->tpl_vars['d']->value['ip_address'];?>
 </span>
                     </li>
                     <li class="list-group-item"><?php echo Lang::nl2br($_smarty_tpl->tpl_vars['d']->value['address']);?>
@@ -314,8 +320,6 @@ customers/view/<?php echo $_smarty_tpl->tpl_vars['d']->value['id'];?>
 </th>
                             <th><?php echo Lang::T('Amount');?>
 </th>
-                            <th><?php echo Lang::T('Phone Number');?>
-</th>
                             <th><?php echo Lang::T('Date');?>
 </th>
                         </tr>
@@ -335,8 +339,6 @@ $_smarty_tpl->tpl_vars['transaction']->do_else = false;
                             <td><?php echo $_smarty_tpl->tpl_vars['transaction']->value["gateway_trx_id"];?>
 </td>
                             <td><?php echo Lang::moneyFormat($_smarty_tpl->tpl_vars['transaction']->value["price"]);?>
-</td>
-                            <td><?php echo $_smarty_tpl->tpl_vars['transaction']->value["pg_request"];?>
 </td>
                             <td><?php echo $_smarty_tpl->tpl_vars['transaction']->value["paid_date"];?>
 </td>

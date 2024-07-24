@@ -69,6 +69,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-3 control-label">{Lang::T('IP Address')}</label>
+                        <div class="col-md-9">
+                            <input type="text" name="ip_address" id="ip_address"
+                            class="form-control"></input>
+                            <span class="help-block">
+                                {Lang::T('Enter this if you intend to use static ip.')}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-3 control-label">{Lang::T('Address')}</label>
                         <div class="col-md-9">
                             <textarea name="address" id="address" class="form-control"></textarea>
@@ -81,6 +91,7 @@
                                 <option value="Hotspot">Hotspot
                                 </option>
                                 <option value="PPPoE">PPPoE</option>
+                                <option value="Static">Static</option>
                                 <option value="Others">Others</option>
                             </select>
                         </div>

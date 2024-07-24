@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-21 13:24:05
+/* Smarty version 4.5.3, created on 2024-07-24 10:48:00
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669ce1c5493116_91284065',
+  'unifunc' => 'content_66a0b1b018f6d9_22364826',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bd106dafff02b7918f48971b464b41d4d4c2d922' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers.tpl',
-      1 => 1721497305,
+      1 => 1721807276,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:sections/footer.tpl' => 1,
   ),
 ),false)) {
-function content_669ce1c5493116_91284065 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a0b1b018f6d9_22364826 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 <style>
@@ -136,11 +136,13 @@ customers/add" class="btn btn-success text-black btn-block" title="<?php echo La
                             <tr>
                                 <th><?php echo Lang::T('Username');?>
 </th>
+                                <th><?php echo Lang::T('IP Address');?>
+</th>
                                 <th><?php echo Lang::T('Account Type');?>
 </th>
                                 <th><?php echo Lang::T('Full Name');?>
 </th>
-                                <th><?php echo Lang::T('Balance');?>
+                                <th><?php echo Lang::T('Wallet');?>
 </th>
                                 <th><?php echo Lang::T('Contact');?>
 </th>
@@ -168,6 +170,8 @@ $_smarty_tpl->tpl_vars['ds']->do_else = false;
 customers/view/<?php echo $_smarty_tpl->tpl_vars['ds']->value['id'];?>
 '"
                                         style="cursor:pointer;"><?php echo $_smarty_tpl->tpl_vars['ds']->value['username'];?>
+</td>
+                                    <td><?php echo $_smarty_tpl->tpl_vars['ds']->value['ip_address'];?>
 </td>
                                     <td><?php echo $_smarty_tpl->tpl_vars['ds']->value['account_type'];?>
 </td>

@@ -5,19 +5,19 @@
         <div class="panel panel-hovered mb20 panel-primary">
             <div class="panel-heading">
                 <div class="btn-group pull-right">
-                    <a class="btn btn-primary btn-xs" title="save" href="{$_url}services/sync/pppoe"
-                        onclick="return confirm('This will sync/send PPPOE plan to Mikrotik?')"><span
+                    <a class="btn btn-primary btn-xs" title="save" href="{$_url}services/sync/static"
+                        onclick="return confirm('This will sync/send Static plan to Mikrotik?')"><span
                             class="glyphicon glyphicon-refresh" aria-hidden="true"></span> sync</a>
-                </div>{Lang::T('PPPOE Plans')}
+                </div>{Lang::T('Static Plans')}
             </div>
-            <form id="site-search" method="post" action="{$_url}services/pppoe">
+            <form id="site-search" method="post" action="{$_url}services/static">
                 <div class="panel-body">
                     <div class="row row-no-gutters" style="padding: 5px">
                         <div class="col-lg-2">
                             <div class="input-group">
                                 <div class="input-group-btn">
                                     <a class="btn btn-danger" title="Clear Search Query"
-                                        href="{$_url}services/pppoe"><span
+                                        href="{$_url}services/static"><span
                                             class="glyphicon glyphicon-remove-circle"></span></a>
                                 </div>
                                 <input type="text" name="name" class="form-control"
@@ -97,7 +97,7 @@
                                     class="fa fa-search"></span></button>
                         </div>
                         <div class="col-lg-1 col-xs-4">
-                            <a href="{$_url}services/pppoe-add" class="btn btn-primary btn-block"
+                            <a href="{$_url}services/static-add" class="btn btn-primary btn-block"
                                 title="{Lang::T('New Service Plan')}"><i class="ion ion-android-add"></i></a>
                         </div>
                     </div>
@@ -153,9 +153,9 @@
                                 </td>
                                 <td>{$ds['device']}</td>
                                 <td>
-                                    <a href="{$_url}services/pppoe-edit/{$ds['id']}"
+                                    <a href="{$_url}services/static-edit/{$ds['id']}"
                                         class="btn btn-info btn-xs">{Lang::T('Edit')}</a>
-                                    <a href="{$_url}services/pppoe-delete/{$ds['id']}"
+                                    <a href="{$_url}services/static-delete/{$ds['id']}"
                                         onclick="return confirm('{Lang::T('Delete')}?')" id="{$ds['id']}"
                                         class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
                                 </td>
@@ -177,3 +177,4 @@
 </div>
 
 {include file="sections/footer.tpl"}
+

@@ -87,6 +87,7 @@
                         <thead>
                             <tr>
                                 <th>{Lang::T('Username')}</th>
+                                <th>{Lang::T('IP Address')}</th>
                                 <th>{Lang::T('Account Type')}</th>
                                 <th>{Lang::T('Full Name')}</th>
                                 <th>{Lang::T('Wallet')}</th>
@@ -103,6 +104,7 @@
                                 <tr {if $ds['status'] != 'Active'}class="danger"{/if}>
                                     <td onclick="window.location.href = '{$_url}customers/view/{$ds['id']}'"
                                         style="cursor:pointer;">{$ds['username']}</td>
+                                    <td>{$ds['ip_address']}</td>
                                     <td>{$ds['account_type']}</td>
                                     <td onclick="window.location.href = '{$_url}customers/view/{$ds['id']}'"
                                         style="cursor: pointer;">{$ds['fullname']}</td>

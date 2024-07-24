@@ -73,6 +73,13 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-3 control-label">{Lang::T('IP Address')}</label>
+                        <div class="col-md-9">
+                            <input type="text" name="ip_address" id="ip_address"
+                            class="form-control" value="{$d['ip_address']}"></input>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-3 control-label">{Lang::T('Address')}</label>
                         <div class="col-md-9">
                             <textarea name="address" id="address" class="form-control">{$d['address']}</textarea>

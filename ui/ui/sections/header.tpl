@@ -309,6 +309,8 @@
                                         href="{$_url}services/hotspot">Hotspot</a></li>
                                 <li {if $_routes[1] eq 'pppoe' }class="active" {/if}><a
                                         href="{$_url}services/pppoe">PPPOE</a></li>
+                                <li {if $_routes[1] eq 'static' }class="active" {/if}><a
+                                        href="{$_url}services/static">Static</a></li>
                                 <li {if $_routes[1] eq 'list' }class="active" {/if}><a
                                         href="{$_url}bandwidth/list">{Lang::T('Bandwidth')}</a></li>
                                 {if $_c['enable_balance'] == 'yes'}

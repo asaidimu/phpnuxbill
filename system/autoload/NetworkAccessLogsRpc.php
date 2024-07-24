@@ -30,7 +30,31 @@ class NetworkAccessLogsRpc
             "zone" => date_default_timezone_get()
         ];
 
-        return new RpcResult(true, $message, $this->calculateSessionStart($params["uptime"]));
+        $router = Router::getByName("MARALAL");
+        $client = Mikrotik::getClient($router['ip_address'], $router['username'], $router['password']);
+        $request = new RouterOS\Request("/queue/simple/print");
+        $request->setQuery(RouterOS\Query::where('name', "username"));
+        $id = $client->sendSync($request)->getProperty(".id");
+
+        $request = new RouterOS\Request("/queue/simple/remove");
+        $request = $request->setArgument('numbers', $id);
+
+        $connections = $client->sendSync($request);
+        var_dump($connections);
+        //
+        /*
+         $request = new RouterOS\Request("/queue/simple/print",
+            RouterOS\Query::where('name', $customer['username'])
+        );
+        $result=[];
+
+        foreach ($connections as $connection) {
+            $result[] = [
+                "name" => $connection->getProperty("name")
+            ];
+        } */
+
+        return new RpcResult(true, $message, $connections);
     }
 
     /**
@@ -49,6 +73,7 @@ class NetworkAccessLogsRpc
             return new RpcResult(false, "Customer not found!");
         }
 
+        Customer::update($customer["id"], ["ip_address" => $params["ip"]]);
         $plan = UserRecharge::getByCustomer($customer["id"]);
         $original = HotspotPlan::getById($plan["plan_id"]);
         $log = NetworkAccessLog::create([
@@ -56,7 +81,7 @@ class NetworkAccessLogsRpc
             "router" => $original["routers"],
             "plan" => $original["name_plan"],
             "active" => true,
-            "end" => null,
+            "start" => $params["start"],
             "ip" => $params["ip"],
             "mac" => $params["mac"],
             "upload" => Conversions::bytesToReadable(0),
@@ -110,7 +135,6 @@ class NetworkAccessLogsRpc
             "download" => $data["download"],
             "total" => $data["total"],
             "uptime" => $data["uptime"],
-            "start" => $this->calculateSessionStart($data["uptime"])
         ];
         NetworkAccessLog::update($id, $update);
     }
@@ -138,6 +162,7 @@ class NetworkAccessLogsRpc
                 ]);
             } else {
                 $this->updateLog($log["id"], $found);
+                Customer::update($customer["id"], ["ip_address" => $log["ip"]]);
                 unset($connected[$customer["username"]]);
             }
         }
@@ -148,6 +173,7 @@ class NetworkAccessLogsRpc
                 "service" => $found["service"],
                 "ip" => $found["ip"],
                 "mac" => $found["mac"],
+                "start" => $this->calculateSessionStart($found["uptime"])
             ]);
             if ($result->success) {
                 $this->updateLog($result->result, $found);

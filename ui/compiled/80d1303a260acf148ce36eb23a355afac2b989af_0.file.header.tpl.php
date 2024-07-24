@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-23 13:46:27
+/* Smarty version 4.5.3, created on 2024-07-24 10:01:39
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/sections/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669f8a0319c490_39629816',
+  'unifunc' => 'content_66a0a6d3ce51b7_57146425',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '80d1303a260acf148ce36eb23a355afac2b989af' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/sections/header.tpl',
-      1 => 1721731550,
+      1 => 1721804366,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_669f8a0319c490_39629816 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a0a6d3ce51b7_57146425 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 
@@ -379,6 +379,9 @@ services/hotspot">Hotspot</a></li>
                                 <li <?php if ($_smarty_tpl->tpl_vars['_routes']->value[1] == 'pppoe') {?>class="active" <?php }?>><a
                                         href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
 services/pppoe">PPPOE</a></li>
+                                <li <?php if ($_smarty_tpl->tpl_vars['_routes']->value[1] == 'static') {?>class="active" <?php }?>><a
+                                        href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
+services/static">Static</a></li>
                                 <li <?php if ($_smarty_tpl->tpl_vars['_routes']->value[1] == 'list') {?>class="active" <?php }?>><a
                                         href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
 bandwidth/list"><?php echo Lang::T('Bandwidth');?>
