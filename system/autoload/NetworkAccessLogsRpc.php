@@ -30,31 +30,7 @@ class NetworkAccessLogsRpc
             "zone" => date_default_timezone_get()
         ];
 
-        $router = Router::getByName("MARALAL");
-        $client = Mikrotik::getClient($router['ip_address'], $router['username'], $router['password']);
-        $request = new RouterOS\Request("/queue/simple/print");
-        $request->setQuery(RouterOS\Query::where('name', "username"));
-        $id = $client->sendSync($request)->getProperty(".id");
-
-        $request = new RouterOS\Request("/queue/simple/remove");
-        $request = $request->setArgument('numbers', $id);
-
-        $connections = $client->sendSync($request);
-        var_dump($connections);
-        //
-        /*
-         $request = new RouterOS\Request("/queue/simple/print",
-            RouterOS\Query::where('name', $customer['username'])
-        );
-        $result=[];
-
-        foreach ($connections as $connection) {
-            $result[] = [
-                "name" => $connection->getProperty("name")
-            ];
-        } */
-
-        return new RpcResult(true, $message, $connections);
+        return new RpcResult(true, $message, $result);
     }
 
     /**
