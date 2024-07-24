@@ -89,7 +89,7 @@
                                 <th>{Lang::T('Username')}</th>
                                 <th>{Lang::T('Account Type')}</th>
                                 <th>{Lang::T('Full Name')}</th>
-                                <th>{Lang::T('Balance')}</th>
+                                <th>{Lang::T('Wallet')}</th>
                                 <th>{Lang::T('Contact')}</th>
                                 <th>{Lang::T('Package')}</th>
                                 <th>{Lang::T('Service Type')}</th>

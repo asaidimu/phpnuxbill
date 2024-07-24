@@ -21,7 +21,6 @@ $before_30_days = date('Y-m-d', strtotime('today - 30 days'));
 $month_n = date('n');
 
 switch ($action) {
-    case 'by-date':
     case 'pending':
         $q = (_post('q') ? _post('q') : _get('q'));
         if ($q != '') {
@@ -71,6 +70,7 @@ switch ($action) {
         $ui->assign('q', $q);
         $ui->display('reports-activation.tpl');
         break;
+    case 'by-date':
     case 'daily-report':
         $query = ORM::for_table('tbl_transactions')->where('recharged_on', $mdate)->order_by_desc('id');
         $d = Paginator::findMany($query);

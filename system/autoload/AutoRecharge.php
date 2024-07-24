@@ -64,7 +64,7 @@ class AutoRecharge
      * @param mixed $customer
      * @param mixed $data
      */
-    private function connectCustomer($payment, $customer, $data): void
+    private function updatePayment($payment, $data): void
     {
         $payment->price = $data["TransAmount"];
         $payment->pg_paid_response = json_encode($data);
@@ -73,7 +73,6 @@ class AutoRecharge
         $payment->gateway_trx_id = $data["TransID"];
         $payment->pg_request = $data["MSISDN"];
         $payment->save();
-
     }
 
     /**
@@ -94,7 +93,8 @@ class AutoRecharge
 
         if($trx) {
             $customer = Customer::getByAttribute("username", $trx["username"]);
-            $this->connectCustomer($trx, $customer, $data);
+            $this->updatePayment($trx, $data);
+            Package::rechargeUser($customer["id"], $trx["routers"], $trx["plan_id"], "MPESA", $data["TransactionType"]);
             return new RpcResult(true, "User recharged!");
         }
 

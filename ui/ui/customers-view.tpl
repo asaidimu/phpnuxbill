@@ -186,7 +186,6 @@
                             <th>{Lang::T('Payment Method')}</th>
                             <th>{Lang::T('Transaction Code')}</th>
                             <th>{Lang::T('Amount')}</th>
-                            <th>{Lang::T('Phone Number')}</th>
                             <th>{Lang::T('Date')}</th>
                         </tr>
                     </thead>
@@ -197,7 +196,6 @@
                             <td>{$transaction["payment_method"]}</td>
                             <td>{$transaction["gateway_trx_id"]}</td>
                             <td>{Lang::moneyFormat($transaction["price"])}</td>
-                            <td>{$transaction["pg_request"]}</td>
                             <td>{$transaction["paid_date"]}</td>
                         </tr>
                         {/foreach}

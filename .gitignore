@@ -53,3 +53,4 @@ system/plugin/capture_portal/cache
 system/plugin/capture_portal/site
 system/plugin/capture_portal.php
 .php-cs-fixer.cache
+.php-cs-fixer.cache

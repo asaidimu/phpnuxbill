@@ -417,5 +417,19 @@
     "Add_New_Administrator": "Add New Administrator",
     "Agent": "Agent",
     "Settings_saved_successfully__": "Settings saved successfully!!",
-    "Could_not_register_urls_": "Could not register urls!"
+    "Could_not_register_urls_": "Could not register urls!",
+    "Add_User": "Add User",
+    "Profile": "Profile",
+    "Sub_District": "Sub District",
+    "Ward": "Ward",
+    "Credentials": "Credentials",
+    "User_Type": "User Type",
+    "Report_Viewer": "Report Viewer",
+    "Administrator": "Administrator",
+    "Super_Administrator": "Super Administrator",
+    "Send_Notification": "Send Notification",
+    "Confirm": "Confirm",
+    "User_deleted_Successfully": "User deleted Successfully",
+    "Add_New_Contact": "Add New Contact",
+    "Account_Created_Successfully": "Account Created Successfully"
 }

@@ -110,6 +110,7 @@ class NetworkAccessLogsRpc
             "download" => $data["download"],
             "total" => $data["total"],
             "uptime" => $data["uptime"],
+            "start" => $this->calculateSessionStart($data["uptime"])
         ];
         NetworkAccessLog::update($id, $update);
     }
@@ -147,7 +148,6 @@ class NetworkAccessLogsRpc
                 "service" => $found["service"],
                 "ip" => $found["ip"],
                 "mac" => $found["mac"],
-                "start" => $this->calculateSessionStart($found["uptime"])
             ]);
             if ($result->success) {
                 $this->updateLog($result->result, $found);
@@ -164,21 +164,6 @@ class NetworkAccessLogsRpc
      */
     private function fetchActivePPPUsers($router): array
     {
-
-        $client = Mikrotik::getClient($router['ip_address'], $router['username'], $router['password']);
-        /*
-            plan
-            username
-            bandwidth
-            ip
-            $request = new RouterOS\Request('/queue/simple/add');
-            $request->setArgument("limit-at", "5M/5M");
-            $request->setArgument("max-limit", "15M/15M");
-            $request->setArgument("name", "customer_name");
-            $request->setArgument("target", "customer_ip");
-            $client->sendSync($request);
-         */
-
         $client = Mikrotik::getClient($router['ip_address'], $router['username'], $router['password']);
         $pppUsers = $client->sendSync(new RouterOS\Request('/ppp/active/print'));
         $interfaceTraffic = $client->sendSync(new RouterOS\Request('/interface/print'));

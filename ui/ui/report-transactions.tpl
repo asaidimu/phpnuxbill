@@ -44,7 +44,6 @@
                 <th>{Lang::T('Username')}</th>
                 <th>{Lang::T('Code')}</th>
                 <th>{Lang::T('Amount')}</th>
-                <th>{Lang::T('Phone Number')}</th>
                 <th>{Lang::T('Date')}</th>
               </tr>
             </thead>
@@ -61,7 +60,6 @@
                 </td>
                 <td>{$ds["gateway_trx_id"]}</td>
                 <td>{Lang::moneyFormat($ds['price'])}</td>
-                <td>{$ds["pg_request"]}</td>
                 <td class="text-success">
                   {Lang::dateAndTimeFormat($ds['paid_date'],$ds['recharged_time'])}
                 </td>
