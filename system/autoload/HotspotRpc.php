@@ -140,7 +140,7 @@ class HotspotRpc
         $ipAddress = $params['ipAddress'];
         $macAddress = $params['macAddress'];
 
-        $customer = Customer::getByAttribute("phonenumber", formatPhoneNumber($params["username"]));
+        $customer = Customer::getByAttribute("username", formatPhoneNumber($params["username"]));
 
         if (empty($customer)) {
             return new RpcResult(false, "Invalid username or password!");

@@ -71,28 +71,17 @@ class NetworkAccessLogsRpc
 
     /**
      * @param $params  Associative array containing params
+     *
      *    - customer:  customer id
      *    - service:   the service to which this customer is connected
      * @return RpcResult
      */
     private function terminateLog($params): RpcResult
     {
-        $log = NetworkAccessLog::findWhere(
-            [
-                "customer" => $params["customer"],
-                "service" => $params["service"],
-                "active" => true,
-            ],
-        );
-
-        if(! $log) {
-            return new RpcResult(false, "Could not find log!");
-        }
         $end = date("Y-m-d H:i:s");
-        NetworkAccessLog::update($log["id"], [
+        NetworkAccessLog::update($params["id"], [
             "active" => false,
             "end" => $end,
-            "uptime" => Conversions::calculateUptimeString($log["start"], $end)
         ]);
 
         return new RpcResult(true, "Log terminated!");
@@ -104,7 +93,6 @@ class NetworkAccessLogsRpc
      */
     private function updateLog($id, $data): void
     {
-
         $log = NetworkAccessLog::find($id);
         $update = [
             "upload" => $data["upload"],
@@ -120,45 +108,83 @@ class NetworkAccessLogsRpc
      */
     private function sync(): RpcResult
     {
-        $active = NetworkAccessLog::findActive();
-        $routers = Router::getAllEnabled();
-        $connected = [];
-
-        foreach ($routers as $router) {
-            $connected = array_merge($connected, $this->fetchActivePPPUsers($router));
-        }
-
-        foreach($active as $log) {
+        $active_logs = array_reduce(NetworkAccessLog::findActive(), function ($list, $log) {
             $customer = Customer::getById($log["customer"]);
-            $found = $connected[$customer["username"]];
-            if(empty($found)) {
-                $this->terminateLog([
-                    "customer" => $customer["id"],
-                    "service" => $log["service"]
-                ]);
-            } else {
-                $this->updateLog($log["id"], $found);
+            $list[$customer["username"]] = $log;
+            return $list;
+        }, []);
+
+        $connected_devices = array_reduce(Router::getAllEnabled(), function ($list, $router) {
+            $list = array_merge($list, $this->fetchActivePPPUsers($router));
+            $list = array_merge($list, $this->fetchActiveHotSpotUsers($router));
+            return $list;
+        }, []) ;
+
+        // Check connected devices and update/create logs
+        foreach ($connected_devices as $username => $data) {
+            if (array_key_exists($username, $active_logs)) {
+                $log = $active_logs[$username];
+                $customer = Customer::getById($log["customer"]);
                 Customer::update($customer["id"], ["ip_address" => $log["ip"]]);
-                unset($connected[$customer["username"]]);
+                $this->updateLog($log["id"], $data);
+            } else {
+                $result = $this->startLog([
+                    "username" => $data["username"],
+                    "service" => $data["service"],
+                    "ip" => $data["ip"],
+                    "mac" => $data["mac"],
+                    "start" => $this->calculateSessionStart($data["uptime"])
+                ]);
+                if ($result->success) {
+                    $this->updateLog($result->result, $data);
+                }
             }
         }
 
-        foreach($connected as $found) {
-            $result = $this->startLog([
-                "username" => $found["username"],
-                "service" => $found["service"],
-                "ip" => $found["ip"],
-                "mac" => $found["mac"],
-                "start" => $this->calculateSessionStart($found["uptime"])
-            ]);
-            if ($result->success) {
-                $this->updateLog($result->result, $found);
+        foreach ($active_logs as $key => $log) {
+            if ($log['active'] && !array_key_exists($key, $connected_devices)) {
+                $this->terminateLog(["id" => $log["id"]]);
             }
         }
+
         NetworkAccessLog::rotate();
         return new RpcResult(true, "Logs synced!");
     }
+    /**
+     * @return array<int,array<string,mixed>>
+     * @param mixed $router
+     */
+    private function fetchActiveHotSpotUsers($router): array
+    {
+        global $routes;
+        $client = Mikrotik::getClient($router['ip_address'], $router['username'], $router['password']);
+        $hotspotActive = $client->sendSync(new RouterOS\Request('/ip/hotspot/active/print'));
 
+        $hotspotList = [];
+        foreach ($hotspotActive as $hotspot) {
+            $username = $hotspot->getProperty('user');
+            $address = $hotspot->getProperty('address');
+            $uptime = $hotspot->getProperty('uptime');
+            $server = $hotspot->getProperty('server');
+            $mac = $hotspot->getProperty('mac-address');
+            $sessionTime = $hotspot->getProperty('session-time-left');
+            $rxBytes = $hotspot->getProperty('bytes-in');
+            $txBytes = $hotspot->getProperty('bytes-out');
+
+            $hotspotList[] = [
+                'router' => $router["name"],
+                'username' => $username,
+                'ip' => $address,
+                'uptime' => $uptime,
+                'service' => "Hotspot",
+                'mac' => $mac,
+                'upload' => Conversions::bytesToReadable($rxBytes),
+                'download' => Conversions::bytesToReadable($txBytes),
+                'total' => Conversions::bytesToReadable($txBytes + $rxBytes),
+            ];
+        }
+        return $hotspotList;
+    }
 
     /**
      * @return array<int,array<string,mixed>>
@@ -250,3 +276,4 @@ class NetworkAccessLogsRpc
         return date('Y-m-d H:i:s', $startTimestamp);
     }
 }
+

@@ -75,6 +75,11 @@ class AutoRecharge
         $payment->save();
     }
 
+    private function recharge($customer, $trx, $data)
+    {
+        Package::rechargeUser($customer["id"], $trx["routers"], $trx["plan_id"], "MPESA-".$data["TransID"], $data["TransactionType"]);
+    }
+
     /**
      * Record a deposit.
      * @param array $params An associative array containing parameters:
@@ -116,16 +121,29 @@ class AutoRecharge
             return new RpcResult(false, "Customer not found!");
         }
 
-        $plan = UserRecharge::getLastRecharge($customer["id"]);
+        $amount = $data["TransAmount"];
         $payment = $this->recordPayment($refnumber, $data);
+        $recharge = UserRecharge::getLastRecharge($customer["id"]);
+        $balance = $customer["balance"] + $amount;
 
-        if(! $plan || $plan["status"] == "on") {
-            // we record into balance
-            Customer::setBalance($customer["id"], $customer["balance"] + $data["TransAmount"]);
-            return new RpcResult(true, "Transaction recorded!");
-        } else {
-            Package::rechargeUser($customer["id"], $plan["routers"], $plan["plan_id"], "MPESA", $data["TransactionType"]);
-            return new RpcResult(true, "User recharged!");
+        if(empty($recharge) || $recharge["status"] == "on") {
+            Customer::setBalance($customer["id"], $balance);
+            return new RpcResult(true, "Customer has an active plan!. Transaction recorded!",["balance" => $balance]);
         }
+
+        $plan = HotspotPlan::getById($recharge["plan_id"]);
+        $balance = ($customer["balance"] + $amount) - $plan["price"];
+
+        if($balance < 0) {
+            Customer::setBalance($customer["id"], $customer["balance"] + $amount);
+            return new RpcResult(true, "Insufficient balance to activate plan!. Transaction recorded!", ["balance" => $balance]);
+        }
+
+        Customer::setBalance($customer["id"], $balance);
+        $recharged = Package::rechargeUser($customer["id"], $plan["routers"], $plan["id"], "MPESA-" . $data["TransID"], $data["TransactionType"]);
+        if($recharged) {
+            return new RpcResult(true, "User recharged!", ["balance" => $balance]);
+        }
+        return new RpcResult(false, "User not recharged!");
     }
 }
