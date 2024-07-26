@@ -87,9 +87,9 @@
                         <thead>
                             <tr>
                                 <th>{Lang::T('Username')}</th>
-                                <th>{Lang::T('IP Address')}</th>
                                 <th>{Lang::T('Account Type')}</th>
                                 <th>{Lang::T('Full Name')}</th>
+                                <th>{Lang::T('Online')}</th>
                                 <th>{Lang::T('Wallet')}</th>
                                 <th>{Lang::T('Contact')}</th>
                                 <th>{Lang::T('Package')}</th>
@@ -104,10 +104,16 @@
                                 <tr {if $ds['status'] != 'Active'}class="danger"{/if}>
                                     <td onclick="window.location.href = '{$_url}customers/view/{$ds['id']}'"
                                         style="cursor:pointer;">{$ds['username']}</td>
-                                    <td>{$ds['ip_address']}</td>
                                     <td>{$ds['account_type']}</td>
                                     <td onclick="window.location.href = '{$_url}customers/view/{$ds['id']}'"
                                         style="cursor: pointer;">{$ds['fullname']}</td>
+                                    <td>
+                                {if $ds["online"]}
+                                    <small class="label bg-green">online</small>
+                                {else}
+                                    <small class="label bg-red">offline</small>
+                                {/if}
+                                    </td>
                                     <td>{Lang::moneyFormat($ds['balance'])}</td>
                                     <td align="center">
                                         {if $ds['phonenumber']}
@@ -129,6 +135,7 @@
                                     </td>
                                     <td>{$ds['service_type']}</td>
                                     <td>{Lang::T($ds['status'])}</td>
+
                                     <td>{Lang::dateTimeFormat($ds['created_at'])}</td>
                                     <td align="center">
                                         <a href="{$_url}customers/view/{$ds['id']}" id="{$ds['id']}"

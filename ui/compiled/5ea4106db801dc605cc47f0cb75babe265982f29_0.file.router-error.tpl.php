@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-22 12:17:08
-  from '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/router-error.tpl' */
+/* Smarty version 4.5.3, created on 2024-07-26 23:13:32
+  from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/router-error.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669e239462b888_51825759',
+  'unifunc' => 'content_66a4036c6c8762_56382753',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5ea4106db801dc605cc47f0cb75babe265982f29' => 
     array (
-      0 => '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/router-error.tpl',
-      1 => 1721497305,
+      0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/router-error.tpl',
+      1 => 1721903742,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_669e239462b888_51825759 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a4036c6c8762_56382753 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 

@@ -443,5 +443,8 @@
     "Download_Database_Backup": "Download Database Backup",
     "Data_Not_Found": "Data Not Found",
     "Invalid_Username_or_Password": "Invalid Username or Password",
-    "danger": "danger"
+    "danger": "danger",
+    "Manage_Customers": "Manage Customers",
+    "Online": "Online",
+    "0": "0"
 }

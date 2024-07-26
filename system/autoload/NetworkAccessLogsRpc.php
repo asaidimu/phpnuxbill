@@ -122,10 +122,10 @@ class NetworkAccessLogsRpc
 
         // Check connected devices and update/create logs
         foreach ($connected_devices as $username => $data) {
+            $customer = Customer::getByAttribute("username", $username);
             if (array_key_exists($username, $active_logs)) {
                 $log = $active_logs[$username];
-                $customer = Customer::getById($log["customer"]);
-                Customer::update($customer["id"], ["ip_address" => $log["ip"]]);
+                Customer::update($customer["id"], ["ip_address" => $log["ip"], "online"=>true]);
                 $this->updateLog($log["id"], $data);
             } else {
                 $result = $this->startLog([
@@ -136,6 +136,7 @@ class NetworkAccessLogsRpc
                     "start" => $this->calculateSessionStart($data["uptime"])
                 ]);
                 if ($result->success) {
+                    Customer::update($customer["id"], ["ip_address" => $log["ip"], "online"=>true]);
                     $this->updateLog($result->result, $data);
                 }
             }
@@ -143,6 +144,8 @@ class NetworkAccessLogsRpc
 
         foreach ($active_logs as $key => $log) {
             if ($log['active'] && !array_key_exists($key, $connected_devices)) {
+                $customer = Customer::getByAttribute("username", $key);
+                Customer::update($customer["id"], ["online"=>false]);
                 $this->terminateLog(["id" => $log["id"]]);
             }
         }

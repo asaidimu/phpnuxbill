@@ -236,8 +236,8 @@
                             <td>{$log["start"]}</td>
                             <td>{$log["end"]}</td>
                             <td>{$log["uptime"]}</td>
-                            <td>{$log["upload"]}</td>
                             <td>{$log["download"]}</td>
+                            <td>{$log["upload"]}</td>
                             <td>{$log["total"]}</td>
                             <td>{$log["ip"]}</td>
                             <td>{$log["mac"]}</td>
