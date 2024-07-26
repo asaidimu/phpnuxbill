@@ -83,7 +83,7 @@
                             </select>
                         </div>
                         <p class="help-block col-md-4"><a
-                                href="https://github.com/hotspotbilling/phpnuxbill/wiki/Themes" target="_blank">Theme
+                                href="https://zeiteckispradius.zeiteckcomputers.co.ke/wiki/Themes" target="_blank">Theme
                                 info</a></p>
                     </div>
                     <div class="form-group">
@@ -226,7 +226,7 @@
                             </select>
                         </div>
                         <p class="help-block col-md-4"><a
-                                href="https://github.com/hotspotbilling/phpnuxbill/wiki/FreeRadius"
+                                href="https://zeiteckispradius.zeiteckcomputers.co.ke/wiki/FreeRadius"
                                 target="_blank">Radius Instructions</a></p>
                     </div>
                 </div>
@@ -710,7 +710,7 @@
                             - View and search Envato sites<br>
                             - Download the user's purchased items<br>
                             - List purchases the user has made<br><br>
-                            <a href="https://codecanyon.net/category/php-scripts?term=phpnuxbill" target="_blank"
+                            <a href="https://codecanyon.net/category/php-scripts?term=ZeiteckIspRadius" target="_blank"
                                 class="btn btn-xs btn-primary">View MarketPlace</a>
                         </label>
                     </div>

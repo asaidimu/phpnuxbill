@@ -178,8 +178,8 @@ createChart(); // Create the chart on page load
 
 <script>
   window.addEventListener('DOMContentLoaded', function() {
-    var portalLink = "https://github.com/kevindoni";
-    $('#version').html('Interface Monitor | Ver: 1.0 | by: <a href="' + portalLink + '">Kevin Doni</a>');
+    var portalLink = "https://zeiteckispradius.zeiteckcomputers.co.ke/i";
+    $('#version').html('Interface Monitor | Ver: 1.0 | by: <a href="' + portalLink + '">ZeiteckIspRadiusi</a>');
   });
 </script>
 

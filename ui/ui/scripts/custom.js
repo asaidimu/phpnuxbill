@@ -80,7 +80,7 @@ $(function() {
 					});
 				};
 
-		}else{
+		}else if($('#POE').is(':checked')) {
 				$.ajax({
 					type: "POST",
 					dataType: "html",
@@ -101,7 +101,28 @@ $(function() {
 						}
 					});
 				});
-		}
+		} else {
+          		$.ajax({
+					type: "POST",
+					dataType: "html",
+					url: "index.php?_route=autoload/server",
+					success: function(msg){
+						$("#server").html(msg);
+					}
+				});
+				$("#server").change(function(){
+					var server = $("#server").val();
+					$.ajax({
+						type: "POST",
+						dataType: "html",
+						url: "index.php?_route=autoload/plan",
+						data: "jenis=Static&server="+server,
+						success: function(msg){
+							$("#plan").html(msg);
+						}
+					});
+				});
+        }
     });
 });
 

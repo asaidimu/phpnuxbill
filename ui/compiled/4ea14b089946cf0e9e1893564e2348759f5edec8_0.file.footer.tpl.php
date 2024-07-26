@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-21 12:35:57
+/* Smarty version 4.5.3, created on 2024-07-26 10:16:16
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/sections/footer.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669cd67daf6529_21009307',
+  'unifunc' => 'content_66a34d403accf2_42061972',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4ea14b089946cf0e9e1893564e2348759f5edec8' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/sections/footer.tpl',
-      1 => 1721497305,
+      1 => 1721497304,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_669cd67daf6529_21009307 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a34d403accf2_42061972 (Smarty_Internal_Template $_smarty_tpl) {
 ?>        </section>
         </div>
         <footer class="main-footer">

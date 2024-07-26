@@ -1,8 +1,8 @@
 <?php
 
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
+ *  PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
+ *  by https://t.me/Zadok
  **/
 _admin();
 $ui->assign('_title', Lang::T('Settings'));
@@ -18,19 +18,19 @@ switch ($action) {
         }
 
         if (!empty(_get('testWa'))) {
-            $result = Message::sendWhatsapp(_get('testWa'), 'PHPNuxBill Test Whatsapp');
+            $result = Message::sendWhatsapp(_get('testWa'), 'ZeiteckIspRadius Test Whatsapp');
             r2(U . "settings/app", 's', 'Test Whatsapp has been send<br>Result: ' . $result);
         }
         if (!empty(_get('testSms'))) {
-            $result = Message::sendSMS(_get('testSms'), 'PHPNuxBill Test SMS');
+            $result = Message::sendSMS(_get('testSms'), 'ZeiteckIspRadius Test SMS');
             r2(U . "settings/app", 's', 'Test SMS has been send<br>Result: ' . $result);
         }
         if (!empty(_get('testEmail'))) {
-            Message::sendEmail(_get('testEmail'), 'PHPNuxBill Test Email', 'PHPNuxBill Test Email Body');
+            Message::sendEmail(_get('testEmail'), 'ZeiteckIspRadius Test Email', 'ZeiteckIspRadius Test Email Body');
             r2(U . "settings/app", 's', 'Test Email has been send');
         }
         if (!empty(_get('testTg'))) {
-            $result = Message::sendTelegram('PHPNuxBill Test Telegram');
+            $result = Message::sendTelegram('ZeiteckIspRadius Test Telegram');
             r2(U . "settings/app", 's', 'Test Telegram has been send<br>Result: ' . $result);
         }
 
@@ -107,7 +107,7 @@ switch ($action) {
                     $ui->assign("error_title", "RADIUS Error");
                     $ui->assign("error_message", "Radius table not found.<br><br>" .
                         $e->getMessage() .
-                        "<br><br>Download <a href=\"https://raw.githubusercontent.com/hotspotbilling/phpnuxbill/Development/install/radius.sql\">here</a> or <a href=\"https://raw.githubusercontent.com/hotspotbilling/phpnuxbill/master/install/radius.sql\">here</a> and import it to database.<br><br>Check config.php for radius connection details");
+                        "<br><br>Download <a href=\"https://raw.githubusercontent.com/hotspotbilling/ZeiteckIspRadius/Development/install/radius.sql\">here</a> or <a href=\"https://raw.githubusercontent.com/hotspotbilling/ZeiteckIspRadius/master/install/radius.sql\">here</a> and import it to database.<br><br>Check config.php for radius connection details");
                     $ui->display('router-error.tpl');
                     die();
                 }
@@ -681,7 +681,7 @@ switch ($action) {
         header('Content-Type: application/force-download');
         header('Content-Type: application/octet-stream');
         header('Content-Type: application/download');
-        header('Content-Disposition: attachment;filename="phpnuxbill_' . count($tables) . '_tables_' . date('Y-m-d_H_i') . '.json"');
+        header('Content-Disposition: attachment;filename="ZeiteckIspRadius_' . count($tables) . '_tables_' . date('Y-m-d_H_i') . '.json"');
         header('Content-Transfer-Encoding: binary');
         $array = [];
         foreach ($tables as $table) {

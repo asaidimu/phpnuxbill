@@ -20,7 +20,7 @@
                             <i class="glyphicon glyphicon-phone"></i>
                             NuxPrint
                         </a>
-                        <a href="https://github.com/hotspotbilling/android-printer"
+                        <a href="https://zeiteckispradius.zeiteckcomputers.co.ke"
                         class="btn btn-success text-black btn-sm hidden-xs hidden-sm" target="_blank">
                             <i class="glyphicon glyphicon-phone"></i>
                             NuxPrint

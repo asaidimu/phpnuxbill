@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-21 12:36:43
+/* Smarty version 4.5.3, created on 2024-07-26 10:52:09
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/paymentgateway.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669cd6abb81064_54884424',
+  'unifunc' => 'content_66a355a9ac96b7_77869493',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '91a040b5128fd9c0dd030cf64143b4bdbc01a896' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/paymentgateway.tpl',
-      1 => 1721497305,
+      1 => 1721497304,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:sections/footer.tpl' => 1,
   ),
 ),false)) {
-function content_669cd6abb81064_54884424 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a355a9ac96b7_77869493 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 <form method="post">

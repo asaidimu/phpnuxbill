@@ -1,6 +1,6 @@
 <?php
 /* Smarty version 4.5.3, created on 2024-07-21 13:24:02
-  from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers-map.tpl' */
+  from '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/customers-map.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
@@ -11,7 +11,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
     '8032720e916eda5294400bd964bc3d9f4ec4c93f' => 
     array (
-      0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers-map.tpl',
+      0 => '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/customers-map.tpl',
       1 => 1721497305,
       2 => 'file',
     ),

@@ -43,7 +43,7 @@
             <div class="box-header">
                 <h3 class="box-title">Donations</h3>
             </div>
-            <div class="box-body">Untuk pengembangan lebih baik, donasi ke iBNuX, donasi akan membantu terus
+            <div class="box-body">Untuk pengembangan lebih baik, donasi ke Zadok, donasi akan membantu terus
                 pengembangan aplikasi</div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -65,9 +65,9 @@
             </div>
             <div class="box-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                    <a href="https://trakteer.id/ibnux" target="_blank"
+                    <a href="https://trakteer.id/Zadok" target="_blank"
                         class="btn btn-primary btn-sm btn-block">Trakteer</a>
-                    <a href="https://karyakarsa.com/ibnux/support" target="_blank"
+                    <a href="https://karyakarsa.com/Zadok/support" target="_blank"
                         class="btn btn-primary btn-sm btn-block">karyakarsa</a>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                 <h3 class="box-title">Donations</h3>
             </div>
             <div class="box-body">
-                Donations will help to continue phpnuxbill development
+                Donations will help to continue ZeiteckIspRadius development
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -105,7 +105,7 @@
             </div>
             <div class="box-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                    <a href="https://paypal.me/ibnux" target="_blank"
+                    <a href="https://paypal.me/Zadok" target="_blank"
                         class="btn btn-primary btn-sm btn-block">Paypal</a>
                     <a href="https://wise.com/pay/me/ibnum37" target="_blank"
                         class="btn btn-primary btn-sm btn-block">Wise</a>
@@ -122,7 +122,7 @@
             </div>
             <div class="box-body">$50 Paid Support<br>donation confirmation?<br>Or ask any Donation Alternative</div>
             <div class="box-footer">
-                <a href="https://t.me/ibnux" target="_blank" class="btn btn-primary btn-sm btn-block">Telegram</a>
+                <a href="https://t.me/Zadok" target="_blank" class="btn btn-primary btn-sm btn-block">Telegram</a>
             </div>
         </div>
         <div class="box box-primary box-hovered mb20 activities">
@@ -141,17 +141,17 @@
     <div class="col-sm-6" id="update">
         <div class="box box-primary box-hovered mb20 activities">
             <div class="box-header">
-                <h3 class="box-title">PHPNUXBILL</h3>
+                <h3 class="box-title">ZeiteckIspRadius</h3>
             </div>
             <div class="box-body">
-                <b>PHPNuxBill</b> is a billing Hotspot and PPPOE for Mikrotik using PHP and Mikrotik API to comunicate with router. If you get more profit with this application, please donate us.<br>Watch project <a href="https://github.com/hotspotbilling/phpnuxbill" target="_blank">in here</a>
+                <b>ZeiteckIspRadius</b> is a billing Hotspot and PPPOE for Mikrotik using PHP and Mikrotik API to comunicate with router. If you get more profit with this application, please donate us.<br>Watch project <a href="https://zeiteckispradius.zeiteckcomputers.co.ke" target="_blank">in here</a>
             </div>
             <div class="box-footer" id="currentVersion">ver</div>
             <div class="box-footer" id="latestVersion">ver</div>
             <div class="box-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <a href="./update.php" class="btn btn-success btn-sm btn-block">Install Latest Version</a>
-                    <a href="https://github.com/hotspotbilling/phpnuxbill/archive/refs/heads/master.zip" target="_blank"
+                    <a href="https://zeiteckispradius.zeiteckcomputers.co.ke/archive/refs/heads/master.zip" target="_blank"
                         class="btn btn-warning btn-sm btn-block text-black">Download Latest Version</a>
                 </div>
                 <center><a href="{$_url}community/rollback" class="btn btn-link btn-sm btn-block">Select Old Version</a></center>
@@ -160,7 +160,7 @@
                 <div class="btn-group btn-group-justified" role="group" aria-label="...">
                     <a href="./CHANGELOG.md" target="_blank" class="btn btn-default btn-sm btn-block">Current
                         Changelog</a>
-                    <a href="https://github.com/hotspotbilling/phpnuxbill/blob/master/CHANGELOG.md" target="_blank"
+                    <a href="https://zeiteckispradius.zeiteckcomputers.co.ke/blob/master/CHANGELOG.md" target="_blank"
                         class="btn btn-default btn-sm btn-block">Repo Changelog</a>
                 </div>
             </div>
@@ -176,7 +176,7 @@
         $.getJSON("./version.json?" + Math.random(), function(data) {
             $('#currentVersion').html('Current Version: ' + data.version);
         });
-        $.getJSON("https://raw.githubusercontent.com/hotspotbilling/phpnuxbill/master/version.json?" + Math
+        $.getJSON("https://raw.githubusercontent.com/hotspotbilling/ZeiteckIspRadius/master/version.json?" + Math
             .random(),
             function(data) {
                 $('#latestVersion').html('Latest Version: ' + data.version);

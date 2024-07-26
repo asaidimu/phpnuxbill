@@ -44,7 +44,7 @@
                             <label>Server URL</label>
                             <input type="text" class="form-control" name="whatsapp_gateway_url"
                                 value="{$_c['whatsapp_gateway_url']}" required placeholder="http://localhost:3000">
-                            <a href="https://github.com/dimaskiddo/go-whatsapp-multidevice-rest" class="pull-right"
+                            <a href="https://github.com/zadok/go-whatsapp-multidevice-rest" class="pull-right"
                                 target="_blank">Go WhatsApp Multi-Device</a>
                         </div>
                         <div class="form-group">
@@ -156,7 +156,7 @@
                 <h4>API To send directly</h4>
                 <input type="text" class="form-control" readonly onclick="this.select();"
                     value="{$_url}plugin/whatsappGateway_send&to=[number]&msg=[text]&secret={md5($_c['whatsapp_gateway_secret'])}">
-                <span class="text-muted">Change Auth Basic Password will change secret. No need to change whatsapp URL in PHPNuxBill with this. the plugin will work directly.</span>
+                <span class="text-muted">Change Auth Basic Password will change secret. No need to change whatsapp URL in ZeiteckIspRadius with this. the plugin will work directly.</span>
             </div>
         </div>
     </div>
@@ -166,8 +166,8 @@
     <h4>Sending WhatsApp</h4>
     <p>If you put multiple number, it will send random to any existed phone number. even if it not logged in to
         WhatsApp.</p>
-    <p><b>Empty Whatsapp Server URL in PHPNuxBill configuration</b>, this plugin will overide sending WhatsApp.</p>
-    <p>This plugin only support <a href="https://github.com/dimaskiddo/go-whatsapp-multidevice-rest" target="_blank">Go
+    <p><b>Empty Whatsapp Server URL in ZeiteckIspRadius configuration</b>, this plugin will overide sending WhatsApp.</p>
+    <p>This plugin only support <a href="https://github.com/zadok/go-whatsapp-multidevice-rest" target="_blank">Go
             WhatsApp Multi-Device</a>
 </div>
 {include file="sections/footer.tpl"}

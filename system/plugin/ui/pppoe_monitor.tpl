@@ -934,7 +934,7 @@ window.addEventListener('click', function(event) {
 });
 
 document.getElementById('donationPopup').querySelector('.donate-button').addEventListener('click', function() {
-    window.open('https://buymeacoffee.com/kevindonisaputra', '_blank');
+    window.open('https://buymeacoffee.com/ZeiteckIspRadiusisaputra', '_blank');
 });
 
 </script>

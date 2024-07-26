@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-23 14:49:13
+/* Smarty version 4.5.3, created on 2024-07-26 11:02:06
   from '/home/augustine/projects/NuX/phpnuxbill/system/paymentgateway/ui/mpesa.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669f98b9370232_77644723',
+  'unifunc' => 'content_66a357fe874561_37965167',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e4cc1c257339d8497034f47bb2e830126c38d8a6' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/system/paymentgateway/ui/mpesa.tpl',
-      1 => 1721734069,
+      1 => 1721980922,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:sections/footer.tpl' => 1,
   ),
 ),false)) {
-function content_669f98b9370232_77644723 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a357fe874561_37965167 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
@@ -119,23 +119,13 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                         <div class="col-md-6">
                             <input type="hidden" name="MPESA_CALLBACK_URL" value="<?php echo APP_URL;?>
 /system/api.php?r=ocallback">
-                            <input type="text"
-                            class="form-control" onclick="this.select()"
-                            disabled value="<?php echo APP_URL;?>
-/system/api.php?r=ocallback">
-                            <p class="help-block">Confirmation callback url</p>
-                        </div>
-                    </div>
-                    <div class="form-group col-6">
-                        <label class="col-md-2 control-label">Validation Url Notification</label>
-                        <div class="col-md-6">
                             <input type="hidden" name="MPESA_VALIDATION_URL" value="<?php echo APP_URL;?>
 /system/api.php?r=ccallback">
                             <input type="text"
                             class="form-control" onclick="this.select()"
                             disabled value="<?php echo APP_URL;?>
 /system/api.php?r=ccallback">
-                            <p class="help-block">Validation callBack url</p>
+                            <p class="help-block">Confirmation callBack url</p>
                         </div>
                     </div>
                     <div class="form-group col-6">

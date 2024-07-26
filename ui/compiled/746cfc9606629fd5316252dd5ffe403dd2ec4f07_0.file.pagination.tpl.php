@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-21 12:35:57
+/* Smarty version 4.5.3, created on 2024-07-26 10:16:16
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/pagination.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669cd67daecaf6_00738921',
+  'unifunc' => 'content_66a34d403a42e2_72407643',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '746cfc9606629fd5316252dd5ffe403dd2ec4f07' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/pagination.tpl',
-      1 => 1721497305,
+      1 => 1721497304,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_669cd67daecaf6_00738921 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a34d403a42e2_72407643 (Smarty_Internal_Template $_smarty_tpl) {
 if ($_smarty_tpl->tpl_vars['paginator']->value) {?>
     <center>
     <nav aria-label="Page navigation pagination-sm">

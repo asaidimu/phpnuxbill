@@ -103,7 +103,7 @@ class HotspotRpc
      */
     private function registerCustomer($params): RpcResult
     {
-        $found = Customer::getByAttribute("phonenumber", $params["phoneNumber"]);
+        $found = Customer::getByAttribute("username", $params["phoneNumber"]);
         if ($found) {
             return new RpcResult(false, "Customer exists!");
         }
@@ -202,11 +202,25 @@ class HotspotRpc
 
             $push = new StkPush();
             $trx_id = $this->generateHash($customer["phonenumber"]);
-            list($response, $time) = $push->initiate($customer["phonenumber"], intval($plan["price"]), $trx_id, "Hotspot");
+
+            $params = [
+                "phone" => $customer["phonenumber"],
+                "amount" => intval($plan["price"]),
+            ];
+
+            $config = ORM::for_table('tbl_appconfig')
+                        ->where_like('setting', '%MPESA%')
+                        ->find_many();
+            foreach ($config as $c) {
+                if (preg_match("/^MPESA/i", $c["setting"])) {
+                    $params[$c["setting"]] = $c["value"];
+                }
+            }
+            list($response, $time) = $push->initiate($params, $trx_id, "Hotspot");
             $result = json_decode($response);
 
             if ($result->errorCode || $result->ResponseCode != 0) {
-                return new RpcResult(false, "Could not request payment!", $result);
+                return new RpcResult(false, "Could not request payment!", $result, $params);
             }
             $payment = ORM::for_table("tbl_payment_gateway")->create();
             $payment->username = $customer["username"];
@@ -378,14 +392,4 @@ function getExpirationData($offset, $unit)
     ];
 
     return $expirationData;
-}
-
-$config = ORM::for_table('tbl_appconfig')->find_many();
-foreach ($config as $value) {
-    $setting = $value["setting"];
-    $value = $value["value"];
-    if (preg_match("/^MPESA/i", $setting)) {
-        $_ENV[$setting] = $value;
-        putenv($setting . "=" . $value);
-    }
 }

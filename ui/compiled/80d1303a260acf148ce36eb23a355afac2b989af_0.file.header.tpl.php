@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-24 10:01:39
+/* Smarty version 4.5.3, created on 2024-07-26 10:16:16
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/sections/header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_66a0a6d3ce51b7_57146425',
+  'unifunc' => 'content_66a34d40334533_54411567',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '80d1303a260acf148ce36eb23a355afac2b989af' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/sections/header.tpl',
-      1 => 1721804366,
+      1 => 1721903618,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_66a0a6d3ce51b7_57146425 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a34d40334533_54411567 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 
@@ -620,7 +620,7 @@ pluginmanager"><i class="glyphicon glyphicon-tasks"></i>
                             <ul class="treeview-menu">
                                 <li <?php if ($_smarty_tpl->tpl_vars['_routes']->value[1] == 'list') {?>class="active" <?php }?>><a
                                         href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
-logs/phpnuxbill">Working Logs</a></li>
+logs/ZeiteckIspRadius">Working Logs</a></li>
                                 <?php if ($_smarty_tpl->tpl_vars['_c']->value['radius_enable']) {?>
                                     <li <?php if ($_smarty_tpl->tpl_vars['_routes']->value[1] == 'radius') {?>class="active" <?php }?>><a
                                             href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>

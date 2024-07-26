@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-24 10:48:00
+/* Smarty version 4.5.3, created on 2024-07-26 10:16:22
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_66a0b1b018f6d9_22364826',
+  'unifunc' => 'content_66a34d469c8693_48791149',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:sections/footer.tpl' => 1,
   ),
 ),false)) {
-function content_66a0b1b018f6d9_22364826 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a34d469c8693_48791149 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 <style>

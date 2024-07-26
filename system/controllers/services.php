@@ -1,8 +1,8 @@
 <?php
 
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
+ *  PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
+ *  by https://t.me/Zadok
  **/
 _admin();
 $ui->assign('_title', Lang::T('Hotspot Plans'));
@@ -247,11 +247,11 @@ switch ($action) {
             $msg .= 'The price must be a number' . '<br>';
         }
         if ($name == '' or $id_bw == '' or $price == '' or $validity == '') {
-            $msg .= Lang::T('All field is required here') . '<br>';
+            $msg .= Lang::T('All field is required') . '<br>';
         }
         if (empty($radius)) {
             if ($routers == '') {
-                $msg .= Lang::T('All field is required there') . '<br>';
+                $msg .= Lang::T('All field is required') . '<br>';
             }
         }
         $d = ORM::for_table('tbl_plans')->where('name_plan', $name)->where('type', 'Hotspot')->find_one();
@@ -576,7 +576,7 @@ switch ($action) {
         }
         break;
 
-    case 'pppoe-delete':
+    case 'static-delete':
         $id = $routes['2'];
 
         $d = ORM::for_table('tbl_plans')->find_one($id);
@@ -608,7 +608,6 @@ switch ($action) {
         $validity_unit = _post('validity_unit');
         $routers = _post('routers');
         $device = _post('device');
-        $pool = _post('pool_name');
         $enabled = _post('enabled');
         $prepaid = _post('prepaid');
         $expired_date = _post('expired_date');

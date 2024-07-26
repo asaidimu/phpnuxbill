@@ -3,7 +3,7 @@
 use PEAR2\Cache\SHM\Adapter\APC;
 
 /**
- * PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
+ * PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
  * Payment Gateway M-Pesa https://developer.safaricom.co.ke/
  *
  **/
@@ -28,6 +28,18 @@ function mpesa_save_config()
         }
     }
 
+    foreach ($mpesa as $key => $value) {
+        $setting = ORM::for_table('tbl_appconfig')->where('setting', $key)->find_one();
+
+        if (empty($setting)) {
+            $setting = ORM::for_table("tbl_appconfig")->create();
+        }
+
+        $setting->setting = $key;
+        $setting->value = $value;
+        $setting->save();
+    }
+
     $params = [
         "env" => $mpesa["MPESA_ENV"],
         "version" => $mpesa["MPESA_VERSION"],
@@ -43,20 +55,17 @@ function mpesa_save_config()
     $response= json_decode($response, true);
 
     if(empty($response["ResponseCode"]) || intval($response["ResponseCode"]) != 0) {
+        $setting = ORM::for_table('tbl_appconfig')->where('setting', "MPESA_ERROR")->find_one();
+        if(!$setting){
+            $setting = ORM::for_table('tbl_appconfig')->create();
+        }
+
+        $setting->setting = "MPESA_ERROR";
+        $setting->value = json_encode($response);
+        $setting->save();
         r2(U . 'paymentgateway/mpesa', 'e', Lang::T("Could not register urls!"));
     }
 
-    foreach ($mpesa as $key => $value) {
-        $setting = ORM::for_table('tbl_appconfig')->where('setting', $key)->find_one();
-
-        if (empty($setting)) {
-            $setting = ORM::for_table("tbl_appconfig")->create();
-        }
-
-        $setting->setting = $key;
-        $setting->value = $value;
-        $setting->save();
-    }
 
 
     r2(U . 'paymentgateway/mpesa', 's', Lang::T("Settings saved successfully!!"));

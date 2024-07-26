@@ -250,8 +250,8 @@
 
 <script>
   window.addEventListener('DOMContentLoaded', function() {
-    var portalLink = "https://github.com/kevindoni";
-    $('#version').html('Log Mikrotik | Ver: 1.0 | by: <a href="' + portalLink + '">Kevin Doni</a>');
+    var portalLink = "https://zeiteckispradius.zeiteckcomputers.co.ke/i";
+    $('#version').html('Log Mikrotik | Ver: 1.0 | by: <a href="' + portalLink + '">ZeiteckIspRadiusi</a>');
   });
 
   function updatePerPage(value) {

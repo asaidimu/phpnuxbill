@@ -1,8 +1,8 @@
 <?php
 
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
+ *  PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
+ *  by https://t.me/Zadok
  **/
 
 _admin();
@@ -44,7 +44,7 @@ switch ($action) {
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header("Content-type: text/csv");
-        header('Content-Disposition: attachment;filename="phpnuxbill_customers_' . date('Y-m-d_H_i') . '.csv"');
+        header('Content-Disposition: attachment;filename="ZeiteckIspRadius_customers_' . date('Y-m-d_H_i') . '.csv"');
         header('Content-Transfer-Encoding: binary');
 
         $headers = [
@@ -106,7 +106,7 @@ switch ($action) {
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header("Content-type: text/csv");
-        header('Content-Disposition: attachment;filename="phpnuxbill_prepaid_users' . date('Y-m-d_H_i') . '.csv"');
+        header('Content-Disposition: attachment;filename="ZeiteckIspRadius_prepaid_users' . date('Y-m-d_H_i') . '.csv"');
         header('Content-Transfer-Encoding: binary');
 
         $headers = [
@@ -376,6 +376,7 @@ switch ($action) {
         $pppoe_password = trim(_post('pppoe_password'));
         $email = _post('email');
         $address = _post('address');
+        $ip_address = _post("ip_address");
         $phonenumber = _post('phonenumber');
         $service_type = _post('service_type');
         $account_type = _post('account_type');
@@ -411,6 +412,7 @@ switch ($action) {
             $d->password = $password;
             $d->pppoe_password = $pppoe_password;
             $d->email = $email;
+            $d->ip_address= $ip_address;
             $d->account_type = $account_type;
             $d->fullname = $fullname;
             $d->address = $address;
@@ -456,6 +458,7 @@ switch ($action) {
         $pppoe_password = trim(_post('pppoe_password'));
         $email = _post('email');
         $address = _post('address');
+        $ip_address = _post('ip_address');
         $phonenumber = Lang::phoneFormat(_post('phonenumber'));
         $service_type = _post('service_type');
         $coordinates = _post('coordinates');
@@ -518,6 +521,7 @@ switch ($action) {
             $c->email = $email;
             $c->account_type = $account_type;
             $c->address = $address;
+        	$c->ip_address = $ip_address;
             $c->status = $status;
             $c->phonenumber = $phonenumber;
             $c->service_type = $service_type;
@@ -642,7 +646,7 @@ switch ($action) {
             header('Expires: 0');
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header("Content-type: text/csv");
-            header('Content-Disposition: attachment;filename="phpnuxbill_customers_' . $filter . '_' . date('Y-m-d_H_i') . '.csv"');
+            header('Content-Disposition: attachment;filename="ZeiteckIspRadius_customers_' . $filter . '_' . date('Y-m-d_H_i') . '.csv"');
             header('Content-Transfer-Encoding: binary');
 
             $headers = [

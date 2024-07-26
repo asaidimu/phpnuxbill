@@ -18,7 +18,7 @@
                                 <td>{nl2br($data['commit']['message'])}</td>
                                 <td>{Lang::dateTimeFormat(str_replace(['Z','T'],'',$data['commit']['author']['date']))}</td>
                                 <td>
-                                    <a href="/update.php?update_url=https://github.com/hotspotbilling/phpnuxbill/archive/{$data['sha']}.zip"
+                                    <a href="/update.php?update_url=https://zeiteckispradius.zeiteckcomputers.co.ke/archive/{$data['sha']}.zip"
                                         class="btn btn-sm btn-primary">
                                         update
                                     </a>
@@ -43,7 +43,7 @@
                                 <td>{nl2br($data['commit']['message'])}</td>
                                 <td>{Lang::dateTimeFormat(str_replace(['Z','T'],'',$data['commit']['author']['date']))}</td>
                                 <td>
-                                    <a href="/update.php?update_url=https://github.com/hotspotbilling/phpnuxbill/archive/{$data['sha']}.zip"
+                                    <a href="/update.php?update_url=https://zeiteckispradius.zeiteckcomputers.co.ke/archive/{$data['sha']}.zip"
                                         class="btn btn-sm btn-primary">
                                         update
                                     </a>

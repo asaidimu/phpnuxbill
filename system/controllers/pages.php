@@ -1,7 +1,7 @@
 <?php
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
+ *  PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
+ *  by https://t.me/Zadok
  **/
 
 _admin();
@@ -20,10 +20,10 @@ if(strpos($action,"-reset")!==false){
     $temp = "pages_template/".str_replace(".","",$action).".html";
     if(file_exists($temp)){
         if(!copy($temp, $path)){
-            file_put_contents($path, Http::getData('https://raw.githubusercontent.com/hotspotbilling/phpnuxbill/master/pages_template/'.$action.'.html'));
+            file_put_contents($path, Http::getData('https://raw.githubusercontent.com/hotspotbilling/ZeiteckIspRadius/master/pages_template/'.$action.'.html'));
         }
     }else{
-        file_put_contents($path, Http::getData('https://raw.githubusercontent.com/hotspotbilling/phpnuxbill/master/pages_template/'.$action.'.html'));
+        file_put_contents($path, Http::getData('https://raw.githubusercontent.com/hotspotbilling/ZeiteckIspRadius/master/pages_template/'.$action.'.html'));
     }
     r2(U . 'pages/'.$action);
 }else if(strpos($action,"-post")===false){

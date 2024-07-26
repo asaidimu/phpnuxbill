@@ -1,7 +1,7 @@
 <?php
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
+ *  PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
+ *  by https://t.me/Zadok
  **/
 /**
  *  This script is for managing user balance

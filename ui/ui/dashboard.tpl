@@ -379,7 +379,7 @@
             var localVersion = data.version;
             $('#version').html('Version: ' + localVersion);
             $.getJSON(
-                "https://raw.githubusercontent.com/hotspotbilling/phpnuxbill/master/version.json?" +
+                "https://raw.githubusercontent.com/hotspotbilling/ZeiteckIspRadius/master/version.json?" +
                 Math
                 .random(),
                 function(data) {

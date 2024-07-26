@@ -1,4 +1,4 @@
-![PHPNuxBill](install/img/logo.png)
+![ZeiteckIspRadius](install/img/logo.png)
 
 # CHANGELOG
 
@@ -83,7 +83,7 @@
 
 ## 2024.4.4
 
-- Data Tables for Customers List by @Focuslinkstech
+- Data Tables for Customers List by @ZeiteckIspRadius
 - Add Bills to Reminder
 - Prevent double submit for recharge and renew
 
@@ -115,7 +115,7 @@
 
 ## 2024.3.22
 
-- Fix Broadcast Message by @Focuslinkstech
+- Fix Broadcast Message by @ZeiteckIspRadius
 - Add Location Picker
 
 ## 2024.3.20
@@ -125,13 +125,13 @@
 ## 2024.3.19
 
 - Add Customer Type Personal or Bussiness by @pro-cms
-- Fix Broadcast Message by @Focuslinkstech
-- Add Customer Geolocation by @Focuslinkstech
+- Fix Broadcast Message by @ZeiteckIspRadius
+- Add Customer Geolocation by @ZeiteckIspRadius
 - Change Customer Menu
 
 ## 2024.3.18
 
-- Add Broadcasting SMS by @Focuslinkstech
+- Add Broadcasting SMS by @ZeiteckIspRadius
 - Fix Notification with Bills
 
 ## 2024.3.16
@@ -159,7 +159,7 @@
 
 - Check if Validity Period, so calculate price will not affected other validity
 - Add firewall using .htaccess for apache only
-- Multiple Payment Gateway by @Focuslinkstech
+- Multiple Payment Gateway by @ZeiteckIspRadius
 - Fix Logic Multiple Payment gateway
 - Fix delete Attribute
 - Allow Delete Payment Gateway
@@ -178,7 +178,7 @@
 
 ## 2024.3.3
 
-- Change loading button by @Focuslinkstech
+- Change loading button by @ZeiteckIspRadius
 - Add Customer Announcements by @Gerandonk
 - Add PPPOE Period Validity by @Gerandonk
 
@@ -206,7 +206,7 @@
 
 ## 2024.2.23
 
-- Integrate with PhpNuxBill Printer
+- Integrate with ZeiteckIspRadius Printer
 - Fix Invoice
 - add admin ID in transaction
 
@@ -219,7 +219,7 @@
 
 - Fix SQL Installer
 - remove multiple space in language
-- Change Phone Number require OTP by @Focuslinkstech
+- Change Phone Number require OTP by @ZeiteckIspRadius
 - Change burst Form
 - Delete Table Responsive, first Column Freeze
 
@@ -227,13 +227,13 @@
 
 - Fix list admin
 - Burst Limit
-- Pace Loading by @Focuslinkstech
+- Pace Loading by @ZeiteckIspRadius
 
 ## 2024.2.19
 
 - Start API Development
 - Multiple Admin Level
-- Customer Attributes by @Focuslinkstech
+- Customer Attributes by @ZeiteckIspRadius
 - Radius Menu
 
 ## 2024.2.13
@@ -282,7 +282,7 @@
 
 ## 2024.1.17
 
-- Add minor change, for plugin, menu can have notifications by @Focuslinkstech
+- Add minor change, for plugin, menu can have notifications by @ZeiteckIspRadius
 
 ## 2024.1.16
 
@@ -293,11 +293,11 @@
 
 ## 2024.1.15
 
-- Fix cron job for Plan only for admin by @Focuslinkstech
+- Fix cron job for Plan only for admin by @ZeiteckIspRadius
 
 ## 2024.1.11
 
-- Add Plan only for admin by @Focuslinkstech
+- Add Plan only for admin by @ZeiteckIspRadius
 - Fix Plugin Manager
 
 ## 2024.1.9
@@ -310,12 +310,12 @@
 
 ## 2024.1.2
 
-- Pagination User Expired by @Focuslinkstech
+- Pagination User Expired by @ZeiteckIspRadius
 
 ## 2023.12.21
 
 - Modern AdminLTE by @sabtech254
-- Update user-dashboard.tpl by @Focuslinkstech
+- Update user-dashboard.tpl by @ZeiteckIspRadius
 
 ## 2023.12.19
 
@@ -474,7 +474,7 @@ Customer can be move to expired pool after plan expired by cron
 
 ## 2023.8.1
 
-- Add Update file script, one click updating PHPNuxBill
+- Add Update file script, one click updating ZeiteckIspRadius
 - Add Custom UI folder, to custome your own template
 - Delete debug text
 - Fix Vendor JS
@@ -490,12 +490,12 @@ Customer can be move to expired pool after plan expired by cron
 ## 2023.6.20
 
 - Hide time for Created date.
-  Because the first time phpmixbill created, plan validity only for days and Months, many request ask for minutes and hours, i change it, but not the database.
+  Because the first time ZeiteckIspRadius created, plan validity only for days and Months, many request ask for minutes and hours, i change it, but not the database.
 ## 2023.6.15
 
 - Customer can connect to internet from Customer Dashboard
 - Fix Confirm when delete
-- Change Logo PHPNuxBill
+- Change Logo ZeiteckIspRadius
 - Using Composer
 - Fix Search Customer
 - Fix Customer check, if not found will logout

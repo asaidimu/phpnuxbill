@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
+ * PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
 
  **/
 
@@ -127,7 +127,7 @@ try {
         r2(U . 'home', 'e', $e->getMessage());
     }
     $ui->assign("error_message", $e->getMessage() . '<br><pre>' . $e->getTraceAsString() . '</pre>');
-    $ui->assign("error_title", "PHPNuxBill Crash");
+    $ui->assign("error_title", "ZeiteckIspRadius Crash");
     $ui->display('router-error.tpl');
     die();
 } catch (Exception $e) {
@@ -140,7 +140,7 @@ try {
         r2(U . 'home', 'e', $e->getMessage());
     }
     $ui->assign("error_message", $e->getMessage() . '<br><pre>' . $e->getTraceAsString() . '</pre>');
-    $ui->assign("error_title", "PHPNuxBill Crash");
+    $ui->assign("error_title", "ZeiteckIspRadius Crash");
     $ui->display('router-error.tpl');
     die();
 }

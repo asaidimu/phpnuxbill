@@ -8,7 +8,7 @@
             {Lang::T('Plugin Installer')}
             <div class="btn-group pull-right">
                 <a class="btn btn-warning btn-xs" title="save"
-                    href="https://github.com/hotspotbilling/phpnuxbill/wiki/Installing-Plugin-or-Payment-Gateway"
+                    href="https://zeiteckispradius.zeiteckcomputers.co.ke/wiki/Installing-Plugin-or-Payment-Gateway"
                     target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
             </div>
         </div>

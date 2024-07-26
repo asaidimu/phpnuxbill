@@ -1,6 +1,6 @@
 <?php
 /* Smarty version 4.5.3, created on 2024-07-21 16:25:21
-  from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/plan.tpl' */
+  from '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/plan.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
@@ -11,7 +11,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
     '3e6a27b463533cb88c166a45a21a65c60f7ac2c8' => 
     array (
-      0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/plan.tpl',
+      0 => '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/plan.tpl',
       1 => 1721497305,
       2 => 'file',
     ),

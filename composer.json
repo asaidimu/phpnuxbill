@@ -1,15 +1,15 @@
 {
-    "name": "hotspotbilling/phpnuxbill",
+    "name": "hotspotbilling/ZeiteckIspRadius",
     "type": "template",
-    "description": "PHPNuxBill a Hotspot Billing Software.",
-    "keywords": ["template","PHPMixBill","PHPnuxBill","Mikrotik","Hotspot","Billing"],
-    "homepage": "https://github.com/hotspotbilling/phpnuxbill",
+    "description": "ZeiteckIspRadius a Hotspot Billing Software.",
+    "keywords": ["template","ZeiteckIspRadius","ZeiteckIspRadius","Mikrotik","Hotspot","Billing"],
+    "homepage": "https://zeiteckispradius.zeiteckcomputers.co.ke",
     "license": "MIT",
     "authors": [
         {
-            "name": "ibnux",
-            "email": "me@ibnux.net",
-            "homepage": "https://ibnux.net",
+            "name": "Zadok",
+            "email": "me@Zadok.net",
+            "homepage": "https://Zadok.net",
             "role": "Developer"
         }
     ]

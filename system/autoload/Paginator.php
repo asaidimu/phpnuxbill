@@ -2,7 +2,7 @@
 
 /**
  *  PHP Mikrotik Billing (https://github.com/SiberTech/)
- *  by https://t.me/ibnux
+ *  by https://t.me/Zadok
  **/
 
 

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-21 17:01:03
+/* Smarty version 4.5.3, created on 2024-07-26 10:15:47
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/admin-login.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669d149f7fbf39_32725776',
+  'unifunc' => 'content_66a34d23255019_40842691',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'abe71afd1f12634d8cce424940b5ab6f2ef2bc5d' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/admin-login.tpl',
-      1 => 1721497305,
+      1 => 1721497304,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_669d149f7fbf39_32725776 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a34d23255019_40842691 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 

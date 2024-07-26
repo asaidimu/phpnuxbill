@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-21 12:35:57
+/* Smarty version 4.5.3, created on 2024-07-26 10:16:16
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/dashboard.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669cd67da19754_08389263',
+  'unifunc' => 'content_66a34d402a4968_89324348',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4e83eb1a3056965a0683e93ba9ae62f200d13a4a' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/dashboard.tpl',
-      1 => 1721497316,
+      1 => 1721903618,
       2 => 'file',
     ),
   ),
@@ -23,7 +23,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:sections/footer.tpl' => 1,
   ),
 ),false)) {
-function content_669cd67da19754_08389263 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a34d402a4968_89324348 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
@@ -489,7 +489,7 @@ echo '</script'; ?>
             var localVersion = data.version;
             $('#version').html('Version: ' + localVersion);
             $.getJSON(
-                "https://raw.githubusercontent.com/hotspotbilling/phpnuxbill/master/version.json?" +
+                "https://raw.githubusercontent.com/hotspotbilling/ZeiteckIspRadius/master/version.json?" +
                 Math
                 .random(),
                 function(data) {

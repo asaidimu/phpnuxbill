@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
+ *  PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
+ *  by https://t.me/Zadok
  **/
 
 _admin();
-$ui->assign('_title', 'PHPNuxBill Logs');
+$ui->assign('_title', 'ZeiteckIspRadius Logs');
 $ui->assign('_system_menu', 'logs');
 
 $action = $routes['1'];

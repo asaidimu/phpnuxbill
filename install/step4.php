@@ -1,8 +1,8 @@
 <?php
 
 /**
- *  PHP Mikrotik Billing (https://github.com/hotspotbilling/phpnuxbill/)
- *  by https://t.me/ibnux
+ *  PHP Mikrotik Billing (https://zeiteckispradius.zeiteckcomputers.co.ke/)
+ *  by https://t.me/Zadok
  **/
 
 //error_reporting (0);
@@ -31,7 +31,7 @@ if ($cn == '1') {
 define(\'APP_URL\', \'' . $appurl . '\');
 $_app_stage = \'Live\';
 
-// Database PHPNuxBill
+// Database ZeiteckIspRadius
 $db_host	    = \'' . $db_host . '\';
 $db_user        = \'' . $db_user . '\';
 $db_password	= \'' . $db_password . '\';
@@ -59,7 +59,7 @@ if($_app_stage!=\'Live\'){
     define(\'APP_URL\', \'' . $appurl . '\');
     $_app_stage = \'Live\';
 
-    // Database PHPNuxBill
+    // Database ZeiteckIspRadius
     $db_host	    = \'' . $db_host . '\';
     $db_user        = \'' . $db_user . '\';
     $db_password	= \'' . $db_password . '\';
@@ -81,7 +81,7 @@ if($_app_stage!=\'Live\'){
 	please create a file named - config.php with following contents- <br/>$input");
     fwrite($fh, $input);
     fclose($fh);
-    $sql = file_get_contents('phpnuxbill.sql');
+    $sql = file_get_contents('ZeiteckIspRadius.sql');
     $qr = $dbh->exec($sql);
     if (isset($_POST['radius']) && $_POST['radius'] == 'yes') {
         $sql = file_get_contents('radius.sql');
@@ -97,7 +97,7 @@ if($_app_stage!=\'Live\'){
 <html lang="en">
 
 <head>
-    <title>PHPNuxBill Installer</title>
+    <title>ZeiteckIspRadius Installer</title>
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -115,7 +115,7 @@ if($_app_stage!=\'Live\'){
         <hr>
 
         <div class="span12">
-            <h4> PHPNuxBill Installer </h4>
+            <h4> ZeiteckIspRadius Installer </h4>
             <?php
             if ($cn == '1') {
             ?>
@@ -130,7 +130,7 @@ if($_app_stage!=\'Live\'){
             } elseif ($cn == '2') {
             ?>
                 <p> MySQL Connection was successfull. An error occured while adding data on MySQL. Unsuccessfull
-                    Installation. Please refer manual installation in the website github.com/ibnux/phpnuxbill/wiki or Contact Telegram @ibnux  for
+                    Installation. Please refer manual installation in the website github.com/Zadok/ZeiteckIspRadius/wiki or Contact Telegram @Zadok  for
                     helping on installation</p>
             <?php
             } else {
@@ -142,7 +142,7 @@ if($_app_stage!=\'Live\'){
         </div>
     </div>
 
-    <div class="footer">Copyright &copy; 2021 PHPNuxBill. All Rights Reserved<br /><br /></div>
+    <div class="footer">Copyright &copy; 2021 ZeiteckIspRadius. All Rights Reserved<br /><br /></div>
 </body>
 
 </html>

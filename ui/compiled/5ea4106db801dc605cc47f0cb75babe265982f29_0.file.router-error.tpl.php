@@ -1,6 +1,6 @@
 <?php
 /* Smarty version 4.5.3, created on 2024-07-22 12:17:08
-  from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/router-error.tpl' */
+  from '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/router-error.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
@@ -11,7 +11,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
     '5ea4106db801dc605cc47f0cb75babe265982f29' => 
     array (
-      0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/router-error.tpl',
+      0 => '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/router-error.tpl',
       1 => 1721497305,
       2 => 'file',
     ),
@@ -27,7 +27,7 @@ function content_669e239462b888_51825759 (Smarty_Internal_Template $_smarty_tpl)
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Error - PHPNuxBill</title>
+    <title>Error - ZeiteckIspRadius</title>
     <link rel="shortcut icon" href="ui/ui/images/logo.png" type="image/x-icon" />
 
     <link rel="stylesheet" href="ui/ui/styles/bootstrap.min.css">
@@ -77,22 +77,22 @@ function content_669e239462b888_51825759 (Smarty_Internal_Template $_smarty_tpl)
                                 <li>Make sure you use API Port, Default 8728</li>
                                 <li>Make sure Username and Password are correct</li>
                                 <li>Make sure your hosting not blocking port to external</li>
-                                <li>Make sure your Mikrotik accessible from PHPNuxBill</li>
+                                <li>Make sure your Mikrotik accessible from ZeiteckIspRadius</li>
                             </ul>
-                            If you just update PHPNuxBill from upload files, try click Update Database
+                            If you just update ZeiteckIspRadius from upload files, try click Update Database
                         </div>
                         <div class="box-footer">
                             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                                 <a href="./update.php?step=4" style="color: black;" class="btn btn-info btn-sm btn-block">Update Database</a>
                                 <a href="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
 community#update" style="color: black;" class="btn btn-success btn-sm btn-block">Update
-                                    PHPNuxBill</a>
+                                    ZeiteckIspRadius</a>
                             </div>
                             <br>
                             <div class="btn-group btn-group-justified" role="group" aria-label="...">
-                            <a href="https://github.com/hotspotbilling/phpnuxbill/discussions" target="_blank"
+                            <a href="https://zeiteckispradius.zeiteckcomputers.co.ke/discussions" target="_blank"
                             class="btn btn-success btn-sm btn-block" style="color: black;">Ask Github Community</a>
-                                <a href="https://t.me/phpnuxbill" target="_blank"
+                                <a href="https://t.me/ZeiteckIspRadius" target="_blank"
                                     class="btn btn-primary btn-sm btn-block">Ask Telegram Community</a>
                             </div>
                             <br><br>

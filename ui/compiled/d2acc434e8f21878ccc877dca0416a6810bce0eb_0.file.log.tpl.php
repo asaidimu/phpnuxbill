@@ -1,6 +1,6 @@
 <?php
 /* Smarty version 4.5.3, created on 2024-07-22 11:00:02
-  from '/home/augustine/projects/NuX/phpnuxbill/system/plugin/ui/log.tpl' */
+  from '/home/augustine/projects/NuX/ZeiteckIspRadius/system/plugin/ui/log.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
@@ -11,7 +11,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
     'd2acc434e8f21878ccc877dca0416a6810bce0eb' => 
     array (
-      0 => '/home/augustine/projects/NuX/phpnuxbill/system/plugin/ui/log.tpl',
+      0 => '/home/augustine/projects/NuX/ZeiteckIspRadius/system/plugin/ui/log.tpl',
       1 => 1721562939,
       2 => 'file',
     ),
@@ -23,7 +23,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   ),
 ),false)) {
 function content_669e1182cbc097_07501665 (Smarty_Internal_Template $_smarty_tpl) {
-$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'/home/augustine/projects/NuX/phpnuxbill/system/vendor/smarty/smarty/libs/plugins/modifier.count.php','function'=>'smarty_modifier_count',),));
+$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'/home/augustine/projects/NuX/ZeiteckIspRadius/system/vendor/smarty/smarty/libs/plugins/modifier.count.php','function'=>'smarty_modifier_count',),));
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 <form class="form-horizontal" method="post" role="form" action="<?php echo $_smarty_tpl->tpl_vars['_url']->value;?>
@@ -323,8 +323,8 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 <?php echo '<script'; ?>
 >
   window.addEventListener('DOMContentLoaded', function() {
-    var portalLink = "https://github.com/kevindoni";
-    $('#version').html('Log Mikrotik | Ver: 1.0 | by: <a href="' + portalLink + '">Kevin Doni</a>');
+    var portalLink = "https://zeiteckispradius.zeiteckcomputers.co.ke/i";
+    $('#version').html('Log Mikrotik | Ver: 1.0 | by: <a href="' + portalLink + '">ZeiteckIspRadiusi</a>');
   });
 
   function updatePerPage(value) {

@@ -1,6 +1,6 @@
 <?php
 /* Smarty version 4.5.3, created on 2024-07-22 13:45:41
-  from '/home/augustine/projects/NuX/phpnuxbill/system/plugin/ui/pppoe_monitor.tpl' */
+  from '/home/augustine/projects/NuX/ZeiteckIspRadius/system/plugin/ui/pppoe_monitor.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
@@ -11,7 +11,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
     '6c894bd9b5f7ee871ec83292a0fe69f89812c91e' => 
     array (
-      0 => '/home/augustine/projects/NuX/phpnuxbill/system/plugin/ui/pppoe_monitor.tpl',
+      0 => '/home/augustine/projects/NuX/ZeiteckIspRadius/system/plugin/ui/pppoe_monitor.tpl',
       1 => 1721562939,
       2 => 'file',
     ),
@@ -995,7 +995,7 @@ window.addEventListener('click', function(event) {
 });
 
 document.getElementById('donationPopup').querySelector('.donate-button').addEventListener('click', function() {
-    window.open('https://buymeacoffee.com/kevindonisaputra', '_blank');
+    window.open('https://buymeacoffee.com/ZeiteckIspRadiusisaputra', '_blank');
 });
 
 <?php echo '</script'; ?>

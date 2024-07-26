@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-21 16:58:56
+/* Smarty version 4.5.3, created on 2024-07-26 10:15:52
   from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/alert.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_669d142013e2c3_34532865',
+  'unifunc' => 'content_66a34d282f1618_37770924',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'd5fa4f6d87387822df07f2b1a30f7472696dc3c1' => 
     array (
       0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/alert.tpl',
-      1 => 1721497305,
+      1 => 1721497304,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_669d142013e2c3_34532865 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a34d282f1618_37770924 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 
