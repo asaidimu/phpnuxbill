@@ -247,11 +247,11 @@ switch ($action) {
             $msg .= 'The price must be a number' . '<br>';
         }
         if ($name == '' or $id_bw == '' or $price == '' or $validity == '') {
-            $msg .= Lang::T('All field is required') . '<br>';
+            $msg .= Lang::T('All field is required here') . '<br>';
         }
         if (empty($radius)) {
             if ($routers == '') {
-                $msg .= Lang::T('All field is required') . '<br>';
+                $msg .= Lang::T('All field is required there') . '<br>';
             }
         }
         $d = ORM::for_table('tbl_plans')->where('name_plan', $name)->where('type', 'Hotspot')->find_one();
@@ -621,7 +621,7 @@ switch ($action) {
         if (Validator::UnsignedNumber($price) == false) {
             $msg .= 'The price must be a number' . '<br>';
         }
-        if ($name == '' or $id_bw == '' or $price == '' or $validity == '' or $pool == '') {
+        if ($name == '' or $id_bw == '' or $price == '' or $validity == '') {
             $msg .= Lang::T('All field is required') . '<br>';
         }
         if (empty($radius)) {
