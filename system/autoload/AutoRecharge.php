@@ -88,14 +88,25 @@ class AutoRecharge
 
         $trx = ORM::for_table("tbl_payment_gateway")
             ->where("gateway_trx_id", $refnumber)
-            ->where("status",1)
+            ->where("status", 1)
             ->find_one();
 
         if($trx) {
             $customer = Customer::getByAttribute("username", $trx["username"]);
-            $this->updatePayment($trx, $data);
-            Package::rechargeUser($customer["id"], $trx["routers"], $trx["plan_id"], "MPESA", $data["TransactionType"]);
-            return new RpcResult(true, "User recharged!");
+            if($customer) {
+                $this->updatePayment($trx, $data);
+                Package::rechargeUser($customer["id"], $trx["routers"], $trx["plan_id"], "MPESA-".$data["TransID"], $data["TransactionType"]);
+                $plan = HotspotPlan::getById($trx["plan_id"]);
+                require_once(Package::getDevice($plan));
+                try {
+                    $router = new MikrotikHotspot();
+                    $router->add_customer($customer, $plan);
+                    $router->connect_customer($customer, $customer["ip_address"], $customer["mac_address"], $plan["routers"]);
+                } catch (\Exception $e) {
+                    return new RpcResult(false, "Could not purchase plan!", [$customer, $plan["routers"]]);
+                }
+                return new RpcResult(true, "User recharged!");
+            }
         }
 
         $customer = Customer::getByAttribute("username", $refnumber);

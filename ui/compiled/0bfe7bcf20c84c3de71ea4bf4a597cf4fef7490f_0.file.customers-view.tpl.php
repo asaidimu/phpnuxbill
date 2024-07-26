@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.3, created on 2024-07-24 10:01:39
-  from '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/customers-view.tpl' */
+/* Smarty version 4.5.3, created on 2024-07-26 12:52:01
+  from '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers-view.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.3',
-  'unifunc' => 'content_66a0a6d3c15728_96036561',
+  'unifunc' => 'content_66a371c12f1683_55198824',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0bfe7bcf20c84c3de71ea4bf4a597cf4fef7490f' => 
     array (
-      0 => '/home/augustine/projects/NuX/ZeiteckIspRadius/ui/ui/customers-view.tpl',
-      1 => 1721804227,
+      0 => '/home/augustine/projects/NuX/phpnuxbill/ui/ui/customers-view.tpl',
+      1 => 1721804226,
       2 => 'file',
     ),
   ),
@@ -23,7 +23,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:sections/footer.tpl' => 1,
   ),
 ),false)) {
-function content_66a0a6d3c15728_96036561 (Smarty_Internal_Template $_smarty_tpl) {
+function content_66a371c12f1683_55198824 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:sections/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
