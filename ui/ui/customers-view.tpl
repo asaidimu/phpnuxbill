@@ -1,5 +1,8 @@
 {include file="sections/header.tpl"}
-
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include the ApexCharts library -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <div class="row">
     <div class="col-sm-4 col-md-4">
         <div class="box box-{if $d['status']=='Active'}primary{else}danger{/if}">
@@ -171,8 +174,8 @@
     </div>
     <div class="col-sm-8 col-md-8">
         <ul class="nav nav-tabs">
-            <li role="presentation" {if $v=='order' }class="active" {/if}><a
-                    href="{$_url}customers/view/{$d['id']}/order">30 {Lang::T('Order History')}</a></li>
+            <li role="presentation" {if $v=='monitor' }class="active" {/if}><a
+                    href="{$_url}customers/view/{$d['id']}/monitor">{Lang::T('Traffic Monitor')}</a></li>
             <li role="presentation" {if $v=='activation' }class="active" {/if}><a
                     href="{$_url}customers/view/{$d['id']}/activation">30 {Lang::T('Activation History')}</a></li>
             <li role="presentation" {if $v=='logs' }class="active" {/if}><a
@@ -181,8 +184,17 @@
                     href="{$_url}customers/view/{$d['id']}/transactions">{Lang::T('Transaction Logs')}</a></li>
         </ul>
         <div class="table-responsive" style="background-color: white;">
+                       {if Lang::arrayCount($monitor)}
+               <div class="card" style="padding: 2rem;">
+        <div class="card-body">
+          <div class="table-responsive mt-4">
+          <div id="chart" data-customer-name="{$monitor["username"]}" class="mt-3"></div>
+        </div>
+      </div>
+      {else}
             <table id="datatable" class="table table-bordered table-striped"
             style="white-space: nowrap;">
+
                 {if Lang::arrayCount($transactions)}
                     <thead>
                         <tr>
@@ -312,6 +324,8 @@
                     </tbody>
                 {/if}
             </table>
+            
+                {/if}
         </div>
         {include file="pagination.tpl"}
     </div>
@@ -337,4 +351,173 @@
         </script>
     {/literal}
 {/if}
+
+
+                {if Lang::arrayCount($monitor)}
+<script>
+    (function() {
+        let chart; // `chart` is a local variable within the IIFE
+
+        function createChart() {
+            const chartOptions = {
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    animations: getChartAnimations(),
+                    events: {
+                        mounted: initializeChartUpdates
+                    }
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+                series: getChartSeries(),
+                xaxis: getXAxisOptions(),
+                yaxis: getYAxisOptions(),
+                tooltip: getTooltipOptions(),
+                dataLabels: getDataLabelsOptions()
+            };
+
+            chart = new ApexCharts(document.querySelector("#chart"), chartOptions);
+            chart.render();
+        }
+
+        function getChartAnimations() {
+            return {
+                enabled: true,
+                easing: 'linear',
+                speed: 200,
+                animateGradually: {
+                    enabled: true,
+                    delay: 150
+                },
+                dynamicAnimation: {
+                    enabled: true,
+                    speed: 200
+                }
+            };
+        }
+
+        function initializeChartUpdates() {
+            const chartElement = document.querySelector("#chart");
+            const username = chartElement ? chartElement.getAttribute('data-customer-name') : null;
+           
+            if (!username) {
+                console.warn('Username is required to update traffic values.');
+                return;
+            }
+            const interface = chartElement.getAttribute('data-customer-interface') || null;
+            updateTrafficValues(username, interface);
+            setInterval(() => updateTrafficValues(username, interface), 3000);
+        }
+
+        function getChartSeries() {
+            return [
+                { name: 'Download', data: chartData.txData },
+                { name: 'Upload', data: chartData.rxData }
+            ];
+        }
+
+        function getXAxisOptions() {
+            return {
+                type: 'datetime',
+                labels: {
+                    formatter: value => new Date(value).toLocaleTimeString()
+                }
+            };
+        }
+
+        function getYAxisOptions() {
+            return {
+                title: {
+                    text: 'Realtime Traffic'
+                },
+                labels: {
+                    formatter: formatBytes
+                }
+            };
+        }
+
+        function getTooltipOptions() {
+            return {
+                x: {
+                    format: 'HH:mm:ss'
+                },
+                y: {
+                    formatter: value => formatBytes(value) + 'ps'
+                }
+            };
+        }
+
+        function getDataLabelsOptions() {
+            return {
+                enabled: true,
+                formatter: formatBytes
+            };
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        function updateTrafficValues(username) {
+            if (!username) {
+                console.warn('Username is required to update traffic values.');
+                return;
+            }
+
+            $.ajax({
+                url: '{$_url}plugin/pppoe_monitor_router_traffic/{$router}',
+                dataType: 'json',
+                data: { username, interface: "<pppoe-"+username+">" },
+                success: function(data) {
+                    const timestamp = new Date().getTime();
+                    const txData = parseInt(data.rows.tx[0], 10) || 0;
+                    const rxData = parseInt(data.rows.rx[0], 10) || 0;
+
+                    // Log data tx and rx for debugging
+                    console.log('txData:', txData, 'rxData:', rxData);
+
+                    // Update chart data
+                    chartData.txData.push({ x: timestamp, y: txData });
+                    chartData.rxData.push({ x: timestamp, y: rxData });
+
+                    const maxDataPoints = 10;
+                    if (chartData.txData.length > maxDataPoints) {
+                        chartData.txData.shift();
+                        chartData.rxData.shift();
+                    }
+
+                    // Update series on the chart
+                    chart.updateSeries([
+                        { name: 'Download', data: chartData.txData },
+                        { name: 'Upload', data: chartData.rxData }
+                    ]);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error("Status: " + textStatus);
+                    console.error("Error: " + errorThrown);
+                }
+            });
+        }
+
+        // Initialize chartData object
+        const chartData = {
+            txData: [],
+            rxData: []
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createChart();
+        });
+    })();
+</script>
+
+
+                {/if}
 {include file="sections/footer.tpl"}

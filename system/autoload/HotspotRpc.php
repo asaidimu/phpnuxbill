@@ -220,7 +220,7 @@ class HotspotRpc
             $result = json_decode($response);
 
             if ($result->errorCode || $result->ResponseCode != 0) {
-                return new RpcResult(false, "Could not request payment!", $result, $params);
+                return new RpcResult(false, "Could not request payment!");
             }
             $payment = ORM::for_table("tbl_payment_gateway")->create();
             $payment->username = $customer["username"];

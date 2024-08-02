@@ -617,8 +617,8 @@ body {
             </script>
             <script>
             window.addEventListener('DOMContentLoaded', function() {
-                var portalLink = "https://zeiteckispradius.zeiteckcomputers.co.ke/";
-                $('#version').html('MikroTik Monitor | Ver: 3.0 | by: <a href="' + portalLink + '">ZeiteckIspRadius</a>');
+                var portalLink = "https://github.com/focuslinkstech";
+                $('#version').html('MikroTik Monitor | Ver: 3.0 | by: <a href="' + portalLink + '">Focuslinks Tech</a>');
             });
 
             function updatePerPage(value) {

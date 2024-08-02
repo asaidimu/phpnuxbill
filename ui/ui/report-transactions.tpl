@@ -41,8 +41,10 @@
               <tr>
                 <th>{Lang::T('Payment Gateway')}</th>
                 <th>{Lang::T('Payment Method')}</th>
-                <th>{Lang::T('Username')}</th>
+                <th>{Lang::T('Account Number')}</th>
+                <th>{Lang::T('Full Name')}</th>
                 <th>{Lang::T('Code')}</th>
+                <th>{Lang::T('Original Balance')}</th>
                 <th>{Lang::T('Amount')}</th>
                 <th>{Lang::T('Date')}</th>
               </tr>
@@ -58,7 +60,10 @@
                 >
                   {$ds['username']}
                 </td>
+                <td>{$ds["fullname"]}</td>
                 <td>{$ds["gateway_trx_id"]}</td>
+                
+                <td>{Lang::moneyFormat($ds['orig_balance'])}</td>
                 <td>{Lang::moneyFormat($ds['price'])}</td>
                 <td class="text-success">
                   {Lang::dateAndTimeFormat($ds['paid_date'],$ds['recharged_time'])}

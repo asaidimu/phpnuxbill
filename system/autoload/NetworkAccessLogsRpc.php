@@ -159,7 +159,8 @@ class NetworkAccessLogsRpc
      */
     private function fetchActiveHotSpotUsers($router): array
     {
-        global $routes;
+        try {
+
         $client = Mikrotik::getClient($router['ip_address'], $router['username'], $router['password']);
         $hotspotActive = $client->sendSync(new RouterOS\Request('/ip/hotspot/active/print'));
 
@@ -187,6 +188,10 @@ class NetworkAccessLogsRpc
             ];
         }
         return $hotspotList;
+                    
+        } catch(\Exception $e) {
+            return [];
+        }
     }
 
     /**
@@ -195,6 +200,7 @@ class NetworkAccessLogsRpc
      */
     private function fetchActivePPPUsers($router): array
     {
+        try {
         $client = Mikrotik::getClient($router['ip_address'], $router['username'], $router['password']);
         $pppUsers = $client->sendSync(new RouterOS\Request('/ppp/active/print'));
         $interfaceTraffic = $client->sendSync(new RouterOS\Request('/interface/print'));
@@ -247,6 +253,10 @@ class NetworkAccessLogsRpc
             ];
         }
         return $userList;
+                            
+        } catch(\Exception $e) {
+            return [];
+        }
     }
     /**
      * @return string|bool

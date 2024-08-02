@@ -199,6 +199,18 @@ if (file_exists($cacheMSfile) && time() - filemtime($cacheMSfile) < 43200) {
     file_put_contents($cacheMSfile, json_encode($monthlySales));
 }
 
+$online_users = ORM::for_table('tbl_customers')
+    ->raw_query("SELECT service_type, COUNT(*) as count FROM tbl_customers WHERE online = 1 GROUP BY service_type")
+    ->find_array();
+
+$total_users = 0;
+// Step 2: Output the results
+foreach ($online_users as $user) {
+    $total_users += $user["count"];
+    $ui->assign($user["service_type"]."_users", $user["count"]);
+}
+$ui->assign("online_users", $total_users);
+
 // Assign the monthly sales data to Smarty
 $ui->assign('first_day_month',$first_day_month);
 $ui->assign('monthlySales', $monthlySales);

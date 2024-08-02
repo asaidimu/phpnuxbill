@@ -1,6 +1,4 @@
 {include file="sections/header.tpl"}
-
-
 <div class="row">
     <div class="col-lg-3 col-xs-6">
         <div class="small-box bg-aqua">
@@ -55,7 +53,87 @@
             <div class="icon">
                 <i class="fa fa-users"></i>
             </div>
-            <a href="{$_url}customers/list" class="small-box-footer">{Lang::T('View All')} <i
+            <a href="{$_url}customers/list/all" class="small-box-footer">{Lang::T('View All')} <i
+                    class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                                                 <h4>
+                	{if $Hotspot_users}
+                		{$Hotspot_users}
+					{else}
+ 						0
+					{/if}
+                </h4>
+                <p>{Lang::T('Online Hotspot Users')}</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="{$_url}customers/list/hotspot"
+            class="small-box-footer">{Lang::T('View All')} <i
+                    class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-purple">
+            <div class="inner">
+                                 <h4>
+                	{if $PPPoE_users}
+                		{$PPPoE_users}
+					{else}
+ 						0
+					{/if}
+                </h4>
+                <p>{Lang::T('Online PPPOE Users')}</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="{$_url}customers/list/pppoe"
+            class="small-box-footer">{Lang::T('View All')} <i
+                    class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                 <h4>
+                	{if $Static_users}
+                		{$Static_users}
+					{else}
+ 						0
+					{/if}
+                </h4>
+                <p>{Lang::T('Online Static Users')}</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person"></i>
+            </div>
+                        <a href="{$_url}customers/list/static"
+            class="small-box-footer">{Lang::T('View All')} <i
+                    class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h4>
+                	{if $online_users}
+                		{$online_users}
+					{else}
+ 						0
+					{/if}
+                </h4>
+                <p>{Lang::T('Total Online Users')}</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-users"></i>
+            </div>
+                        <a href="{$_url}customers/list/online" 
+            class="small-box-footer">{Lang::T('View All')} <i
                     class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
@@ -371,41 +449,6 @@
             });
         {/literal}
     {/if}
-</script>
-<script>
-    window.addEventListener('DOMContentLoaded', function() {
-            /*
-        $.getJSON("./version.json?" + Math.random(), function(data) {
-            var localVersion = data.version;
-            $('#version').html('Version: ' + localVersion);
-            $.getJSON(
-                "https://raw.githubusercontent.com/hotspotbilling/ZeiteckIspRadius/master/version.json?" +
-                Math
-                .random(),
-                function(data) {
-                    var latestVersion = data.version;
-                    if (localVersion !== latestVersion) {
-                        $('#version').html('Latest Version: ' + latestVersion);
-                        Swal.fire({
-                            icon: 'info',
-                            title: "New Version Available\nVersion: "+latestVersion,
-                            toast: true,
-                            position: 'bottom-right',
-                            showConfirmButton: true,
-                            showCloseButton: true,
-                            timer: 30000,
-                            confirmButtonText: '<a href="{$_url}community#latestVersion" style="color: white;">Update Now</a>',
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        });
-                    }
-                });
-        });
-        */
-    });
 </script>
 
 {include file="sections/footer.tpl"}

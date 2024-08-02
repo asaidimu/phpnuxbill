@@ -25,39 +25,7 @@
                 {Lang::T('Manage Contact')}
             </div>
             <div class="panel-body">
-                <form id="site-search" method="post" action="{$_url}customers">
-                    <div class="md-whiteframe-z1 mb20 text-center" style="padding: 15px">
-                        <div class="col-lg-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">Order &nbsp;&nbsp;</span>
-                                <div class="row row-no-gutters">
-                                    <div class="col-xs-8">
-                                        <select class="form-control" id="order" name="order">
-                                            <option value="username" {if $order eq 'username' }selected{/if}>{Lang::T('Username')}</option>
-                                            <option value="created_at" {if $order eq 'created_at' }selected{/if}>{Lang::T('Created Date')}</option>
-                                            <option value="balance" {if $order eq 'balance' }selected{/if}>{Lang::T('Balance')}</option>
-                                            <option value="status" {if $order eq 'status' }selected{/if}>{Lang::T('Status')}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <select class="form-control" id="orderby" name="orderby">
-                                            <option value="asc" {if $orderby eq 'asc' }selected{/if}>{Lang::T('Ascending')}</option>
-                                            <option value="desc" {if $orderby eq 'desc' }selected{/if}>{Lang::T('Descending')}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <span class="input-group-addon">Status</span>
-                                <select class="form-control" id="filter" name="filter">
-                                    {foreach $statuses as $status}
-                                        <option value="{$status}" {if $filter eq $status }selected{/if}>{Lang::T($status)}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                        </div>
+                <form id="site-search" method="post" action="{$_url}customers" style="">
                         <div class="col-lg-4">
                             <div class="input-group">
                                 <div class="input-group-addon">
@@ -81,20 +49,52 @@
                         </div>
                     </div>
                 </form>
-                <br>&nbsp;
-                <div class="table-responsive table_mobile">
+                <div  style="padding: 16px;">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" {if $v=='online' }class="active"
+                    {/if}><a
+                    href="{$_url}customers/list/online">{Lang::T('Online
+                    Customers')}</a></li>
+
+                    <li role="presentation" {if $v=='hotspot' }class="active"
+                    {/if}><a
+                    href="{$_url}customers/list/hotspot">{Lang::T('Hotspot Customers')}</a></li>
+
+                    <li role="presentation" {if $v=='pppoe' }class="active"
+                    {/if}><a
+                    href="{$_url}customers/list/pppoe">{Lang::T('PPPoE Customers')}</a></li>
+
+                    <li role="presentation" {if $v=='static' }class="active"
+                    {/if}><a
+                    href="{$_url}customers/list/static">{Lang::T('Static Customers')}</a></li>
+
+                    <li role="presentation" {if $v=='expired' }class="active"
+                    {/if}><a
+                    href="{$_url}customers/list/expired">{Lang::T('Expired Customers')}</a></li>
+
+                    <li role="presentation" {if $v=='all' }class="active"
+                    {/if}><a
+                    href="{$_url}customers/list/all">{Lang::T('All Customers')}</a></li>
+
+                    <li role="presentation" {if $v=='inactive' }class="active"
+                    {/if}><a
+                    href="{$_url}customers/list/inactive">{Lang::T('Inactive Customers')}</a></li>
+
+                </ul>
+                <div class="table-responsive table_mobile" style="padding: 16px;
+                border: 1px #ddd solid;
+                border-top: 0px">
                     <table id="customerTable" class="table table-bordered table-striped table-condensed">
                         <thead>
                             <tr>
                                 <th>{Lang::T('Username')}</th>
-                                <th>{Lang::T('Account Type')}</th>
                                 <th>{Lang::T('Full Name')}</th>
                                 <th>{Lang::T('Online')}</th>
-                                <th>{Lang::T('Wallet')}</th>
                                 <th>{Lang::T('Contact')}</th>
                                 <th>{Lang::T('Package')}</th>
-                                <th>{Lang::T('Service Type')}</th>
-                                <th>{Lang::T('Status')}</th>
+                                <th>{Lang::T('Wallet')}</th>
+                                <th>{Lang::T('Type')}</th>
+                                <th>{Lang::T('Service')}</th>
                                 <th>{Lang::T('Created On')}</th>
                                 <th>{Lang::T('Manage')}</th>
                             </tr>
@@ -104,7 +104,6 @@
                                 <tr {if $ds['status'] != 'Active'}class="danger"{/if}>
                                     <td onclick="window.location.href = '{$_url}customers/view/{$ds['id']}'"
                                         style="cursor:pointer;">{$ds['username']}</td>
-                                    <td>{$ds['account_type']}</td>
                                     <td onclick="window.location.href = '{$_url}customers/view/{$ds['id']}'"
                                         style="cursor: pointer;">{$ds['fullname']}</td>
                                     <td>
@@ -114,28 +113,19 @@
                                     <small class="label bg-red">offline</small>
                                 {/if}
                                     </td>
-                                    <td>{Lang::moneyFormat($ds['balance'])}</td>
                                     <td align="center">
-                                        {if $ds['phonenumber']}
-                                            <a href="tel:{$ds['phonenumber']}" class="btn btn-default btn-xs"
-                                                title="{$ds['phonenumber']}"><i class="glyphicon glyphicon-earphone"></i></a>
-                                        {/if}
-                                        {if $ds['email']}
-                                            <a href="mailto:{$ds['email']}" class="btn btn-default btn-xs"
-                                                title="{$ds['email']}"><i class="glyphicon glyphicon-envelope"></i></a>
-                                        {/if}
-                                        {if $ds['coordinates']}
-                                            <a href="https://www.google.com/maps/dir//{$ds['coordinates']}/" target="_blank"
-                                                class="btn btn-default btn-xs" title="{$ds['coordinates']}"><i
-                                                    class="glyphicon glyphicon-map-marker"></i></a>
-                                        {/if}
+                                            {$ds['phonenumber']}
                                     </td>
-                                    <td align="center" api-get-text="{$_url}autoload/customer_is_active/{$ds['id']}">
-                                        <span class="label label-default">&bull;</span>
+                                    <td align="center">
+                                {if $ds["name_plan"]}
+                                    <small class="label bg-green">{$ds["name_plan"]}</small>
+                                {else}
+                                    <small class="label bg-red">Expired</small>
+                                {/if}
                                     </td>
+                                    <td>{Lang::moneyFormat($ds['balance'])}</td>
+                                    <td>{$ds['account_type']}</td>
                                     <td>{$ds['service_type']}</td>
-                                    <td>{Lang::T($ds['status'])}</td>
-
                                     <td>{Lang::dateTimeFormat($ds['created_at'])}</td>
                                     <td align="center">
                                         <a href="{$_url}customers/view/{$ds['id']}" id="{$ds['id']}"
@@ -152,6 +142,7 @@
                         </tbody>
                     </table>
                 </div>
+                </div>
             </div>
         </div>
     </div>
@@ -162,7 +153,6 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
     var $j = jQuery.noConflict();
-
     $j(document).ready(function() {
         $j('#customerTable').DataTable({
             order: [[{$order_pos}, '{$orderby}']],

@@ -86,7 +86,7 @@ class UserRecharge
     public static function getLastRecharge($id)
     {
         try {
-            $latestEntry = ORM::for_table('your_table_name')
+            $latestEntry = ORM::for_table('tbl_user_recharges')
                     ->where('customer_id', $id)
                     ->order_by_desc('recharged_on')
                     ->find_one();

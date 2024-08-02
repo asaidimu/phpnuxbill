@@ -20,34 +20,67 @@ $this_week_start = date('Y-m-d', strtotime('previous sunday'));
 $before_30_days = date('Y-m-d', strtotime('today - 30 days'));
 $month_n = date('n');
 
+/**
+ * Add gateway fields to each transaction in the array.
+ *
+ * @param array $transactions The array of transactions.
+ * @return array The array with the added 'fullname' field.
+ */
+function addFullname(array $transactions): array {
+    return array_map(function($transaction) {
+        $customer = Customer::getByAttribute("username", $transaction["username"]);
+        $dataArray = json_decode($transaction["pg_paid_response"], true);
+        $fullname = "PENDING";
+        $balance = 0;
+        if (json_last_error() === JSON_ERROR_NONE) {
+          $fullname = isset($dataArray['FirstName']) ? $dataArray['FirstName'] : "PENDING";
+          $balance = $dataArray["OrgAccountBalance"];
+        }
+      	if ($customer && !preg_match('/^\d+$/', $customer["fullname"])) {
+          $fullname = $customer["fullname"];
+        }
+        $transaction['fullname'] = $fullname;
+        $transaction['orig_balance'] = $balance;
+        return $transaction;
+    }, $transactions);
+}
+
 switch ($action) {
     case 'pending':
         $q = (_post('q') ? _post('q') : _get('q'));
         if ($q != '') {
             $query = ORM::for_table('tbl_payment_gateway')
                 ->where_like("username", "PENDING-%")
+              ->where("status", 2)
                 ->where_like('gateway_trx_id', '%' . $q . '%')->order_by_desc('id');
             $d = Paginator::findMany($query);
         } else {
             $query = ORM::for_table('tbl_payment_gateway')
                 ->where_like("username", "PENDING-%")
+                ->where("status", 2)
                 ->order_by_desc('id');
             $d = Paginator::findMany($query);
         }
-        $ui->assign('transactions', $d);
+        $transactions = $d->as_array();
+        $ui->assign('transactions', addFullName($transactions));
         $ui->assign('q', $q);
         $ui->display('report-transactions.tpl');
         break;
     case 'transactions':
         $q = (_post('q') ? _post('q') : _get('q'));
         if ($q != '') {
-            $query = ORM::for_table('tbl_payment_gateway')->where_like('gateway_trx_id', '%' . $q . '%')->order_by_desc('id');
+            $query = ORM::for_table('tbl_payment_gateway')->where_like('gateway_trx_id', '%' . $q . '%')
+              ->where("status", 2)
+              ->order_by_desc('id');
             $d = Paginator::findMany($query);
         } else {
-            $query = ORM::for_table('tbl_payment_gateway')->order_by_desc('id');
+            $query = ORM::for_table('tbl_payment_gateway')
+              ->where("status", 2)
+              ->order_by_desc('id');
             $d = Paginator::findMany($query);
         }
-        $ui->assign('transactions', $d);
+        $transactions = $d->as_array();
+        $ui->assign('transactions', addFullName($transactions));
         $ui->assign('q', $q);
         $ui->display('report-transactions.tpl');
         break;

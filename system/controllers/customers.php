@@ -12,6 +12,12 @@ $ui->assign('_system_menu', 'customers');
 $action = $routes['1'];
 $ui->assign('_admin', $admin);
 
+$view = $routes['2'];
+
+if(empty($view)) {
+    $view = "all";
+}
+
 if (empty($action)) {
     $action = 'list';
 }
@@ -412,7 +418,7 @@ switch ($action) {
             $d->password = $password;
             $d->pppoe_password = $pppoe_password;
             $d->email = $email;
-            $d->ip_address= $ip_address;
+            $d->ip_address = $ip_address;
             $d->account_type = $account_type;
             $d->fullname = $fullname;
             $d->address = $address;
@@ -521,7 +527,7 @@ switch ($action) {
             $c->email = $email;
             $c->account_type = $account_type;
             $c->address = $address;
-        	$c->ip_address = $ip_address;
+            $c->ip_address = $ip_address;
             $c->status = $status;
             $c->phonenumber = $phonenumber;
             $c->service_type = $service_type;
@@ -629,14 +635,39 @@ switch ($action) {
             $query = ORM::for_table('tbl_customers')
                 ->whereRaw("username LIKE '%$search%' OR fullname LIKE '%$search%' OR address LIKE '%$search%' " .
                     "OR phonenumber LIKE '%$search%' OR email LIKE '%$search%' AND status='$filter'");
-        } else {
-            $query = ORM::for_table('tbl_customers');
-            $query->where("status", $filter);
         }
-        if ($orderby == 'asc') {
-            $query->order_by_asc($order);
+
+        $query = ORM::for_table('tbl_customers');
+        if($view == "inactive") {
+            $query->where_not_equal("status", "Active");
+        } elseif ($view == "expired") {
+            $query->select('tbl_customers.*')
+            ->distinct()
+            ->left_outer_join('tbl_user_recharges', array('tbl_customers.id', '=', 'tbl_user_recharges.customer_id'))
+            ->where_not_equal('tbl_user_recharges.status', "on");
         } else {
-            $query->order_by_desc($order);
+            if ($view == "online") {
+                $query->where('online', true);
+            }
+            if ($view == "static") {
+                $query->where('service_type', "Static");
+            } elseif ($view == "pppoe") {
+                $query->where('service_type', "PPPoE");
+            } elseif ($view == "hotspot") {
+                $query->where('service_type', "Hotspot");
+            }
+
+            $query->left_outer_join('tbl_user_recharges', ['tbl_customers.id', '=', 'tbl_user_recharges.customer_id'])
+            ->left_outer_join('tbl_plans', ['tbl_user_recharges.plan_id', '=', 'tbl_plans.id'])
+            ->select_many('tbl_customers.*', 'tbl_plans.name_plan')
+            ->where('tbl_user_recharges.status', 'on')
+            ->where('status', "Active");
+        }
+
+        if ($orderby == 'asc') {
+            $query->order_by_asc("tbl_customers.".$order);
+        } else {
+            $query->order_by_desc("tbl_customers.".$order);
         }
         $d = $query->findMany();
         if (_post('export', '') == 'csv') {
@@ -680,6 +711,7 @@ switch ($action) {
             fclose($fp);
             die();
         }
+        $ui->assign("v", $view);
         $ui->assign('xheader', '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">');
         $ui->assign('d', $d);
         $ui->assign('statuses', ORM::for_table('tbl_customers')->getEnum("status"));
